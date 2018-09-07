@@ -24,10 +24,14 @@ class Patient:
         '''
 
         self.cur.execute(sql_query)
-        result = list(self.cur.fetchall())
+        results = list(self.cur.fetchall())
+        for result in results:
+            result['gender'] = result['gender'].capitalize()
+            result['civil_status'] = result['civil_status'].capitalize()
+
         self.cur.close()
 
-        return result
+        return results
 
     def find(self, id):
         cur = mysql.connection.cursor()
@@ -64,8 +68,8 @@ class Patient:
             'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'gender': self.gender,
-            'civil_status': self.civil_status,
+            'gender': self.gender.capitalize(),
+            'civil_status': self.civil_status.capitalize(),
             'date_of_birth': self.date_of_birth,
             'birth_place': self.birth_place,
             'address': self.address,
@@ -147,8 +151,8 @@ class Patient:
             'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'gender': self.gender,
-            'civil_status': self.civil_status,
+            'gender': self.gender.capitalize(),
+            'civil_status': self.civil_status.capitalize(),
             'date_of_birth': self.date_of_birth,
             'birth_place': self.birth_place,
             'address': self.address,
@@ -174,8 +178,8 @@ class Patient:
             'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'gender': self.gender,
-            'civil_status': self.civil_status,
+            'gender': self.gender.capitalize(),
+            'civil_status': self.civil_status.capitalize(),
             'date_of_birth': self.date_of_birth,
             'birth_place': self.birth_place,
             'address': self.address,
