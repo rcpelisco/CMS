@@ -16,4 +16,4 @@ Install mysqlclient from .req\whl\mysqlclient-1.3.13-cp27-cp27m-win32.whl using:
     
 Install required packages from .req\list.txt using:
 
-    py -2 -m pip install .\.req\list.txt
+    py -2 -m pip install -r .\.req\list.txt
