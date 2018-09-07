@@ -1,15 +1,19 @@
 from flask import Blueprint, render_template
+import requests
+import json
+
 
 module = Blueprint('patients', __name__, template_folder='templates')
 
 @module.route('/')
 def index():
-    data = {'header_text'}
-    return render_template('patients/index.html')
+    response = requests.get('http://localhost/api/patients/')
+    return render_template('patients/index.html', data=json.loads(response.text)['data'])
 
 @module.route('/<patient>')
 def show(patient):
-    return render_template('patients/show.html')
+    response = requests.get('http://localhost/api/patients/' + str(patient))
+    return render_template('patients/show.html', patient=json.loads(response.text))
 
 @module.route('/create')
 def create():

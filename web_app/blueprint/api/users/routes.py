@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request
-import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..models.user import User
 
@@ -35,3 +34,4 @@ def show(patient):
 def delete(patient):
     user = User().delete(patient)
     return jsonify(user)
+    

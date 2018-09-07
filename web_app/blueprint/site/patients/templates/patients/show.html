@@ -99,12 +99,26 @@
       </a>
     </div>
     <div class="card-body">
-      <h6 class="card-category">CEO / Co-Founder</h6>
-      <h4 class="card-title">Alec Thompson</h4>
-      <p class="card-description"> 
-        Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-      </p>
-      <a href="#pablo" class="btn btn-primary btn-round">Follow</a>
+      <h6 class="card-category">Patient</h6>
+      <h4 class="card-title">{{ patient.first_name }} {{ patient.last_name }}</h4>
+      <div class="card-description text-left"> 
+        <div class="row">
+          <div class="col-4">Gender: </div>
+          <div class="col-8 align-left">{{ patient.gender }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Birthday: </div>
+          <div class="col-8 align-left">{{ patient.date_of_birth }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Address: </div>
+          <div class="col-8 align-left">{{ patient.address }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Contact no: </div>
+          <div class="col-8 align-left">{{ patient.contact_no }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

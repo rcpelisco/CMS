@@ -8,20 +8,43 @@ class User:
         self.username = ''
         self.password = ''
 
-    def delete(self, id):
+    def all(self):
         sql_query = '''
-            DELETE FROM
+            SELECT 
+                id, name, username, password
+            FROM 
                 users
-            WHERE
+        '''
+
+        self.cur.execute(sql_query)
+        result = list(self.cur.fetchall())
+        self.cur.close()
+
+        return result
+    
+    def find(self, id):
+        cur = mysql.connection.cursor()
+
+        sql_query = '''
+            SELECT 
+                id, name, username, password
+            FROM 
+                users 
+            WHERE 
                 id = %s
         '''
 
-        if not self.find(id):
+        cur.execute(sql_query, [id])
+        result = cur.fetchone()
+        cur.close()
+        
+        if result == None:
             return {}
 
-        self.cur.execute(sql_query, [id])
-        mysql.connection.commit()
-        self.cur.close()
+        self.id = result['id']
+        self.name = result['name']
+        self.username = result['username']
+        self.password = result['password']
 
         return {
             'id': self.id,
@@ -29,7 +52,36 @@ class User:
             'username': self.username,
             'password': self.password
         }
-    
+
+    def find_by_username(self, username):
+        sql_query = '''
+            SELECT 
+                id, name, username, password
+            FROM 
+                users 
+            WHERE 
+                username = %s
+        '''
+
+        self.cur.execute(sql_query, [username])
+        result = self.cur.fetchone()
+        self.cur.close()
+        
+        if result == None:
+            return {}
+
+        self.id = result['id']
+        self.name = result['name']
+        self.username = result['username']
+        self.password = result['password']
+
+        return {
+            'id': self.id,
+            'name': self.name,
+            'username': self.username,
+            'password': self.password
+        }
+        
     def save_new(self):
         sql_query = '''
             INSERT INTO 
@@ -88,29 +140,20 @@ class User:
             'password': self.password
         }
 
-    def find(self, id):
-        cur = mysql.connection.cursor()
-
+    def delete(self, id):
         sql_query = '''
-            SELECT 
-                id, name, username, password
-            FROM 
-                users 
-            WHERE 
+            DELETE FROM
+                users
+            WHERE
                 id = %s
         '''
 
-        cur.execute(sql_query, [id])
-        result = cur.fetchone()
-        cur.close()
-        
-        if result == None:
+        if not self.find(id):
             return {}
 
-        self.id = result['id']
-        self.name = result['name']
-        self.username = result['username']
-        self.password = result['password']
+        self.cur.execute(sql_query, [id])
+        mysql.connection.commit()
+        self.cur.close()
 
         return {
             'id': self.id,
@@ -118,17 +161,3 @@ class User:
             'username': self.username,
             'password': self.password
         }
-
-    def all(self):
-        sql_query = '''
-            SELECT 
-                id, name, username, password
-            FROM 
-                users
-        '''
-
-        self.cur.execute(sql_query)
-        result = list(self.cur.fetchall())
-        self.cur.close()
-
-        return result

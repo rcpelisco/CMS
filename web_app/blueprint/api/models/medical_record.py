@@ -1,17 +1,21 @@
 from ...extension import mysql
 
-class Patient:
+class MedicalRecord:
     def __init__(self):
         self.cur = mysql.connection.cursor()
         self.id = 0
-        self.first_name = ''
-        self.last_name = ''
-        self.gender = ''
-        self.civil_status = ''
-        self.date_of_birth = ''
-        self.birth_place = ''
-        self.address = ''
-        self.contact_no = ''
+        self.height = ''
+        self.weight = ''
+        self.bmi = ''
+        self.bp = ''
+        self.pr = ''
+        self.temperature = ''
+        self.complaint = ''
+        self.diagnosis = ''
+        self.treatment = ''
+        self.note = ''
+        self.patient_id = ''
+        self.patient = None
 
     def all(self):
         sql_query = '''
@@ -181,7 +185,4 @@ class Patient:
             'address': self.address,
             'contact_no': self.contact_no
         }
-
-    def medical_records(self):
-        pass
     

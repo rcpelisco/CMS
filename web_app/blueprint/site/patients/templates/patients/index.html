@@ -19,27 +19,31 @@
           <tr>
             <th>Name</th>
             <th>Address</th>
-            <th>Latest Case</th>
+            <th>Gender</th>
+            <th>Age</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
+          {% for patient in data %}
           <tr>
-            <td>Dakota Rice</td>
-            <td>Niger</td>
-            <td>Oud-Turnhout</td>
-            <td style="width: 1%; white-space: nowrap;">
-              <a href="" class="btn btn-sm btn-primary">
-                <i class="material-icons">description</i>
-              </a>
-              <a href="" class="btn btn-sm btn-primary">
-                <i class="material-icons">edit</i>
-              </a>
-              <a href="" class="btn btn-sm btn-primary">
-                <i class="material-icons">delete</i>
-              </a>
-            </td>
-          </tr>
+              <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+              <td>{{ patient.address }}</td>
+              <td>{{ patient.gender }}</td>
+              <td>{{ patient.age }}</td>
+              <td style="width: 1%; white-space: nowrap;">
+                <a href="{{ url_for('patients.show', patient=patient.id) }}" class="btn btn-sm btn-primary">
+                  <i class="material-icons">description</i>
+                </a>
+                <a href="" class="btn btn-sm btn-primary">
+                  <i class="material-icons">edit</i>
+                </a>
+                <a href="" class="btn btn-sm btn-primary">
+                  <i class="material-icons">delete</i>
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
