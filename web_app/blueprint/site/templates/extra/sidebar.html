@@ -1,0 +1,27 @@
+{% set navigation_bar = [
+  (url_for('site.index'), 'site.index', 'Dashboard', 'dashboard'),
+  (url_for('patients.index'), 'patients.index', 'Patients', 'person')  
+] -%}
+
+{% set active_page = active_page | default('site.index') -%}
+
+<div class="sidebar" data-color="purple" data-background-color="black" 
+    data-image="{{ url_for('static', filename='img/sidebar-2.jpg') }}">
+    <div class="logo">
+    <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+        Creative Tim
+    </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        {% for href, id, caption, icon in navigation_bar %}
+          <li class="nav-item {% if id == active_page %} active {% endif %}">
+            <a href="{{ href|e }}" class="nav-link">
+              <i class="material-icons">{{ icon|e }}</i>
+              {{ caption|e }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+</div>

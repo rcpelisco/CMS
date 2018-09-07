@@ -1,0 +1,48 @@
+{% extends 'master.html' %}
+{% set active_page = 'patients.index' %}
+{% set header_text = 'Patients' %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header card-header-primary">
+    <div style="display: inline;">
+      <h4 style="display: inline;" class="card-title ">Simple Table</h4><br>
+      <p style="display: inline;" class="card-category"> Here is a subtitle for this table</p>
+    </div>
+    <a style="margin-top: -25px;" class="btn btn-info pull-right"
+      href="{{ url_for('patients.create') }}">Create</a>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table">
+        <thead class=" text-primary">
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Latest Case</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Dakota Rice</td>
+            <td>Niger</td>
+            <td>Oud-Turnhout</td>
+            <td style="width: 1%; white-space: nowrap;">
+              <a href="" class="btn btn-sm btn-primary">
+                <i class="material-icons">description</i>
+              </a>
+              <a href="" class="btn btn-sm btn-primary">
+                <i class="material-icons">edit</i>
+              </a>
+              <a href="" class="btn btn-sm btn-primary">
+                <i class="material-icons">delete</i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
