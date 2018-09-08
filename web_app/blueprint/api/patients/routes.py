@@ -49,7 +49,7 @@ def store():
 
     patient_result, errors = patient_schema.dump(patient)
 
-    return jsonify({'message': message, 'user': patient_result})
+    return jsonify({'message': message, 'patient': patient_result})
 
 @module.route('/<patient>', methods=['DELETE'])
 def delete(patient):

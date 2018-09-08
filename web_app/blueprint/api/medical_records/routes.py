@@ -19,7 +19,7 @@ def show(medical_record):
     medical_record = MedicalRecord.query.get(medical_record)
     if medical_record is None:
         return jsonify({'message': 'Medical record not found!'}), 400
-    medical_record, errors = medical_records_schema.dump(medical_record)
+    medical_record, errors = medical_record_schema.dump(medical_record)
     return jsonify({'medical_record': medical_record})
     
 @module.route('/', methods=['PUT', 'POST'])
@@ -48,19 +48,20 @@ def store():
     medical_record.temperature = json_data['temperature']
     medical_record.treatment = json_data['treatment']
     medical_record.weight = json_data['weight']
+    medical_record.patient_id = json_data['patient_id']
     medical_record.save()
 
     medical_record, errors = medical_record_schema.dump(medical_record)
 
-    return jsonify({'message': message, 'user': patient_result})
+    return jsonify({'message': message, 'medical_record': medical_record})
 
 @module.route('/<medical_record>', methods=['DELETE'])
 def delete(medical_record):
-    patient = Patient.query.get(medical_record)
-    if patient is None:
-        return jsonify({'message': 'Patient not found!'}), 400
-    patient_result, errors = patient_schema.dump(medical_record)
-    patient_session = sessionmaker().object_session(medical_record)
-    patient_session.delete(medical_record)
-    patient_session.commit()
-    return jsonify({'message': 'User deleted', 'patient': patient_result})
+    query = MedicalRecord.query.get(medical_record)
+    if MedicalRecord is None:
+        return jsonify({'message': 'MedicalRecord not found!'}), 400
+    dump, errors = medical_record_schema.dump(query)
+    session = sessionmaker().object_session(query)
+    session.delete(query)
+    session.commit()
+    return jsonify({'message': 'Medical record deleted', 'medical_record': dump})
