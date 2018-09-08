@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy.orm import sessionmaker
-from ..models.models import Patient, PatientSchema
+from ..models.models import Patient
+from ..models.schema import PatientSchema
 
 module = Blueprint('api.patients', __name__)
 

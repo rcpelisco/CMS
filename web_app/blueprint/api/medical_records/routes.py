@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy.orm import sessionmaker
-from ..models.medical_record import MedicalRecord, MedicalRecordSchema
+from ..models.models import MedicalRecord
+from ..models.schema import MedicalRecordSchema
 
 module = Blueprint('api.medical_records', __name__)
 
@@ -31,22 +32,25 @@ def store():
         return jsonify({'message': 'No input data provided'}), 400
 
     if 'id' in json_data:
+        message = 'Medical record updated'
         medical_record = MedicalRecord.query.get(json_data['id'])
 
     if medical_record is None:
         return jsonify({'message': 'Medical record not found!'}), 400
     
-    patient.first_name = json_data['first_name']
-    patient.last_name = json_data['last_name']
-    patient.gender = json_data['gender']
-    patient.civil_status = json_data['civil_status']
-    patient.date_of_birth = json_data['date_of_birth']
-    patient.birth_place = json_data['birth_place']
-    patient.address = json_data['address']
-    patient.contact_no = json_data['contact_no']
-    patient.save()
+    medical_record.bmi = json_data['bmi']
+    medical_record.bp = json_data['bp']
+    medical_record.complaint = json_data['complaint']
+    medical_record.diagnosis = json_data['diagnosis']
+    medical_record.height = json_data['height']
+    medical_record.note = json_data['note']
+    medical_record.pr = json_data['pr']
+    medical_record.temperature = json_data['temperature']
+    medical_record.treatment = json_data['treatment']
+    medical_record.weight = json_data['weight']
+    medical_record.save()
 
-    patient_result, errors = patient_schema.dump(medical_record)
+    medical_record, errors = medical_record_schema.dump(medical_record)
 
     return jsonify({'message': message, 'user': patient_result})
 

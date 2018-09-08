@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request
 from werkzeug.security import generate_password_hash
 from sqlalchemy.orm import sessionmaker
-from ..models.user import User, UserSchema
+from ..models.models import User
+from ..models.schema import UserSchema
 
 module = Blueprint('api.users', __name__)
 
