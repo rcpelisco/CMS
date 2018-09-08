@@ -6,86 +6,77 @@
 <div class="col-md-8">
   <div class="card">
     <div class="card-header card-header-primary">
-      <h4 class="card-title">Edit Profile</h4>
-      <p class="card-category">Complete your profile</p>
+      <h4 class="card-title">Add Patient</h4>
+      <p class="card-category">Fill up the patient's basic information</p>
     </div>
     <div class="card-body">
-      <form>
+      <form method="POST" id="addPatientForm">
         <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-6">
             <div class="form-group">
-              <label class="bmd-label-floating">Company (disabled)</label>
-              <input type="text" class="form-control" disabled>
+              <label class="bmd-label-floating">Fist Name</label>
+              <input type="text" class="form-control" name="first_name" required>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-6">
             <div class="form-group">
-              <label class="bmd-label-floating">Username</label>
-              <input type="text" class="form-control">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="bmd-label-floating">Email address</label>
-              <input type="email" class="form-control">
+              <label class="bmd-label-floating">Last Name</label>
+              <input type="text" class="form-control" name="last_name" required>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
-                <label class="bmd-label-floating">Fist Name</label>
-                <input type="text" class="form-control">
+              <label class="bmd-label-floating">Date of birth</label>
+              <input type="date" class="form-control" name="date_of_birth" value="2018-01-01" required>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
-                <label class="bmd-label-floating">Last Name</label>
-                <input type="text" class="form-control">
+              <label class="bmd-label-floating">Gender</label>
+              <select name="gender" class="form-control">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Civil Status</label>
+              <select name="civil_status" class="form-control">
+                  <option value="single">Single</option>
+                  <option value="married">Married</option>
+                  <option value="widow">Widow</option>
+                  <option value="widower">Widower</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group">
+                <label class="bmd-label-floating">Address</label>
+                <input type="text" class="form-control" name="address" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Contact no.</label>
+              <input type="text" class="form-control" name="contact_no" required>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="form-group">
-                <label class="bmd-label-floating">Adress</label>
-                <input type="text" class="form-control">
+              <label class="bmd-label-floating">Birth Place</label>
+              <input type="text" class="form-control" name="birth_place" required>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="bmd-label-floating">City</label>
-              <input type="text" class="form-control">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="bmd-label-floating">Country</label>
-              <input type="text" class="form-control">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="bmd-label-floating">Postal Code</label>
-              <input type="text" class="form-control">
-            </div>
-          </div>
-        </div>  
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-                <label>About Me</label>
-                <div class="form-group">
-                  <label class="bmd-label-floating"> 
-                    Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
-                  <textarea class="form-control" rows="5"></textarea>
-                </div>
-            </div>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+        <button type="submit" class="btn btn-primary pull-right">Add Patient</button>
         <div class="clearfix"></div>
       </form>
     </div>
@@ -108,4 +99,22 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(function() {
+    $('#addPatientForm').submit(function(e) {
+      data = JSON.stringify($(this).serializeJSON())
+      api('patients/', 'POST', data)
+        .done(function(data) {
+          console.log(data)
+        })
+        .fail(function(error) {
+          console.log(error)
+        })
+      e.preventDefault()
+    })
+  })
+</script>
 {% endblock %}

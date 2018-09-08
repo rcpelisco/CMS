@@ -13,6 +13,7 @@ user_schema = UserSchema()
 def index():
     users = User.query.all()
     user_results, errors = users_schema.dump(users, many=True)
+    print(user_results)
     return jsonify({'users': user_results})
 
 @module.route('/<user>', methods=['GET'])
