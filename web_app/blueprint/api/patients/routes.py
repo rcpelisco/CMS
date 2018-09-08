@@ -1,38 +1,62 @@
 from flask import Blueprint, jsonify, request
-from ..models.patient import Patient
+from sqlalchemy.orm import sessionmaker
+from ..models.models import Patient, PatientSchema
 
 module = Blueprint('api.patients', __name__)
 
+patients_schema = PatientSchema(many=True)
+patient_schema = PatientSchema()
+
 @module.route('/', methods=['GET'])
 def index():
-    patients = Patient().all()
-    return jsonify({'data': patients})
+    patients = Patient.query.all()
+    patient_results, errors = patients_schema.dump(patients, many=True)
+    return jsonify({'patients': patient_results})
 
 @module.route('/<patient>', methods=['GET'])
 def show(patient):
-    patient = Patient().find(patient)
-    return jsonify(patient)
+    patient = Patient.query.get(patient)
+    if patient is None:
+        return jsonify({'message': 'Patient not found!'}), 400
+    patient_result, errors = patient_schema.dump(patient)
+    return jsonify({'patient': patient_result})
     
 @module.route('/', methods=['PUT', 'POST'])
 def store():
-    data = request.get_json()
+    json_data = request.get_json()
     patient = Patient()
-
-    if request.method == 'PUT' and 'id' in data:
-        patient.find(data['id'])
+    message = 'Patient created'
     
-    patient.first_name = data['first_name']
-    patient.last_name = data['last_name']
-    patient.gender = data['gender']
-    patient.civil_status = data['civil_status']
-    patient.date_of_birth = data['date_of_birth']
-    patient.birth_place = data['birth_place']
-    patient.address = data['address']
-    patient.contact_no = data['contact_no']
+    if not json_data:
+        return jsonify({'message': 'No input data provided'}), 400
 
-    return jsonify(patient.save())
+    if 'id' in json_data:
+        patient = Patient.query.get(json_data['id'])
+
+    if patient is None:
+        return jsonify({'message': 'Patient not found!'}), 400
+    
+    patient.first_name = json_data['first_name']
+    patient.last_name = json_data['last_name']
+    patient.gender = json_data['gender']
+    patient.civil_status = json_data['civil_status']
+    patient.date_of_birth = json_data['date_of_birth']
+    patient.birth_place = json_data['birth_place']
+    patient.address = json_data['address']
+    patient.contact_no = json_data['contact_no']
+    patient.save()
+
+    patient_result, errors = patient_schema.dump(patient)
+
+    return jsonify({'message': message, 'user': patient_result})
 
 @module.route('/<patient>', methods=['DELETE'])
 def delete(patient):
-    patient = Patient().delete(patient)
-    return jsonify(patient)
+    patient = Patient.query.get(patient)
+    if patient is None:
+        return jsonify({'message': 'Patient not found!'}), 400
+    patient_result, errors = patient_schema.dump(patient)
+    patient_session = sessionmaker().object_session(patient)
+    patient_session.delete(patient)
+    patient_session.commit()
+    return jsonify({'message': 'User deleted', 'patient': patient_result})

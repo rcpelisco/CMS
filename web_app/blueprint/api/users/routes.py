@@ -1,37 +1,59 @@
 from flask import Blueprint, jsonify, request
-from werkzeug.security import generate_password_hash, check_password_hash
-from ..models.user import User
+from werkzeug.security import generate_password_hash
+from sqlalchemy.orm import sessionmaker
+from ..models.user import User, UserSchema
 
 module = Blueprint('api.users', __name__)
 
+users_schema = UserSchema(many=True)
+user_schema = UserSchema()
+
 @module.route('/', methods=['GET'])
 def index():
-    user = User().all()
+    users = User.query.all()
+    user_results, errors = users_schema.dump(users, many=True)
+    return jsonify({'users': user_results})
 
-    return jsonify({'data': user})
-    
+@module.route('/<user>', methods=['GET'])
+def show(user):
+    user = User.query.get(user)
+    if user is None:
+        return jsonify({'message': 'User not found!'}), 400
+    user_result, error = user_schema.dump(user)
+    return jsonify({'user': user_result})
+
 @module.route('/', methods=['PUT', 'POST'])
 def store():
-    data = request.get_json()
+    json_data = request.get_json()
     user = User()
+    message = 'User created'
+    if not json_data:
+        return jsonify({'message': 'No input data provided'}), 400
+        
+    if 'id' in json_data:
+        user = User.query.get(json_data['id'])
+        message = 'User updated'
 
-    if request.method == 'PUT' and 'id' in data:
-        user.find(data['id'])
+    if user is None:
+        return jsonify({'message': 'User not found!'}), 400
     
-    hashed_password = generate_password_hash(data['password'], method='sha256')
-    user.name = data['name']
-    user.username = data['username']
-    user.password = hashed_password
+    user.name = json_data['name']
+    user.username = json_data['username']
+    user.password = generate_password_hash(json_data['password'], method='sha256')
+    user.save()
 
-    return jsonify(user.save())
+    user_result, errors = user_schema.dump(user)
 
-@module.route('/<patient>', methods=['GET'])
-def show(patient):
-    user = User().find(patient)
-    return jsonify(user)
+    return jsonify({'message': message, 'user': user_result})
 
-@module.route('/<patient>', methods=['DELETE'])
-def delete(patient):
-    user = User().delete(patient)
-    return jsonify(user)
+@module.route('/<user>', methods=['DELETE'])
+def delete(user):
+    user = User.query.get(user)
+    if user is None:
+        return jsonify({'message': 'User not found!'}), 400
+    user_data, errors = user_schema.dump(user)
+    user_session = sessionmaker().object_session(user)
+    user_session.delete(user)
+    user_session.commit()
+    return jsonify({'message': 'User deleted', 'user': user_data})
     
