@@ -38,3 +38,8 @@ class MedicalRecord(BasicMixin, db.Model):
     note = db.Column(db.String(191))
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
     patient = db.relationship('Patient', back_populates='medical_records')
+
+class FaceRecognition(BasicMixin, db.Model):
+    __tablename__ = 'face_recognition'
+
+    name = db.Column(db.String(30), nullable=False)

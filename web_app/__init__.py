@@ -7,6 +7,7 @@ from api.routes import module
 from api.users.routes import module
 from api.patients.routes import module
 from api.medical_records.routes import module
+from api.face_recognition.routes import module
 
 from site.routes import module
 from site.users.routes import module
@@ -35,6 +36,7 @@ app.register_blueprint(api.routes.module, url_prefix='/api')
 app.register_blueprint(api.users.routes.module, url_prefix='/api/users')
 app.register_blueprint(api.patients.routes.module, url_prefix='/api/patients')
 app.register_blueprint(api.medical_records.routes.module, url_prefix='/api/medical_records')
+app.register_blueprint(api.face_recognition.routes.module, url_prefix='/api/face_recognition')
 
 app.register_blueprint(site.routes.module, url_prefix='/')
 app.register_blueprint(site.users.routes.module, url_prefix='/users')

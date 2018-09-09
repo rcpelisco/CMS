@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from flask import redirect, request, Response, url_for
 from res.camera import VideoCamera
-from ..site.extra import get
+from ..site.extra import post
 
 module = Blueprint('face_recognition', __name__, template_folder='templates')
 
@@ -9,20 +9,15 @@ module = Blueprint('face_recognition', __name__, template_folder='templates')
 def index():
     return render_template('face_recognition/index.html')
 
-@module.route('/a')
-def a():
-    print('a was called')
-    return redirect(url_for('patients.show', patient=1))
-
-def gen(camera, valid):
-    while valid:
+def gen(camera):
+    while True:
         data = camera.get()
         image = data['image']
         frames = data['frames']
         patient = data['patient']
         print(frames)
         if(frames == 20):
-            get('/face_recognition/a')
+            post('/api/face_recognition/', {'name': patient})
         yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n\r\n')
 

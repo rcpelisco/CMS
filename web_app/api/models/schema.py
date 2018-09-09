@@ -15,7 +15,6 @@ class UserSchema(Schema):
         fields = ('id', 'name', 'username', 'password', 'created_at', 'updated_at')
         ordered=True
         
-
 class MedicalRecordSchema(Schema):
     id = Integer()
     height = Integer()
@@ -56,4 +55,10 @@ class PatientSchema(Schema):
             'date_of_birth', 'birth_place', 'address', 
             'contact_no', 'medical_records', 'created_at', 'updated_at')
         ordered=True
+
+class FaceRecognitionSchema(Schema):
+    id = Integer()
+    name = String()
+    created_at = DateTime('%Y-%m-%d %H:%M:%S')
+    updated_at = DateTime('%Y-%m-%d %H:%M:%S')
         
