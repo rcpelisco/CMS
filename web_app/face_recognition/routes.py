@@ -16,7 +16,7 @@ def gen(camera):
         frames = data['frames']
         patient = data['patient']
         print(frames)
-        if(frames == 20):
+        if(frames == 25):
             post('/api/face_recognition/', {'name': patient})
         yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n\r\n')

@@ -92,7 +92,7 @@
   <div class="card card-profile">
     <div class="card-avatar">
       <a href="#pablo">
-        <img class="img" src="{{ url_for('static', filename='img/faces/marc.jpg') }}" />
+        <img class="img" src="{{ url_for('static', filename='img/logo-small.png') }}" />
       </a>
     </div>
     <div class="card-body">
@@ -133,6 +133,7 @@
       data = JSON.stringify($(this).serializeJSON())
       api('{{ url_for("api.medical_records.store")}}', 'POST', data).done(function(data) {
         console.log(data)
+        notify('Added medical record', 'primary')
         window.location = "{{ url_for('patients.show', patient=patient.id) }}"
       })
     })

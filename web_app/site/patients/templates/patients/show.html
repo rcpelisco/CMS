@@ -141,9 +141,20 @@ $(function() {
   $('.delete-record-button').click(function() {
     let recordID = $(this).attr('data-id')
     let endpoint = "{{ url_for('api.medical_records.index') }}" + recordID
-    api(endpoint, 'DELETE', {}).done(function(data) {
-      $('.card-' + recordID).slideUp()
-      notify('', data.message, 'primary')
+    swal({
+      title: "Delete record",
+      text: "This record be removed from the records. You can edit this record if you want to change something.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(function(willDelete) {
+      if(!willDelete) {
+        return
+      }
+      api(endpoint, 'DELETE', {}).done(function(data) {
+        $('.card-' + recordID).slideUp()
+        notify(data.message, 'info')
+      })
     })
   })
 })

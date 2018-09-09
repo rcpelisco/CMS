@@ -80,8 +80,13 @@
 $(function() {
   let streaming = false
   $('#stream-button').click(function() {
-    streaming = true
     $('#streamModal').modal()
+    setTimeout(function() {
+      api("{{ url_for('api.face_recognition.index') }}").done(function(data) {
+        console.log(data)
+        window.location = "{{ url_for('patients.index') }}" + data.face_recognition.id
+      })
+    }, 5000)
   })
   
   $('#streamModal').on('show.bs.modal', function (e) {
@@ -96,10 +101,21 @@ $(function() {
   $('.delete-patient-button').click(function() {
     let patientID = $(this).attr('data-id')
     let endpoint = "{{ url_for('api.patients.index') }}" + patientID
-    api(endpoint, 'DELETE', {}).done(function(data) {
-      $('.row-' + patientID).fadeOut()
-      notify(data.message, 'danger')
+    swal({
+      title: "Delete patient",
+      text: "This patient be removed from the records. You can edit this patient if you want to change something.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        api(endpoint, 'DELETE', {}).done(function(data) {
+          $('.row-' + patientID).fadeOut()
+          notify(data.message, 'primary')
+        })
+      }
     })
+    
   })
 })
 </script>
