@@ -1,0 +1,71 @@
+{% extends 'master.html' %}
+{% set active_page = 'patients.index' %}
+{% set header_text = 'Patients' %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header card-header-primary">
+    <div style="display: inline;">
+      <h4 style="display: inline;" class="card-title ">Patients list</h4><br>
+      <p style="display: inline;" class="card-category">These are all the patients currently registered</p>
+    </div>
+    <div class="pull-right" style="margin-top: -25px;">
+      <a class="btn btn-primary" href="{{ url_for('face_recognition.detect_face') }}">
+        <i class="material-icons">visibility</i></a>
+      <a class="btn btn-primary" href="{{ url_for('patients.create') }}">
+        <i class="material-icons">add</i> Add Patient</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table">
+        <thead class=" text-primary">
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for patient in data %}
+          <tr class="row-{{ patient.id }}">
+              <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+              <td>{{ patient.address }}</td>
+              <td>{{ patient.gender|capitalize }}</td>
+              <td>{{ patient.date_of_birth|age }}</td>
+              <td style="width: 1%; white-space: nowrap;">
+                <a href="{{ url_for('patients.show', patient=patient.id) }}" class="btn btn-sm btn-success">
+                  <i class="material-icons">description</i>
+                </a>
+                <a href="{{ url_for('patients.edit', patient=patient.id) }}" class="btn btn-sm btn-info">
+                  <i class="material-icons">edit</i>
+                </a>
+                <button class="btn btn-sm btn-danger delete-patient-button" data-id="{{ patient.id }}">
+                  <i class="material-icons">delete</i>
+                </button>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(function() {
+  $('.delete-patient-button').click(function() {
+    let patientID = $(this).attr('data-id')
+    let endpoint = "{{ url_for('api.patients.index') }}" + patientID
+    api(endpoint, 'DELETE', {}).done(function(data) {
+      $('.row-' + patientID).fadeOut()
+      notify(data.message, 'danger')
+    })
+  })
+})
+</script>
+{% endblock %}

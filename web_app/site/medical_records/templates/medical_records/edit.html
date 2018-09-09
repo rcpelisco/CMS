@@ -1,0 +1,155 @@
+{% extends 'master.html' %}
+{% set active_page = 'patients.index' %}
+{% set header_text = 'Patients / {} / Medical Record / {} / Edit'
+  .format(medical_record.patient.id, medical_record.id)  %}
+
+{% block content %}
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header card-header-info">
+      <h4 class="card-title">{{ medical_record.diagnosis }}</h4>
+      <p class="card-category">{{ medical_record.created_at|datetime }}</p>
+    </div>
+    <div class="card-body">
+      <form method="POST" id="editMedicalRecordForm">
+        <input type="hidden" name="id" value="{{ medical_record.id }}">
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label class="bmd-label-floating">Complaint</label>
+              <input type="text" class="form-control" name="complaint" value="{{ medical_record.complaint }}" required>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="bmd-label-floating">Height (cm)</label>
+              <input type="text" class="form-control" name="height" value="{{ medical_record.height }}" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Weight (kg)</label>
+              <input type="text" class="form-control" name="weight" value="{{ medical_record.weight }}" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+                <label class="bmd-label-floating">Diagnosis</label>
+                <input type="text" class="form-control" name="diagnosis" value="{{ medical_record.diagnosis }}" required>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label class="bmd-label-floating">BMI</label>
+                <input type="text" class="form-control" name="bmi" value="{{ medical_record.bmi }}" required>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label class="bmd-label-floating">BP</label>
+                <input type="text" class="form-control" name="bp" value="{{ medical_record.bp }}" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Treatment</label>
+                  <input type="text" class="form-control" name="treatment" 
+                    value="{{ medical_record.treatment }}" required>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Temp (c)</label>
+                  <input type="text" class="form-control" name="temperature" 
+                    value="{{ medical_record.temperature }}" required>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="bmd-label-floating">PR</label>
+                  <input type="text" class="form-control" name="pr" 
+                    value="{{ medical_record.pr }}" required>
+                </div>
+              </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+                <label>Note</label>
+                <div class="form-group">
+                  <textarea class="form-control" name="note" rows="5">{{ medical_record.note }}</textarea>
+                </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-info pull-right">
+          Save Record
+        </button>
+        <div class="clearfix"></div>
+      </form>
+    </div>
+  </div>
+  <hr>
+</div>
+<div class="col-md-4">
+  <div class="card card-profile">
+    <div class="card-avatar">
+      <a href="#pablo">
+        <img class="img" src="{{ url_for('static', filename='img/faces/marc.jpg') }}" />
+      </a>
+    </div>
+    <div class="card-body">
+      <h6 class="card-category">Patient</h6>
+      <h4 class="card-title">{{ medical_record.patient.first_name }} {{ medical_record.patient.last_name }}</h4>
+      <div class="card-description text-left">
+        <div class="row">
+          <div class="col-4">Gender: </div>
+          <div class="col-8 align-left">{{ medical_record.patient.gender.capitalize() }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Civil Status: </div>
+          <div class="col-8 align-left">{{ medical_record.patient.civil_status.capitalize() }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Birthday: </div>
+          <div class="col-8 align-left">{{ medical_record.patient.date_of_birth|date }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Address: </div>
+          <div class="col-8 align-left">{{ medical_record.patient.address }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Contact no: </div>
+          <div class="col-8 align-left">{{ medical_record.patient.contact_no }}</div>
+        </div>
+      </div>
+      <hr>
+      <a href="{{ url_for('patients.add_record', patient=medical_record.patient.id) }}" 
+        class="btn btn-primary btn-round">Add Medical Record</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(function() {
+  $('#editMedicalRecordForm').submit(function(e) {
+    e.preventDefault()
+    let data = JSON.stringify($(this).serializeJSON())
+    let endpoint = '{{ url_for("api.medical_records.store") }}'
+    api(endpoint, 'PUT', data).done(function(data) {
+      console.log(data)
+      notify('Edited Medical recrord for {{ medical_record.patient.first_name }} ' 
+        + ' {{ medical_record. patient.last_name }}', 
+        'info')
+      window.location = '{{ url_for("patients.show", patient=medical_record.patient.id) }}'
+    })
+  })
+})
+</script>
+{% endblock %}

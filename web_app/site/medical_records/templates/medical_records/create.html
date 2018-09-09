@@ -1,0 +1,141 @@
+{% extends 'master.html' %}
+{% set active_page = 'patients.index' %}
+{% set header_text = 'Patients / {} / Add Record'.format(patient.id)  %}
+
+{% block content %}
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header card-header-primary">
+      <h4 class="card-title">Medical Record</h4>
+      <p class="card-category">Please enter appropriate information to the form provided below</p>
+    </div>
+    <div class="card-body">
+      <form method="POST" id="addMedicalRecordForm">
+        <input type="hidden" name="patient_id" value="{{ patient.id }}">
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label class="bmd-label-floating">Complaint</label>
+              <input type="text" class="form-control" name="complaint" required>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="bmd-label-floating">Height (cm)</label>
+              <input type="text" class="form-control" name="height" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Weight (kg)</label>
+              <input type="text" class="form-control" name="weight" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="bmd-label-floating">Diagnosis</label>
+              <input type="text" class="form-control" name="diagnosis" required>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label class="bmd-label-floating">BMI</label>
+                <input type="text" class="form-control" name="bmi" required>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label class="bmd-label-floating">BP</label>
+                <input type="text" class="form-control" name="bp" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group">
+              <label class="bmd-label-floating">Treatment</label>
+              <input type="text" class="form-control" name="treatment" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Temp (c)</label>
+              <input type="text" class="form-control" name="temperature" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">PR</label>
+              <input type="text" class="form-control" name="pr" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+                <label>Note</label>
+                <div class="form-group">
+                  <textarea class="form-control" name="note" rows="5"></textarea>
+                </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary pull-right">Save</button>
+        <div class="clearfix"></div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="col-md-4">
+  <div class="card card-profile">
+    <div class="card-avatar">
+      <a href="#pablo">
+        <img class="img" src="{{ url_for('static', filename='img/faces/marc.jpg') }}" />
+      </a>
+    </div>
+    <div class="card-body">
+      <h6 class="card-category">Patient</h6>
+      <h4 class="card-title">{{ patient.first_name }} {{ patient.last_name }}</h4>
+      <div class="card-description text-left">
+        <div class="row">
+          <div class="col-4">Gender: </div>
+          <div class="col-8 align-left">{{ patient.gender.capitalize() }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Civil Status: </div>
+          <div class="col-8 align-left">{{ patient.civil_status.capitalize() }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Birthday: </div>
+          <div class="col-8 align-left">{{ patient.date_of_birth }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Address: </div>
+          <div class="col-8 align-left">{{ patient.address }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Contact no: </div>
+          <div class="col-8 align-left">{{ patient.contact_no }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(function() {
+    $('#addMedicalRecordForm').submit(function(e) {
+      e.preventDefault()
+      data = JSON.stringify($(this).serializeJSON())
+      api('{{ url_for("api.medical_records.store")}}', 'POST', data).done(function(data) {
+        console.log(data)
+        window.location = "{{ url_for('patients.show', patient=patient.id) }}"
+      })
+    })
+  })
+</script>
+{% endblock %}
