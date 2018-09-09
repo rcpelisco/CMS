@@ -10,8 +10,8 @@
       <p style="display: inline;" class="card-category">These are all the patients currently registered</p>
     </div>
     <div class="pull-right" style="margin-top: -25px;">
-      <a class="btn btn-primary" href="{{ url_for('face_recognition.detect_face') }}">
-        <i class="material-icons">visibility</i></a>
+      <button class="btn btn-primary" id="stream-button">
+        <i class="material-icons">visibility</i></button>
       <a class="btn btn-primary" href="{{ url_for('patients.create') }}">
         <i class="material-icons">add</i> Add Patient</a>
     </div>
@@ -53,11 +53,46 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="streamModal" tabindex="-1" role="dialog"
+  aria-labelledby="streamModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="streamModalTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img id="streamIMG" style="width: 100%" src="" >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
 <script>
 $(function() {
+  let streaming = false
+  $('#stream-button').click(function() {
+    streaming = true
+    $('#streamModal').modal()
+  })
+  
+  $('#streamModal').on('show.bs.modal', function (e) {
+    $('#streamIMG').attr('src', "{{ url_for('face_recognition.video_feed') }}")
+  })
+
+  $('#streamModal').on('hide.bs.modal', function (e) {
+    $('#streamIMG').attr('src', '')
+    streaming = false
+  })
+
   $('.delete-patient-button').click(function() {
     let patientID = $(this).attr('data-id')
     let endpoint = "{{ url_for('api.patients.index') }}" + patientID
