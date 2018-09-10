@@ -5,10 +5,10 @@ import numpy as np
 from PIL import Image
     
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-image_dir = os.path.join(BASE_DIR, '..', 'images')
-cascades_dir = os.path.join(BASE_DIR, '..', 'cascades', 'data')
-pickle_dir = os.path.join(BASE_DIR, '..',  'pickle', 'labels.pickle')
-training_dir = os.path.join(BASE_DIR, '..', 'training', 'data.yml')
+image_dir = os.path.join(BASE_DIR, 'images')
+cascades_dir = os.path.join(BASE_DIR, 'cascades', 'data')
+pickle_dir = os.path.join(BASE_DIR, 'pickle', 'labels.pickle')
+training_dir = os.path.join(BASE_DIR, 'training', 'data.yml')
     
 face_cascade = cv2.CascadeClassifier(os.path.join(cascades_dir, 'haarcascade_frontalface_alt2.xml'))
 recognizer = cv2.face.LBPHFaceRecognizer_create()

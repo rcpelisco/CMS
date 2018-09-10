@@ -78,24 +78,21 @@
 {% block scripts %}
 <script>
 $(function() {
-  let streaming = false
   $('#stream-button').click(function() {
     $('#streamModal').modal()
     setTimeout(function() {
       api("{{ url_for('api.face_recognition.index') }}").done(function(data) {
-        console.log(data)
-        window.location = "{{ url_for('patients.index') }}" + data.face_recognition.id
+        window.location = "{{ url_for('patients.index') }}" + data.patient.id
       })
     }, 5000)
   })
   
   $('#streamModal').on('show.bs.modal', function (e) {
-    $('#streamIMG').attr('src', "{{ url_for('face_recognition.video_feed') }}")
+    $('#streamIMG').attr('src', "{{ url_for('face_recognition.recognize') }}")
   })
 
   $('#streamModal').on('hide.bs.modal', function (e) {
     $('#streamIMG').attr('src', '')
-    streaming = false
   })
 
   $('.delete-patient-button').click(function() {

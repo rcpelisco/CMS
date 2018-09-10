@@ -20,6 +20,7 @@ class Patient(BasicMixin, db.Model):
     birth_place = db.Column(db.String(20), nullable=False)
     address = db.Column(db.String(125), nullable=False)
     contact_no = db.Column(db.String(20), nullable=False)
+    slug = db.Column(db.String(90), nullable=False)
     medical_records = db.relationship("MedicalRecord", back_populates="patient",
          cascade="all, delete-orphan")
 

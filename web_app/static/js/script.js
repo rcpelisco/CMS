@@ -7,8 +7,9 @@ function api(endpoint, method, data) {
     })
 }
 
-function notify(message, type) {
+function notify(message, type, title='') {
     $.notify({
+        title: title,
         message: message 
     },{
         type: type,

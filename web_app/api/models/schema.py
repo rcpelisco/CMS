@@ -46,6 +46,7 @@ class PatientSchema(Schema):
     birth_place = String()
     address = String()
     contact_no = String()
+    slug = String()
     medical_records = Nested(MedicalRecordSchema, many=True, exclude=('patient', ))
     created_at = DateTime('%Y-%m-%d %H:%M:%S')
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
@@ -53,7 +54,7 @@ class PatientSchema(Schema):
     class Meta:
         fields = ('id', 'first_name', 'last_name', 'gender', 'civil_status', 
             'date_of_birth', 'birth_place', 'address', 
-            'contact_no', 'medical_records', 'created_at', 'updated_at')
+            'contact_no', 'slug', 'medical_records', 'created_at', 'updated_at')
         ordered=True
 
 class FaceRecognitionSchema(Schema):
