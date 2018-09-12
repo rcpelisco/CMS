@@ -48,6 +48,30 @@ def store():
 
     return jsonify({'message': message, 'user': user_result})
 
+@module.route('/login', methods=['PUT', 'POST'])
+def login():
+    json_data = request.get_json()
+    user = User()
+    message = 'User created'
+    if not json_data:
+        return jsonify({'message': 'No input data provided'}), 400
+        
+    if 'id' in json_data:
+        user = User.query.get(json_data['id'])
+        message = 'User updated'
+
+    if user is None:
+        return jsonify({'message': 'User not found!'}), 400
+    
+    user.name = json_data['name']
+    user.username = json_data['username']
+    user.password = generate_password_hash(json_data['password'], method='sha256')
+    user.save()
+
+    user_result, errors = user_schema.dump(user)
+
+    return jsonify({'message': message, 'user': user_result})
+
 @module.route('/<user>', methods=['DELETE'])
 def delete(user):
     user = User.query.get(user)

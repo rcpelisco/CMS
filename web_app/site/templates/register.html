@@ -1,0 +1,83 @@
+{% extends 'slave.html' %}
+
+{% block content %}
+<div class="page-header register-page header-filter" filter-color="black" 
+  style="background-image: url({{ url_for('static', filename='img/register.jpg') }})">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 ml-auto mr-auto">
+        <div class="card card-signup">
+          <h2 class="card-title text-center">Register</h2>
+          <div class="card-body">
+            <form class="form" method="POST">
+              <div class="form-group has-default">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">face</i>
+                    </span>
+                  </div>
+                  <input type="text" name="name" class="form-control" placeholder="Name" required>
+                </div>
+              </div>
+              <div class="form-group has-default">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">mail</i>
+                    </span>
+                  </div>
+                  <input type="text" name="username" class="form-control" placeholder="Username" required>
+                </div>
+              </div>
+              <div class="form-group has-default">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">local_pharmacy</i>
+                    </span>
+                  </div>
+                  <select class="selectpicker" data-style="select-with-transition" 
+                    title="Choose Role" name="role" data-width="85%">
+                      <option value="doctor">Doctor</option>
+                      <option value="nurse">Nurse</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group has-default">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">lock</i>
+                    </span>
+                  </div>
+                  <input type="password" name="password" placeholder="Password" class="form-control" required>
+                </div>
+              </div>
+              <div class="form-group has-default">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">lock_outline</i>
+                    </span>
+                  </div>
+                  <input type="password" name="confim_password" placeholder="Confirm Password" class="form-control" required>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    Already have an account? Login
+                    <a href="{{ url_for('site.login') }}">here</a>.
+                  </label>
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-round mt-4">Register</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,18 +1,56 @@
 {% set navigation_bar = [
-  (url_for('site.index'), 'site.index', 'Dashboard', 'dashboard'),
-  (url_for('patients.index'), 'patients.index', 'Patients', 'person')  
+  (url_for('patients.index'), 'patients.index', 'Patients', 'person'),
+  (url_for('site.report'), 'site.report', 'Report', 'report')
 ] -%}
 
 {% set active_page = active_page | default('site.index') -%}
 
-<div class="sidebar" data-color="purple" data-background-color="black" 
+<div class="sidebar" data-color="rose" data-background-color="black" 
     data-image="{{ url_for('static', filename='img/sidebar-2.jpg') }}">
     <div class="logo">
-    <a href="#" class="simple-text logo-normal">
+      <a href="#" class="simple-text logo-mini">
+        CM
+      </a>
+      <a href="#" class="simple-text logo-normal" style="font-size: 15px">
         Clinic Management
-    </a>
+      </a>
     </div>
     <div class="sidebar-wrapper">
+      <div class="user">
+        <div class="photo">
+          <img src="{{ url_for('static', filename='img/logo-small.png') }}" />
+        </div>
+        <div class="user-info">
+          <a data-toggle="collapse" href="#collapseExample" class="username">
+              <span>
+                  Tania Andrew 
+                <b class="caret"></b>
+              </span>
+          </a>
+          <div class="collapse" id="collapseExample">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span class="sidebar-mini"> MP </span>
+                  <span class="sidebar-normal"> My Profile </span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span class="sidebar-mini"> EP </span>
+                  <span class="sidebar-normal"> Edit Profile </span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span class="sidebar-mini"> S </span>
+                  <span class="sidebar-normal"> Settings </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <ul class="nav">
         {% for href, id, caption, icon in navigation_bar %}
           <li class="nav-item {% if id == active_page %} active {% endif %}">

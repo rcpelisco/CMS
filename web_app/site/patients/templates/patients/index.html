@@ -82,7 +82,7 @@ $(function() {
     $('#streamModal').modal()
     setTimeout(function() {
       api("{{ url_for('api.face_recognition.index') }}").done(function(data) {
-        // window.location = "{{ url_for('patients.index') }}" + data.patient.id
+        window.location = "{{ url_for('patients.index') }}" + data.patient.id
       })
     }, 5000)
   })
@@ -100,7 +100,8 @@ $(function() {
     let endpoint = "{{ url_for('api.patients.index') }}" + patientID
     swal({
       title: "Delete patient",
-      text: "This patient be removed from the records. You can edit this patient if you want to change something.",
+      text: "This patient will be removed from the records." 
+        + " You can edit this patient if you want to change something.",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -112,7 +113,6 @@ $(function() {
         })
       }
     })
-    
   })
 })
 </script>
