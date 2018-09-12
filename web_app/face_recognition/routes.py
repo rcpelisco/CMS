@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 from flask import redirect, request, Response, url_for
 from res.face_recognition import VideoCamera, Trainer
 from ..site.extra import post

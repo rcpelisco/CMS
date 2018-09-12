@@ -82,7 +82,7 @@ $(function() {
     $('#streamModal').modal()
     setTimeout(function() {
       api("{{ url_for('api.face_recognition.index') }}").done(function(data) {
-        window.location = "{{ url_for('patients.index') }}" + data.patient.id
+        // window.location = "{{ url_for('patients.index') }}" + data.patient.id
       })
     }, 5000)
   })

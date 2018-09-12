@@ -134,5 +134,3 @@ class Trainer(object):
         recognizer.train(self.x_train, np.array(self.y_labels))
         recognizer.save(training_dir)
         return 'success'
-
-    
