@@ -81,3 +81,15 @@
   </div>
 </div>
 {% endblock %}
+
+{% block scripts %}
+<script>
+  $(function() {
+    $('form').submit(function(e) {
+      e.preventDefault()
+      let serialized = $(this).serializeJSON()
+      let data = JSON.stringify(serialized)
+    })
+  })
+</script>
+{% endblock %}
