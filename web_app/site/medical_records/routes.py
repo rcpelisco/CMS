@@ -5,6 +5,10 @@ import json
 
 module = Blueprint('medical_records', __name__, template_folder='templates')
 
+@module.route('/')
+def index():
+    pass
+
 @module.route('/<medical_record>')
 def show(patient):
     response = get('/patients/' + str(patient))

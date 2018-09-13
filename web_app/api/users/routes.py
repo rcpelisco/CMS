@@ -56,7 +56,6 @@ def login():
         return jsonify({'message': 'No input data provided'}), 400
 
     user = User.query.filter_by(username=json_data['username']).first()
-    print(json_data)
     if 'id' in json_data and user.password == json_data['password']:
         user_result, error = user_schema.dump(user)
         login_user(user)
@@ -67,6 +66,20 @@ def login():
         login_user(user)
         return jsonify({'message': 'User successfuly logged in', 'user': user_result})
     
+    return jsonify({'message': 'Could not login'})
+
+@module.route('/check_password', methods=['POST'])
+def check_password():
+    json_data = request.get_json()
+    if not json_data:
+        return jsonify({'message': 'No input data provided'}), 400
+
+    user = User.query.filter_by(username=json_data['username']).first()
+
+    if user and check_password_hash(user.password, json_data['password']):
+        user_result, error = user_schema.dump(user)
+        return jsonify({'message': 'Credentials are correct', 'user': user_result})
+
     return jsonify({'message': 'Could not login'})
 
 @module.route('/logout')

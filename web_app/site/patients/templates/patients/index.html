@@ -36,7 +36,8 @@
               <td>{{ patient.gender|capitalize }}</td>
               <td>{{ patient.date_of_birth|age }}</td>
               <td style="width: 1%; white-space: nowrap;">
-                <a href="{{ url_for('patients.show', patient=patient.id) }}" class="btn btn-sm btn-success">
+                <a href="#" class="btn btn-sm btn-success btn-show-patient" 
+                  data-id="{{ patient.id }}">
                   <i class="material-icons">description</i>
                 </a>
                 <a href="{{ url_for('patients.edit', patient=patient.id) }}" class="btn btn-sm btn-info">
@@ -78,6 +79,34 @@
 {% block scripts %}
 <script>
 $(function() {
+  function passwordSWAL() {
+    return swal('Enter password.', {
+      'content': {
+        'element': "input",
+        'attributes': {
+          'placeholder': "Password",
+          'type': "password",
+        }
+      }
+    })
+  }
+
+  $('.btn-show-patient').click(function() {
+    let patientID = $(this).attr('data-id')
+    passwordSWAL().then((result) => {
+      let data = {
+        username: '{{ current_user.username }}',
+        password: result
+      }
+      api("{{ url_for('api.users.check_password') }}", 'POST', JSON.stringify(data)).done(function(result) {
+        if(result.message == "Credentials are correct") {
+          window.location = "{{ url_for('patients.index') }}" + patientID
+          return
+        }
+        notify('Incorrect password', 'danger')
+      })
+    })
+  })
   $('#stream-button').click(function() {
     $('#streamModal').modal()
   })
@@ -134,9 +163,22 @@ $(function() {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        api(endpoint, 'DELETE', {}).done(function(data) {
-          $('.row-' + patientID).fadeOut()
-          notify(data.message, 'primary')
+        passwordSWAL().then((result) => {
+          let data = {
+            username: '{{ current_user.username }}',
+            password: result
+          }
+          api("{{ url_for('api.users.check_password') }}", 
+            'POST', JSON.stringify(data)).done(function(result) {
+            if(result.message == "Credentials are correct") {
+              api(endpoint, 'DELETE', {}).done(function(data) {
+                $('.row-' + patientID).fadeOut()
+                notify(data.message, 'primary')
+              })
+              return
+            }
+            notify('Incorrect password', 'danger')
+          })
         })
       }
     })

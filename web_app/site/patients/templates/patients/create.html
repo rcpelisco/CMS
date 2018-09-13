@@ -107,7 +107,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <img id="streamIMG" style="width: 100%" src="" >
+        <img id="streamIMG" style="width: 100%" src="">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -158,6 +158,7 @@
         notify('Please wait while the server is training the data', 'success', 'Done recording!')
         $('#streamModal').modal('toggle')
         api("{{ url_for('face_recognition.train') }}", 'GET', {}).done(function() {
+          $('#addPatientForm').submit()
           notify('Done training data!', 'success')
         })
       }, 2500)

@@ -75,46 +75,46 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                    <label class="bmd-label-floating">Medical Status</label>
-                      <div class="dropdown bootstrap-select show-tick dropup">
-                        <select class="selectpicker" name="medical_status" data-style="select-with-transition" disabled>
-                          <option disabled=""> EENT</option>
-                          <option {% if record.medical_status == 'nose bleeding' %} selected="selected" {% endif %} value="nose bleeding">nose bleeding</option>
-                          <option {% if record.medical_status == 'redness' %} selected="selected" {% endif %} value="redness of eye">redness of eye</option>
-                          <option {% if record.medical_status == 'lip bleeding' %} selected="selected" {% endif %} value="lip bleeding">lip bleeding</option>
-                          <option disabled=""> CARDIO VASCULAR</option>
-                          <option {% if record.medical_status == 'chest pain' %} selected="selected" {% endif %} value="chest pain">chest pain</option>
-                          <option disabled=""> RESPIRATORY</option>
-                          <option {% if record.medical_status == 'colds' %} selected="selected" {% endif %} value="colds ">colds </option>
-                          <option {% if record.medical_status == 'cough' %} selected="selected" {% endif %} value="cough ">cough </option>
-                          <option disabled=""> GASTROINTESTINAL</option>
-                          <option {% if record.medical_status == 'hyperacidity' %} selected="selected" {% endif %} value="hyperacidity">hyperacidity</option>
-                          <option {% if record.medical_status == 'LBM' %} selected="selected" {% endif %} value="LBM">LBM</option>
-                          <option {% if record.medical_status == 'stomachache' %} selected="selected" {% endif %} value="stomachache">stomachache</option>
-                          <option {% if record.medical_status == 'vomiting' %} selected="selected" {% endif %} value="vomiting">vomiting</option>
-                          <option disabled=""> MUSCULOSKELETAL</option>
-                          <option {% if record.medical_status == 'body malaise' %} selected="selected" {% endif %} value="body malaise">body malaise</option>
-                          <option {% if record.medical_status == 'muscle pain' %} selected="selected" {% endif %} value="muscle pain">muscle pain</option>
-                          <option disabled=""> DERMA</option>
-                          <option {% if record.medical_status == 'hypersensitivity' %} selected="selected" {% endif %} value="hypersensitivity">hypersensitivity</option>
-                          <option {% if record.medical_status == 'insect bite' %} selected="selected" {% endif %} value="insect bite">insect bite</option>
-                          <option {% if record.medical_status == 'blisters' %} selected="selected" {% endif %} value="blisters">blisters</option>
-                          <option disabled=""> SURGICAL</option>
-                          <option {% if record.medical_status == 'abrasion' %} selected="selected" {% endif %} value="abrasion">abrasion</option>
-                          <option disabled=""> DENTAL</option>
-                          <option {% if record.medical_status == 'toothache' %} selected="selected" {% endif %} value="toothache">toothache</option>
-                          <option {% if record.medical_status == 'consultations' %} selected="selected" {% endif %} value="consultations">consultations</option>
-                          <option disabled=""> NEUROLOGICAL</option>
-                          <option {% if record.medical_status == 'dizziness' %} selected="selected" {% endif %} value="dizziness ">dizziness </option>
-                          <option {% if record.medical_status == 'fever' %} selected="selected" {% endif %} value="fever ">fever </option>
-                          <option {% if record.medical_status == 'headache' %} selected="selected" {% endif %} value="headache ">headache </option>
-                          <option disabled=""> REPRODUCTIVE</option>
-                          <option {% if record.medical_status == 'dysmenorrhea' %} selected="selected" {% endif %} value="dysmenorrhea">dysmenorrhea</option>
-                          <option disabled=""> MISCELLANEOUS</option>
-                          <option {% if record.medical_status == 'BP TAKING' %} selected="selected" {% endif %} value="BP TAKING">BP TAKING</option>
-                          <option {% if record.medical_status == 'OTHER CONSULTATIONS' %} selected="selected" {% endif %} value="OTHER CONSULTATIONS">OTHER CONSULTATIONS</option>
-                        </select>
-                      </div>
+                  <label class="bmd-label-floating">Medical Status</label>
+                  <div class="dropdown bootstrap-select show-tick dropup">
+                    <select class="selectpicker" name="medical_status" data-style="select-with-transition" disabled>
+                      <option disabled=""> EENT</option>
+                      <option {% if record.medical_status == 'nose bleeding' %} selected="selected" {% endif %} value="nose bleeding">nose bleeding</option>
+                      <option {% if record.medical_status == 'redness' %} selected="selected" {% endif %} value="redness of eye">redness of eye</option>
+                      <option {% if record.medical_status == 'lip bleeding' %} selected="selected" {% endif %} value="lip bleeding">lip bleeding</option>
+                      <option disabled=""> CARDIO VASCULAR</option>
+                      <option {% if record.medical_status == 'chest pain' %} selected="selected" {% endif %} value="chest pain">chest pain</option>
+                      <option disabled=""> RESPIRATORY</option>
+                      <option {% if record.medical_status == 'colds' %} selected="selected" {% endif %} value="colds ">colds </option>
+                      <option {% if record.medical_status == 'cough' %} selected="selected" {% endif %} value="cough ">cough </option>
+                      <option disabled=""> GASTROINTESTINAL</option>
+                      <option {% if record.medical_status == 'hyperacidity' %} selected="selected" {% endif %} value="hyperacidity">hyperacidity</option>
+                      <option {% if record.medical_status == 'LBM' %} selected="selected" {% endif %} value="LBM">LBM</option>
+                      <option {% if record.medical_status == 'stomachache' %} selected="selected" {% endif %} value="stomachache">stomachache</option>
+                      <option {% if record.medical_status == 'vomiting' %} selected="selected" {% endif %} value="vomiting">vomiting</option>
+                      <option disabled=""> MUSCULOSKELETAL</option>
+                      <option {% if record.medical_status == 'body malaise' %} selected="selected" {% endif %} value="body malaise">body malaise</option>
+                      <option {% if record.medical_status == 'muscle pain' %} selected="selected" {% endif %} value="muscle pain">muscle pain</option>
+                      <option disabled=""> DERMA</option>
+                      <option {% if record.medical_status == 'hypersensitivity' %} selected="selected" {% endif %} value="hypersensitivity">hypersensitivity</option>
+                      <option {% if record.medical_status == 'insect bite' %} selected="selected" {% endif %} value="insect bite">insect bite</option>
+                      <option {% if record.medical_status == 'blisters' %} selected="selected" {% endif %} value="blisters">blisters</option>
+                      <option disabled=""> SURGICAL</option>
+                      <option {% if record.medical_status == 'abrasion' %} selected="selected" {% endif %} value="abrasion">abrasion</option>
+                      <option disabled=""> DENTAL</option>
+                      <option {% if record.medical_status == 'toothache' %} selected="selected" {% endif %} value="toothache">toothache</option>
+                      <option {% if record.medical_status == 'consultations' %} selected="selected" {% endif %} value="consultations">consultations</option>
+                      <option disabled=""> NEUROLOGICAL</option>
+                      <option {% if record.medical_status == 'dizziness' %} selected="selected" {% endif %} value="dizziness ">dizziness </option>
+                      <option {% if record.medical_status == 'fever' %} selected="selected" {% endif %} value="fever ">fever </option>
+                      <option {% if record.medical_status == 'headache' %} selected="selected" {% endif %} value="headache ">headache </option>
+                      <option disabled=""> REPRODUCTIVE</option>
+                      <option {% if record.medical_status == 'dysmenorrhea' %} selected="selected" {% endif %} value="dysmenorrhea">dysmenorrhea</option>
+                      <option disabled=""> MISCELLANEOUS</option>
+                      <option {% if record.medical_status == 'BP TAKING' %} selected="selected" {% endif %} value="BP TAKING">BP TAKING</option>
+                      <option {% if record.medical_status == 'OTHER CONSULTATIONS' %} selected="selected" {% endif %} value="OTHER CONSULTATIONS">OTHER CONSULTATIONS</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -129,8 +129,7 @@
               </div>
             </div>
             <div class="pull-right">
-              <a class="btn btn-info" 
-                href="{{ url_for('medical_records.edit', medical_record=record.id) }}">
+              <a class="btn btn-info btn-edit-record" href="#" data-id="{{ record.id }}">
                 <i class="material-icons">edit</i>
               </a>
               <button type="button" class="btn btn-danger delete-record-button" data-id="{{ record.id }}">
@@ -181,8 +180,7 @@
         </div>
       </div>
       <hr>
-      <a href="{{ url_for('patients.add_record', patient=patient.id) }}" 
-        class="btn btn-primary btn-round">Add Medical Record</a>
+      <a href="#" class="btn btn-primary btn-round btn-create-record">Add Medical Record</a>
         
       <a href="{{ url_for('patients.edit', patient=patient.id) }}" 
         class="btn btn-info btn-round">Edit Patient</a>
@@ -194,6 +192,51 @@
 {% block scripts %}
 <script>
 $(function() {
+  function passwordSWAL() {
+    return swal('Enter password.', {
+      'content': {
+        'element': "input",
+        'attributes': {
+          'placeholder': "Password",
+          'type': "password",
+        }
+      }
+    })
+  }
+
+  $('.btn-create-record').click(function() {
+    passwordSWAL().then((result) => {
+      let data = {
+        username: '{{ current_user.username }}',
+        password: result
+      }
+      api("{{ url_for('api.users.check_password') }}", 'POST', JSON.stringify(data)).done(function(result) {
+        if(result.message == "Credentials are correct") {
+          window.location = "{{ url_for('patients.index') }}" + "{{ patient.id }}" + '/add_record'
+          return
+        }
+        notify('Incorrect password', 'danger')
+      })
+    })
+  })
+
+  $('.btn-edit-record').click(function() {
+    let recordID = $(this).attr('data-id')
+    passwordSWAL().then((result) => {
+      let data = {
+        username: '{{ current_user.username }}',
+        password: result
+      }
+      api("{{ url_for('api.users.check_password') }}", 'POST', JSON.stringify(data)).done(function(result) {
+        if(result.message == "Credentials are correct") {
+          window.location = "{{ url_for('medical_records.index') }}" + recordID + '/edit'
+          return
+        }
+        notify('Incorrect password', 'danger')
+      })
+    })
+  })
+
   $('.delete-record-button').click(function() {
     let recordID = $(this).attr('data-id')
     let endpoint = "{{ url_for('api.medical_records.index') }}" + recordID
@@ -207,9 +250,21 @@ $(function() {
       if(!willDelete) {
         return
       }
-      api(endpoint, 'DELETE', {}).done(function(data) {
-        $('.card-' + recordID).slideUp()
-        notify(data.message, 'info')
+      passwordSWAL().then((result) => {
+        let data = {
+          username: '{{ current_user.username }}',
+          password: result
+        }
+        api("{{ url_for('api.users.check_password') }}", 'POST', JSON.stringify(data)).done(function(result) {
+          if(result.message == "Credentials are correct") {
+            api(endpoint, 'DELETE', {}).done(function(data) {
+              $('.card-' + recordID).slideUp()
+              notify(data.message, 'info')
+            })
+            return
+          }
+          notify('Incorrect password', 'danger')
+        })
       })
     })
   })
