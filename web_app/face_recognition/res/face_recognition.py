@@ -7,29 +7,30 @@ from PIL import Image
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 cascades_dir = os.path.join(BASE_DIR, 'cascades', 'data', 'haarcascade_frontalface_default.xml')
-pickle_dir = os.path.join(BASE_DIR, 'pickle', 'labels.pickle')
-training_dir = os.path.join(BASE_DIR, 'training', 'data.yml')
 image_dir = os.path.join(BASE_DIR, 'images')
 
 face_cascade = cv2.CascadeClassifier(cascades_dir)
 
 font_face = cv2.FONT_HERSHEY_SIMPLEX
 
-labels = {}
-
-with open(pickle_dir, 'rb') as f:
-    labels = pickle.load(f)
-    labels = {v:k for k, v in labels.items()}
 
 class VideoCamera(object):
     def __init__(self, name=None):
         self.video = cv2.VideoCapture(0)
         self.frames = 0
-        self.names = {v:0 for k, v in labels.items()}
+        self.labels = {}
+        
+        self.pickle_dir = os.path.join(BASE_DIR, 'pickle', 'labels.pickle')
+        self.training_dir = os.path.join(BASE_DIR, 'training', 'data.yml')
+
+        with open(self.pickle_dir, 'rb') as f:
+            self.labels = pickle.load(f)
+            self.labels = {v:k for k, v in self.labels.items()}
+        self.names = {v:0 for k, v in self.labels.items()}
         self.data = []
                 
         self.recognizer = cv2.face.LBPHFaceRecognizer_create()
-        self.recognizer.read(training_dir)
+        self.recognizer.read(self.training_dir)
 
         if name is None:
             return 
@@ -40,12 +41,6 @@ class VideoCamera(object):
             os.makedirs(self.user_image_dir)
 
         self.last_file = self.get_last_file(self.user_image_dir)
-
-        self.labels = {}
-
-        with open(pickle_dir, 'rb') as f:
-            self.labels = pickle.load(f)
-            self.labels = {v:k for k, v in labels.items()}
 
     def __del__(self):
         self.video.release()
@@ -74,8 +69,8 @@ class VideoCamera(object):
 
             if conf >= 40 and with_name:
                 self.frames += 1
-                self.names[labels[id_]] += 1
-                text = labels[id_] + ' - ' + str(conf)
+                self.names[self.labels[id_]] += 1
+                text = self.labels[id_] + ' - ' + str(conf)
                 color = (255, 255, 100)
                 stroke = 2
                 cv2.putText(frame, text, (x, y), font_face, 1, color, stroke, cv2.LINE_AA)
@@ -113,6 +108,8 @@ class Trainer(object):
     def __init__(self):
         self.current_id = 0
         self.label_ids = {}
+        self.pickle_dir = os.path.join(BASE_DIR, 'pickle', 'labels.pickle')
+        self.training_dir = os.path.join(BASE_DIR, 'training', 'data.yml')
         self.y_labels = []
         self.x_train = []
         self.recognizer = cv2.face.LBPHFaceRecognizer_create()
@@ -137,9 +134,9 @@ class Trainer(object):
                         self.x_train.append(roi)
                         self.y_labels.append(id_)
 
-        with open(pickle_dir, 'wb') as f:
+        with open(self.pickle_dir, 'wb') as f:
             pickle.dump(self.label_ids, f)
 
         self.recognizer.train(self.x_train, np.array(self.y_labels))
-        self.recognizer.save(training_dir)
+        self.recognizer.save(self.training_dir)
         return 'success'

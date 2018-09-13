@@ -50,6 +50,7 @@ def store():
     medical_record.pr = json_data['pr']
     medical_record.temperature = json_data['temperature']
     medical_record.treatment = json_data['treatment']
+    medical_record.medical_status = json_data['medical_status']
     medical_record.weight = json_data['weight']
     medical_record.save()
 

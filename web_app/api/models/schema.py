@@ -8,6 +8,7 @@ class UserSchema(Schema):
     name = String()
     username = String()
     password = String()
+    slug = String()
     created_at = DateTime('%Y-%m-%d %H:%M:%S')
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
     
@@ -26,6 +27,7 @@ class MedicalRecordSchema(Schema):
     complaint = String()
     diagnosis = String()
     treatment = String()
+    medical_status = String()
     note = String()
     patient = Nested('PatientSchema', exclude=('medical_records', ))
     created_at = DateTime('%Y-%m-%d %H:%M:%S')
@@ -33,7 +35,7 @@ class MedicalRecordSchema(Schema):
 
     class Meta:
         fields = ('id', 'height', 'weight', 'bmi', 'bp', 'pr', 'temperature', 'complaint', 
-            'diagnosis', 'treatment', 'note', 'patient', 'created_at', 'updated_at')
+            'diagnosis', 'treatment', 'medical_status', 'note', 'patient', 'created_at', 'updated_at')
         ordered=True
 
 class PatientSchema(Schema):

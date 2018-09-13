@@ -15,50 +15,106 @@
         <div class="card-body">
           <form>
             <div class="row">
-              <div class="col-md-5">
-                <div class="form-group">
-                  <label class="bmd-label-floating">Complaint</label>
-                  <input type="text" class="form-control" value="{{ record.diagnosis }}" disabled>
-                </div>
-              </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <div class="form-group">
                   <label class="bmd-label-floating">Height</label>
                   <input type="text" class="form-control" value="{{ record.height }}" disabled>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-2">
                 <div class="form-group">
                   <label class="bmd-label-floating">Weight</label>
                   <input type="email" class="form-control" value="{{ record.weight }}" disabled>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="bmd-label-floating">BMI</label>
+                  <input type="text" class="form-control" value="{{ record.bmi }}" disabled>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="bmd-label-floating">BP</label>
+                  <input type="text" class="form-control" value="{{ record.bp }}" disabled>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Temp (c)</label>
+                  <input type="text" class="form-control" value="{{ record.temperature }}" disabled>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="bmd-label-floating">PR</label>
+                  <input type="text" class="form-control" value="{{ record.pr }}" disabled>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
+                  <label class="bmd-label-floating">Complaint</label>
+                  <input type="text" class="form-control" value="{{ record.diagnosis }}" disabled>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
                     <label class="bmd-label-floating">Diagnosis</label>
                     <input type="text" class="form-control" value="{{ record.diagnosis }}" disabled>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                    <label class="bmd-label-floating">BMI</label>
-                    <input type="text" class="form-control" value="{{ record.bmi }}" disabled>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                    <label class="bmd-label-floating">BP</label>
-                    <input type="text" class="form-control" value="{{ record.bp }}" disabled>
-                </div>
-              </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-8">
                 <div class="form-group">
                     <label class="bmd-label-floating">Treatment</label>
                     <input type="text" class="form-control" value="{{ record.bp }}" disabled>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label class="bmd-label-floating">Medical Status</label>
+                      <div class="dropdown bootstrap-select show-tick dropup">
+                        <select class="selectpicker" name="medical_status" data-style="select-with-transition" disabled>
+                          <option disabled=""> EENT</option>
+                          <option {% if record.medical_status == 'nose bleeding' %} selected="selected" {% endif %} value="nose bleeding">nose bleeding</option>
+                          <option {% if record.medical_status == 'redness' %} selected="selected" {% endif %} value="redness of eye">redness of eye</option>
+                          <option {% if record.medical_status == 'lip bleeding' %} selected="selected" {% endif %} value="lip bleeding">lip bleeding</option>
+                          <option disabled=""> CARDIO VASCULAR</option>
+                          <option {% if record.medical_status == 'chest pain' %} selected="selected" {% endif %} value="chest pain">chest pain</option>
+                          <option disabled=""> RESPIRATORY</option>
+                          <option {% if record.medical_status == 'colds' %} selected="selected" {% endif %} value="colds ">colds </option>
+                          <option {% if record.medical_status == 'cough' %} selected="selected" {% endif %} value="cough ">cough </option>
+                          <option disabled=""> GASTROINTESTINAL</option>
+                          <option {% if record.medical_status == 'hyperacidity' %} selected="selected" {% endif %} value="hyperacidity">hyperacidity</option>
+                          <option {% if record.medical_status == 'LBM' %} selected="selected" {% endif %} value="LBM">LBM</option>
+                          <option {% if record.medical_status == 'stomachache' %} selected="selected" {% endif %} value="stomachache">stomachache</option>
+                          <option {% if record.medical_status == 'vomiting' %} selected="selected" {% endif %} value="vomiting">vomiting</option>
+                          <option disabled=""> MUSCULOSKELETAL</option>
+                          <option {% if record.medical_status == 'body malaise' %} selected="selected" {% endif %} value="body malaise">body malaise</option>
+                          <option {% if record.medical_status == 'muscle pain' %} selected="selected" {% endif %} value="muscle pain">muscle pain</option>
+                          <option disabled=""> DERMA</option>
+                          <option {% if record.medical_status == 'hypersensitivity' %} selected="selected" {% endif %} value="hypersensitivity">hypersensitivity</option>
+                          <option {% if record.medical_status == 'insect bite' %} selected="selected" {% endif %} value="insect bite">insect bite</option>
+                          <option {% if record.medical_status == 'blisters' %} selected="selected" {% endif %} value="blisters">blisters</option>
+                          <option disabled=""> SURGICAL</option>
+                          <option {% if record.medical_status == 'abrasion' %} selected="selected" {% endif %} value="abrasion">abrasion</option>
+                          <option disabled=""> DENTAL</option>
+                          <option {% if record.medical_status == 'toothache' %} selected="selected" {% endif %} value="toothache">toothache</option>
+                          <option {% if record.medical_status == 'consultations' %} selected="selected" {% endif %} value="consultations">consultations</option>
+                          <option disabled=""> NEUROLOGICAL</option>
+                          <option {% if record.medical_status == 'dizziness' %} selected="selected" {% endif %} value="dizziness ">dizziness </option>
+                          <option {% if record.medical_status == 'fever' %} selected="selected" {% endif %} value="fever ">fever </option>
+                          <option {% if record.medical_status == 'headache' %} selected="selected" {% endif %} value="headache ">headache </option>
+                          <option disabled=""> REPRODUCTIVE</option>
+                          <option {% if record.medical_status == 'dysmenorrhea' %} selected="selected" {% endif %} value="dysmenorrhea">dysmenorrhea</option>
+                          <option disabled=""> MISCELLANEOUS</option>
+                          <option {% if record.medical_status == 'BP TAKING' %} selected="selected" {% endif %} value="BP TAKING">BP TAKING</option>
+                          <option {% if record.medical_status == 'OTHER CONSULTATIONS' %} selected="selected" {% endif %} value="OTHER CONSULTATIONS">OTHER CONSULTATIONS</option>
+                        </select>
+                      </div>
                 </div>
               </div>
             </div>

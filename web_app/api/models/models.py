@@ -52,6 +52,7 @@ class MedicalRecord(BasicMixin, db.Model):
     complaint = db.Column(db.String(45), nullable=False)
     diagnosis = db.Column(db.String(45), nullable=False)
     treatment = db.Column(db.String(45), nullable=False)
+    medical_status = db.Column(db.String(191), nullable=False)
     note = db.Column(db.String(191))
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
     patient = db.relationship('Patient', back_populates='medical_records')
