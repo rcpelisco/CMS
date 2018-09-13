@@ -3,4 +3,34 @@
 {% set header_text = 'Report' %}
 
 {% block content %}
+{% for item in data %}
+<div class="col-md-4">
+  <div class="card">
+    <div class="card-header card-header-text card-header-rose">
+      <div class="card-text">
+        <h4 class="card-title">{{ item.category }}</h4>
+      </div>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover">
+        <thead class="text-rose">
+          <tr>
+            <th>Medical Status</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for status in item.medical_status %}
+          <tr>
+            <td>{{ status.name }}</td>
+            <td>{{ status.count }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
 {% endblock %}

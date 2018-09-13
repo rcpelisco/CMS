@@ -9,7 +9,6 @@ module = Blueprint('patients', __name__, template_folder='templates')
 @module.route('/')
 @login_required
 def index():
-    print(login_fresh())
     response = get(url_for('api.patients.index'))
     return render_template('patients/index.html', 
         data=json.loads(response.text)['patients'])

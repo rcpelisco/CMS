@@ -38,6 +38,18 @@ class MedicalRecordSchema(Schema):
             'diagnosis', 'treatment', 'medical_status', 'note', 'patient', 'created_at', 'updated_at')
         ordered=True
 
+class ReportSchema(Schema):
+    name = String()
+    count = Integer()
+
+    class Meta:
+        fields = ('count', 'name')
+        ordered=True
+
+class CategorySchema(Schema):
+    category = String()
+    medical_status = Nested('ReportSchema', many=True)
+
 class PatientSchema(Schema):
     id = Integer(dump_only=True)
     first_name = String()
