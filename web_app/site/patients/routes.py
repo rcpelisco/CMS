@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for
-from flask_login import login_required
+from flask_login import login_required, login_fresh
 from ..extra import get
 
 import json
@@ -9,6 +9,7 @@ module = Blueprint('patients', __name__, template_folder='templates')
 @module.route('/')
 @login_required
 def index():
+    print(login_fresh())
     response = get(url_for('api.patients.index'))
     return render_template('patients/index.html', 
         data=json.loads(response.text)['patients'])
@@ -16,6 +17,7 @@ def index():
 @module.route('/<patient>')
 @login_required
 def show(patient):
+    print(login_fresh())
     response = get(url_for('api.patients.show', patient=patient))
     return render_template('patients/show.html', 
         patient=json.loads(response.text)['patient'])

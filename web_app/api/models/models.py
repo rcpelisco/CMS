@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(45), nullable=False)
     username = db.Column(db.String(45), nullable=False)
     password = db.Column(db.String(191), nullable=False)
+    slug = db.Column(db.String(90), nullable=False)
     created_at = db.Column(db.DateTime, default=func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=func.current_timestamp(), 
         onupdate=func.current_timestamp())

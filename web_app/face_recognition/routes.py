@@ -33,6 +33,11 @@ def recognize():
     return Response(detect(VideoCamera()),
         mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@module.route('/recognize_user')
+def recognize_user():
+    return Response(detect(VideoCamera()),
+        mimetype='multipart/x-mixed-replace; boundary=frame')
+
 @module.route('/collect/<name>')
 def collect(name):
     return Response(record(VideoCamera(name)),

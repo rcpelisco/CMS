@@ -12,8 +12,6 @@ training_dir = os.path.join(BASE_DIR, 'training', 'data.yml')
 image_dir = os.path.join(BASE_DIR, 'images')
 
 face_cascade = cv2.CascadeClassifier(cascades_dir)
-recognizer = cv2.face.LBPHFaceRecognizer_create()
-recognizer.read(training_dir)
 
 font_face = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -29,6 +27,10 @@ class VideoCamera(object):
         self.frames = 0
         self.names = {v:0 for k, v in labels.items()}
         self.data = []
+                
+        self.recognizer = cv2.face.LBPHFaceRecognizer_create()
+        self.recognizer.read(training_dir)
+
         if name is None:
             return 
 
@@ -38,6 +40,12 @@ class VideoCamera(object):
             os.makedirs(self.user_image_dir)
 
         self.last_file = self.get_last_file(self.user_image_dir)
+
+        self.labels = {}
+
+        with open(pickle_dir, 'rb') as f:
+            self.labels = pickle.load(f)
+            self.labels = {v:k for k, v in labels.items()}
 
     def __del__(self):
         self.video.release()
@@ -49,7 +57,7 @@ class VideoCamera(object):
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
         for x, y, w, h in faces:
             roi_gray = gray[y: y + h, x: x + w]
-            id_, conf = recognizer.predict(roi_gray)
+            id_, conf = self.recognizer.predict(roi_gray)
 
             color = (255, 0, 0)
             stroke = 2
@@ -107,6 +115,7 @@ class Trainer(object):
         self.label_ids = {}
         self.y_labels = []
         self.x_train = []
+        self.recognizer = cv2.face.LBPHFaceRecognizer_create()
     
     def train(self):
         for(root, dirs, files) in os.walk(image_dir):
@@ -131,6 +140,6 @@ class Trainer(object):
         with open(pickle_dir, 'wb') as f:
             pickle.dump(self.label_ids, f)
 
-        recognizer.train(self.x_train, np.array(self.y_labels))
-        recognizer.save(training_dir)
+        self.recognizer.train(self.x_train, np.array(self.y_labels))
+        self.recognizer.save(training_dir)
         return 'success'

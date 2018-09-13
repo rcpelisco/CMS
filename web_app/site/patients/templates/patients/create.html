@@ -147,6 +147,7 @@
     $('#streamModal').on('hide.bs.modal', function (e) {
       $('#streamIMG').attr('src', '')
     })
+
     $('#collectDatasetButton').click(function() {
       $('#streamIMG').attr('src', '')
       let slug = $('input[name="first_name"]').val() 
@@ -161,6 +162,7 @@
         })
       }, 2500)
     })
+    
     $('#addPatientForm').submit(function(e) {
       data = JSON.stringify($(this).serializeJSON())
       endpoint = '{{ url_for("api.patients.store") }}'

@@ -80,16 +80,31 @@
 $(function() {
   $('#stream-button').click(function() {
     $('#streamModal').modal()
-    setTimeout(function() {
-      api("{{ url_for('api.face_recognition.index') }}").done(function(data) {
-        window.location = "{{ url_for('patients.index') }}" + data.patient.id
-      })
-    }, 5000)
   })
   
   $('#streamModal').on('show.bs.modal', function (e) {
     $('#streamIMG').attr('src', "{{ url_for('face_recognition.recognize') }}")
+    recognize()
   })
+
+  function recognize() {
+    setTimeout(function() {
+      api("{{ url_for('api.face_recognition.index') }}", 'GET', {}).done(function(response) {
+        swal({
+          'title': 'Is this the patient?',
+          'text': response.patient.first_name + ' ' + response.patient.last_name,
+          'icon': 'info',
+          'buttons': ['No. Recognize again.', true]
+        }).then((result) => {
+          if(result) {
+            window.location = "{{ url_for('patients.index') }}" + response.patient.id
+          } else {
+            recognize()
+          }
+        })
+      })
+    }, 5000)
+  }
 
   $('#streamModal').on('hide.bs.modal', function (e) {
     $('#streamIMG').attr('src', '')

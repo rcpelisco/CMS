@@ -41,6 +41,7 @@ def store():
     
     user.name = json_data['name']
     user.username = json_data['username']
+    user.slug = user.name.replace(' ', '-').lower()
     user.password = generate_password_hash(json_data['password'], method='sha256')
     user.save()
 
@@ -55,6 +56,12 @@ def login():
         return jsonify({'message': 'No input data provided'}), 400
 
     user = User.query.filter_by(username=json_data['username']).first()
+    print(json_data)
+    if 'id' in json_data and user.password == json_data['password']:
+        user_result, error = user_schema.dump(user)
+        login_user(user)
+        return jsonify({'message': 'User successfuly logged in', 'user': user_result})
+
     if user and check_password_hash(user.password, json_data['password']):
         user_result, error = user_schema.dump(user)
         login_user(user)

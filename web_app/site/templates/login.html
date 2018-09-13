@@ -12,7 +12,6 @@
 
 {% block content %}
 <div class="page-header login-page header-filter" filter-color="black">
-  <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
   <div class="container">
     <div class="col-lg-8 col-md-6 col-sm-6 ml-auto mr-auto">
       <div class="card card-login card-hidden">
@@ -30,12 +29,25 @@
                 <p class="description">
                   You can login to this app using face recognition.
                   Based on the collected images you supplied, we can use it to log you in.
-                  <a href="#" class="text-rose">Try it yourself.</a>
+                  <a href="#" id="streamModalButton" class="text-rose">Try it yourself.</a>
+                </p>
+              </div>
+            </div>
+            <div class="info info-horizontal" style="padding: 0 0 0 30px">
+              <div class="icon icon-rose">
+                <i class="material-icons">person</i>
+              </div>
+              <div class="description">
+                <h4 class="info-title">Don't have an account yet?</h4>
+                <p class="description">
+                  To access this app, you need to login but if you don't have an account yet, 
+                  you can sign up.<br>
+                  <a href="{{ url_for('site.register') }}" class="text-rose">Sign up here.</a>
                 </p>
               </div>
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6" style="padding-top: 45px;">
             <form class="form" method="POST" action="">
               <div class="card-body ">
                 <span class="bmd-form-group">
@@ -71,6 +83,26 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="streamModal" tabindex="-1" role="dialog"
+  aria-labelledby="streamModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="streamModalTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img id="streamIMG" style="width: 100%" src="" >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -80,16 +112,54 @@
       $('.card').removeClass('card-hidden')
     }, 700)
 
+    $('#streamModalButton').click(function() {
+      $('#streamModal').modal()
+    })
+
+    $('#streamModal').on('show.bs.modal', function (e) {
+      $('#streamIMG').attr('src', "{{ url_for('face_recognition.recognize') }}")
+      recognize()
+    })
+  
+    function recognize() {
+      setTimeout(function() {
+        api("{{ url_for('api.face_recognition.login') }}", 'GET', {}).done(function(response) {
+          swal({
+            'title': 'Confirm identity',
+            'text': 'Are you ' + response.user.name + '?',
+            'icon': 'info',
+            'buttons': ['No. Recognize again.', true]
+          }).then((result) => {
+            if(result) {
+              console.log(response.user)
+              login(JSON.stringify(response.user))
+            } else {
+              recognize()
+            }
+          })
+        })
+      }, 5000)
+    }
+  
+    $('#streamModal').on('hide.bs.modal', function (e) {
+      $('#streamIMG').attr('src', '')
+    })
+
     $('form').submit(function(e) {
       e.preventDefault()
       let data = JSON.stringify($(this).serializeJSON())
+      login(data)
+    })
+
+    function login(data) {
       api("{{ url_for('api.users.login') }}", "POST", data).done(function(response) {
         let next = $(document).getUrlParam('next')
         if(next) {
           window.location = next
         }
+        window.location = '/patients/'
       })
-    })
+    }
   })
 </script>
 {% endblock %}
