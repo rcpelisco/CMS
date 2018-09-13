@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet" />
     <link href="{{ url_for('static', filename='css/material-dashboard.min.css') }}" rel="stylesheet" />
+    {% block styles %}
+    {% endblock %}
   </head>
 
   <body class="off-canvas-sidebar">
@@ -45,6 +47,7 @@
     <script src="{{ url_for('static', filename='js/plugins/sweetalert2.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plugins/jquery.validate.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plugins/jquery.bootstrap-wizard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plugins/jquery.serializejson.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plugins/bootstrap-selectpicker.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plugins/bootstrap-tagsinput.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plugins/jasny-bootstrap.min.js') }}"></script>
@@ -52,6 +55,7 @@
     <script async defer src="{{ url_for('static', filename='js/plugins/github.buttons.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plugins/chartist.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plugins/bootstrap-notify.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plugins/jquery.getUrlParam.js') }}"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     {% block scripts %}
     {% endblock %}

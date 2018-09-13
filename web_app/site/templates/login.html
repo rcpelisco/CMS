@@ -1,8 +1,17 @@
 {% extends 'slave.html' %}
 
+{% block styles %}
+<style>
+  .page-header {
+    background-image: url("{{ url_for('static', filename='img/login.jpg')}}");
+    background-size: cover; 
+    background-position: top center;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="page-header login-page header-filter" filter-color="black" 
-  style="background-image: url({{ url_for('static', filename='img/login.jpg')}}); background-size: cover; background-position: top center;">
+<div class="page-header login-page header-filter" filter-color="black">
   <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
   <div class="container">
     <div class="col-lg-8 col-md-6 col-sm-6 ml-auto mr-auto">
@@ -27,7 +36,7 @@
             </div>
           </div>
           <div class="col-lg-6">
-            <form class="form" method="" action="">
+            <form class="form" method="POST" action="">
               <div class="card-body ">
                 <span class="bmd-form-group">
                   <div class="input-group">
@@ -36,7 +45,7 @@
                         <i class="material-icons">face</i>
                       </span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Username" required>
+                    <input type="text" class="form-control" name="username" placeholder="Username" required>
                   </div>
                 </span>
                 <span class="bmd-form-group">
@@ -46,7 +55,7 @@
                         <i class="material-icons">lock_outline</i>
                       </span>
                     </div>
-                    <input type="password" class="form-control" placeholder="Password" required>
+                    <input type="password" class="form-control" name="password" placeholder="Password" required>
                   </div>
                 </span>
               </div>
@@ -71,11 +80,14 @@
       $('.card').removeClass('card-hidden')
     }, 700)
 
-    $('form').click(function(e) {
-      e.prevendDefault()
+    $('form').submit(function(e) {
+      e.preventDefault()
       let data = JSON.stringify($(this).serializeJSON())
       api("{{ url_for('api.users.login') }}", "POST", data).done(function(response) {
-        console.log(response)
+        let next = $(document).getUrlParam('next')
+        if(next) {
+          window.location = next
+        }
       })
     })
   })

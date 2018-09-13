@@ -1,5 +1,5 @@
 from flask import Flask
-from extension import db
+from extension import db, login_manager
 
 from filters import format_date, format_datetime, format_age
 
@@ -23,6 +23,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/cms'
 app.config["JSON_SORT_KEYS"] = False
 
 db.init_app(app)
+login_manager.init_app(app)
 
 with app.app_context():
     db.create_all()

@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from flask_login import LoginManager
 
 naming_convention={
     'pk': 'pk_%(table_name)s',
@@ -12,3 +13,5 @@ naming_convention={
 metadata = MetaData(naming_convention=naming_convention)
 
 db = SQLAlchemy(metadata=metadata)
+login_manager = LoginManager()
+login_manager.login_view = 'site.login'

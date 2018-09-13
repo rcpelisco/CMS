@@ -1,8 +1,15 @@
 {% extends 'slave.html' %}
 
+{% block styles %}
+<style>
+  .page-header {
+    background-image: url("{{ url_for('static', filename='img/register.jpg') }}")
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="page-header register-page header-filter" filter-color="black" 
-  style="background-image: url({{ url_for('static', filename='img/register.jpg') }})">
+<div class="page-header register-page header-filter" filter-color="black">
   <div class="container">
     <div class="row">
       <div class="col-md-5 ml-auto mr-auto">

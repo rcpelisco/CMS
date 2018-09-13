@@ -1,13 +1,28 @@
-from ...extension import db
+from ...extension import db, login_manager
+from flask_login import UserMixin
 from mixins import BasicMixin
 from custom_enum import Gender, CivilStatus
+from sqlalchemy.sql import func
 
-class User(BasicMixin, db.Model):
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(45), nullable=False)
     username = db.Column(db.String(45), nullable=False)
     password = db.Column(db.String(191), nullable=False)
+    created_at = db.Column(db.DateTime, default=func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=func.current_timestamp(), 
+        onupdate=func.current_timestamp())
+
+    def save(self):
+        if self.id is None:
+            db.session.add(self)
+        db.session.commit()
 
 class Patient(BasicMixin, db.Model):
     __tablename__ = 'patients'
