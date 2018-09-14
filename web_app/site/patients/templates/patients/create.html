@@ -76,7 +76,8 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-success pull-right">Add Patient</button>
+        <button type="submit" class="btn btn-success pull-right" 
+          id="addPatientButton">Add Patient</button>
         <div class="clearfix"></div>
       </form>
     </div>
@@ -149,9 +150,10 @@
     })
 
     $('#collectDatasetButton').click(function() {
+      $('#addPatientButton').attr('disabled', true)
       $('#streamIMG').attr('src', '')
       let slug = $('input[name="first_name"]').val() 
-        + ' ' + $('input[name="last_name"]').val()
+      + ' ' + $('input[name="last_name"]').val()
       slug = slug.split(' ').join('-').toLowerCase()
       $('#streamIMG').attr('src', "/face_recognition/collect/" + slug)
       setTimeout(function() {
@@ -159,6 +161,7 @@
         $('#streamModal').modal('toggle')
         api("{{ url_for('face_recognition.train') }}", 'GET', {}).done(function() {
           $('#addPatientForm').submit()
+          $('#addPatientButton').removeAttr('disabled')
           notify('Done training data!', 'success')
         })
       }, 2500)

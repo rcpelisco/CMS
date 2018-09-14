@@ -81,7 +81,7 @@
                   Already have an account? <a class="text-rose" href="{{ url_for('site.login') }}">Login here.</a>
                 </label>
               </div>
-              <button type="submit" class="btn btn-rose">Register</button>
+              <button type="submit" class="btn btn-rose" id="registerButton">Register</button>
             </div>
           </form>
         </div>
@@ -116,6 +116,10 @@
   $(function() {
     $('.card.card-wizard').addClass('active')
 
+    $('input[name="name"]').keyup(function() {
+      
+    })
+
     $('form').validate({
       submitHandler: function(form, event) {
         event.preventDefault()
@@ -124,7 +128,10 @@
     })
 
     $('.picture').click(function() {
-      $('#streamModal').modal()
+      let length = $('input[name="name"]').val().length
+      if(length > 1) {
+        $('#streamModal').modal()
+      }
     })
     
     $('#streamModal').on('show.bs.modal', function (e) {
@@ -136,6 +143,7 @@
     })
 
     $('#collectDatasetButton').click(function() {
+      $('#registerButton').attr('disabled', true)
       $('#streamIMG').attr('src', '')
       let slug = $('input[name="name"]').val()
       slug = slug.split(' ').join('-').toLowerCase()
@@ -145,6 +153,7 @@
         $('#streamModal').modal('toggle')
         api("{{ url_for('face_recognition.train') }}", 'GET', {}).done(function() {
           notify('Done training data!', 'success')
+          $('#registerButton').removeAttr('disabled')
         })
       }, 2500)
     })
