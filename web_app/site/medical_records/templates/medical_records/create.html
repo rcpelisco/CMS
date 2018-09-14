@@ -65,17 +65,23 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-5">
             <div class="form-group">
               <label class="bmd-label-floating">Treatment</label>
               <input type="text" class="form-control" name="treatment" required>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="form-group">
               <label class="bmd-label-floating">Medical Status</label>
+              <input type="text" class="form-control" name="medical_status" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Medical Case</label>
               <div class="dropdown bootstrap-select show-tick dropup">
-                <select class="selectpicker" name="medical_status" data-style="select-with-transition" required>
+                <select class="selectpicker" name="medical_case" data-style="select-with-transition" required>
                   <option disabled=""> EENT</option>
                   <option value="nose bleeding">nose bleeding</option>
                   <option value="redness of eye">redness of eye</option>

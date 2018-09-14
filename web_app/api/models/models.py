@@ -53,12 +53,13 @@ class MedicalRecord(BasicMixin, db.Model):
     diagnosis = db.Column(db.String(45), nullable=False)
     treatment = db.Column(db.String(45), nullable=False)
     medical_status = db.Column(db.String(191), nullable=False)
+    medical_case = db.Column(db.String(191), nullable=False)
     note = db.Column(db.String(191))
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
     patient = db.relationship('Patient', back_populates='medical_records')
 
     def report(self):
-        query = db.engine.execute('SELECT COUNT(`medical_status`) as `count`, `medical_status` as `name` FROM `medical_records` GROUP BY `medical_status`')
+        query = db.engine.execute('SELECT COUNT(`medical_case`) as `count`, `medical_case` as `name` FROM `medical_records` GROUP BY `medical_case`')
         return query
 
 class FaceRecognition(BasicMixin, db.Model):

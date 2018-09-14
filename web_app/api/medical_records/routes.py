@@ -56,6 +56,7 @@ def store():
     medical_record.temperature = json_data['temperature']
     medical_record.treatment = json_data['treatment']
     medical_record.medical_status = json_data['medical_status']
+    medical_record.medical_case = json_data['medical_case']
     medical_record.weight = json_data['weight']
     medical_record.save()
 
@@ -79,60 +80,59 @@ def report():
     query = MedicalRecord().report()
     status = [
         {'category': 'EENT', 'medical_status': [
-            {'name': 'nose bleeding', 'count': 0},
-            {'name': 'redness of eye', 'count': 0},
-            {'name': 'lip bleeding', 'count': 0}
+            {'medical_case': 'nose bleeding', 'count': 0},
+            {'medical_case': 'redness of eye', 'count': 0},
+            {'medical_case': 'lip bleeding', 'count': 0}
         ]},
         {'category': 'CARDIO VASCULAR', 'medical_status': [
-            {'name': 'chest pain', 'count': 0}
+            {'medical_case': 'chest pain', 'count': 0}
         ]},
         {'category': 'RESPIRATORY', 'medical_status': [
-            {'name': 'colds', 'count': 0},
-            {'name': 'cough', 'count': 0}
+            {'medical_case': 'colds', 'count': 0},
+            {'medical_case': 'cough', 'count': 0}
         ]},
         {'category': 'GASTROINTESTINAL', 'medical_status': [
-            {'name': 'hyperacidity', 'count': 0},
-            {'name': 'LBM', 'count': 0},
-            {'name': 'stomachache', 'count': 0},
-            {'name': 'vomiting', 'count': 0}
+            {'medical_case': 'hyperacidity', 'count': 0},
+            {'medical_case': 'LBM', 'count': 0},
+            {'medical_case': 'stomachache', 'count': 0},
+            {'medical_case': 'vomiting', 'count': 0}
         ]},
         {'category': 'MUSCULOSKELETAL', 'medical_status': [
-            {'name': 'body malaise', 'count': 0},
-            {'name': 'muscle pain', 'count': 0}
+            {'medical_case': 'body malaise', 'count': 0},
+            {'medical_case': 'muscle pain', 'count': 0}
         ]},
         {'category': 'DERMA', 'medical_status': [
-            {'name': 'hypersensitivity', 'count': 0},
-            {'name': 'insect bite', 'count': 0},
-            {'name': 'blisters', 'count': 0}
+            {'medical_case': 'hypersensitivity', 'count': 0},
+            {'medical_case': 'insect bite', 'count': 0},
+            {'medical_case': 'blisters', 'count': 0}
         ]},
         {'category': 'SURGICAL', 'medical_status': [
-            {'name': 'abrasion', 'count': 0}
+            {'medical_case': 'abrasion', 'count': 0}
         ]},
         {'category': 'DENTAL', 'medical_status': [
-            {'name': 'toothache', 'count': 0},
-            {'name': 'consultations', 'count': 0}
+            {'medical_case': 'toothache', 'count': 0},
+            {'medical_case': 'consultations', 'count': 0}
         ]},
         {'category': 'NEUROLOGICAL', 'medical_status': [
-            {'name': 'dizziness', 'count': 0},
-            {'name': 'fever', 'count': 0},
-            {'name': 'headache', 'count': 0}
+            {'medical_case': 'dizziness', 'count': 0},
+            {'medical_case': 'fever', 'count': 0},
+            {'medical_case': 'headache', 'count': 0}
         ]},
         {'category': 'REPRODUCTIVE', 'medical_status': [
-            {'name': 'dysmenorrhea', 'count': 0}
+            {'medical_case': 'dysmenorrhea', 'count': 0}
         ]},
         {'category': 'MISCELLANEOUS', 'medical_status': [
-            {'name': 'BP TAKING', 'count': 0},
-            {'name': 'OTHER CONSULTATIONS', 'count': 0}
+            {'medical_case': 'BP TAKING', 'count': 0},
+            {'medical_case': 'OTHER CONSULTATIONS', 'count': 0}
         ]}
     ]
-
-    for category in status:
-            for count, name in query:
-                for item in category['medical_status']:
-                    print(item['name'], name)
-                    if item['name'] == name:
-                        item['count'] = count
-                        continue
+    
+    for count, medical_case in query:
+        for category in status:
+            for item in category['medical_status']:
+                if item['medical_case'] == medical_case:
+                    item['count'] = count
+                    break
 
     dump, errors = category_schema.dump(status, many=True)
-    return jsonify({'report': dump})
+    return jsonify({'medical_report': dump})

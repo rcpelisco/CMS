@@ -27,23 +27,25 @@ class MedicalRecordSchema(Schema):
     complaint = String()
     diagnosis = String()
     treatment = String()
-    medical_status = String()
+    medical_case = String()
+    medical_report = String()
     note = String()
     patient = Nested('PatientSchema', exclude=('medical_records', ))
     created_at = DateTime('%Y-%m-%d %H:%M:%S')
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
 
     class Meta:
-        fields = ('id', 'height', 'weight', 'bmi', 'bp', 'pr', 'temperature', 'complaint', 
-            'diagnosis', 'treatment', 'medical_status', 'note', 'patient', 'created_at', 'updated_at')
+        fields = ('id', 'height', 'weight', 'bmi', 'bp', 'pr', 'temperature', 
+            'complaint', 'diagnosis', 'treatment', 'medical_case', 'medical_report', 'note', 
+            'patient', 'created_at', 'updated_at')
         ordered=True
 
 class ReportSchema(Schema):
-    name = String()
+    medical_case = String()
     count = Integer()
 
     class Meta:
-        fields = ('count', 'name')
+        fields = ('count', 'medical_case')
         ordered=True
 
 class CategorySchema(Schema):

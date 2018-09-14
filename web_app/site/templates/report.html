@@ -15,14 +15,14 @@
       <table class="table table-hover">
         <thead class="text-rose">
           <tr>
-            <th>Medical Status</th>
+            <th>Medical Case</th>
             <th>Count</th>
           </tr>
         </thead>
         <tbody>
           {% for status in item.medical_status %}
           <tr>
-            <td>{{ status.name }}</td>
+            <td>{{ status.medical_case }}</td>
             <td>{{ status.count }}</td>
           </tr>
           {% endfor %}

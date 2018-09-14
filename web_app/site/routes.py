@@ -14,7 +14,7 @@ def index():
 @login_required
 def report():
     response = get(url_for('api.medical_records.report'))
-    return render_template('report.html', data=json.loads(response.text)['report'])
+    return render_template('report.html', data=json.loads(response.text)['medical_report'])
 
 @module.route('/login')
 def login():
