@@ -108,7 +108,20 @@ $(function() {
     })
   })
   $('#stream-button').click(function() {
-    $('#streamModal').modal()
+    passwordSWAL().then((result) => {
+      let data = {
+        username: '{{ current_user.username }}',
+        password: result
+      }
+      api("{{ url_for('api.users.check_password') }}", 'POST', JSON.stringify(data)).done(function(result) {
+        if(result.message == "Credentials are correct") {
+          $('#streamModal').modal()
+          return
+        }
+        notify('Incorrect password', 'danger')
+      })
+    })
+    
   })
   
   $('#streamModal').on('show.bs.modal', function (e) {
@@ -122,10 +135,14 @@ $(function() {
         if($.isEmptyObject(response.patient)) {
           console.log($.isEmptyObject(response.patient))
           swal({
-            'title': 'Unknown?',
-            'text': 'Face is unknown',
-            'buttons': ['Close']
+            'title': 'Unknown',
+            'text': 'Face is unknown. Do you want to add new patient?',
+            'buttons': ['Cancel', 'Add new patient']
           }).then((result) => {
+            if(result) {
+              window.location = "{{ url_for('patients.create') }}"
+              return
+            }
             $('#streamModal').modal('hide')
           })
         } else {
@@ -133,8 +150,19 @@ $(function() {
             'title': 'Is this the patient?',
             'text': response.patient.first_name + ' ' + response.patient.last_name,
             'icon': 'info',
-            'buttons': ['No. Recognize again.', true]
+            'buttons': {
+              'cancel': 'Cancel',
+              'retry': {
+                'text': 'No. Recognize again.',
+                'value': false
+              },
+              'yes': true
+            }
           }).then((result) => {
+            if(result == null) {
+              $('#streamModal').modal('hide')
+              return
+            }
             if(result) {
               window.location = "{{ url_for('patients.index') }}" + response.patient.id
             } else {

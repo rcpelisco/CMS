@@ -137,10 +137,20 @@
               'title': 'Confirm identity',
               'text': 'Are you ' + response.user.name + '?',
               'icon': 'info',
-              'buttons': ['No. Recognize again.', true]
+              'buttons': {
+                'cancel': 'Cancel',
+                'retry': {
+                  'text': 'No. Recognize again.',
+                  'value': false
+                },
+                'yes': true
+              }
             }).then((result) => {
+              if(result == null) {
+                $('#streamModal').modal('hide')
+                return
+              }
               if(result) {
-                console.log(response.user)
                 login(JSON.stringify(response.user))
               } else {
                 recognize()
