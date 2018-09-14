@@ -124,19 +124,29 @@
     function recognize() {
       setTimeout(function() {
         api("{{ url_for('api.face_recognition.login') }}", 'GET', {}).done(function(response) {
-          swal({
-            'title': 'Confirm identity',
-            'text': 'Are you ' + response.user.name + '?',
-            'icon': 'info',
-            'buttons': ['No. Recognize again.', true]
-          }).then((result) => {
-            if(result) {
-              console.log(response.user)
-              login(JSON.stringify(response.user))
-            } else {
-              recognize()
-            }
-          })
+          if($.isEmptyObject(response.user)) {
+            swal({
+              'title': 'Unknown?',
+              'text': 'Face is unknown',
+              'buttons': ['Close']
+            }).then((result) => {
+              $('#streamModal').modal('hide')
+            })
+          } else {
+            swal({
+              'title': 'Confirm identity',
+              'text': 'Are you ' + response.user.name + '?',
+              'icon': 'info',
+              'buttons': ['No. Recognize again.', true]
+            }).then((result) => {
+              if(result) {
+                console.log(response.user)
+                login(JSON.stringify(response.user))
+              } else {
+                recognize()
+              }
+            })
+          }
         })
       }, 5000)
     }

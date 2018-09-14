@@ -4,22 +4,22 @@
 
 {% block content %}
 <div class="card">
-  <div class="card-header card-header-primary">
+  <div class="card-header card-header-rose">
     <div style="display: inline;">
       <h4 style="display: inline;" class="card-title ">Patients list</h4><br>
       <p style="display: inline;" class="card-category">These are all the patients currently registered</p>
     </div>
     <div class="pull-right" style="margin-top: -25px;">
-      <button class="btn btn-primary" id="stream-button">
+      <button class="btn btn-rose" id="stream-button">
         <i class="material-icons">visibility</i></button>
-      <a class="btn btn-primary" href="{{ url_for('patients.create') }}">
+      <a class="btn btn-rose" href="{{ url_for('patients.create') }}">
         <i class="material-icons">add</i> Add Patient</a>
     </div>
   </div>
   <div class="card-body">
     <div class="table-responsive">
       <table class="table">
-        <thead class=" text-primary">
+        <thead class=" text-rose">
           <tr>
             <th>Name</th>
             <th>Address</th>

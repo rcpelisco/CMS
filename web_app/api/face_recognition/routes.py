@@ -29,7 +29,7 @@ def login():
     if face_recognition is None:
         return jsonify({'message': 'Face recognition record not found!'}), 400
     face_recognition, errors = face_recognition_schema.dump(face_recognition)
-    user = User.query.filter(User.slug == face_recognition['name']).one()
+    user = User.query.filter(User.slug == face_recognition['name']).one_or_none()
     user, errors = user_schema.dump(user)
     return jsonify({'user': user})
 
