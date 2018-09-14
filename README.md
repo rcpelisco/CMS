@@ -1,11 +1,6 @@
 CMS
 ===
 
-Clinic Management System
-------------------------
-
-Clinic Management System with face recognition using LBPH algorithm
-
 Installation
 ------------
 You should have Python2.7.x installed on your machine. 
