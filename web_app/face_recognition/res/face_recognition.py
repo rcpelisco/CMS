@@ -19,18 +19,27 @@ class VideoCamera(object):
         self.video = cv2.VideoCapture(0)
         self.frames = 0
         self.labels = {}
-        
-        self.pickle_dir = os.path.join(BASE_DIR, 'pickle', 'labels.pickle')
-        self.training_dir = os.path.join(BASE_DIR, 'training', 'data.yml')
-
-        with open(self.pickle_dir, 'rb') as f:
-            self.labels = pickle.load(f)
-            self.labels = {v:k for k, v in self.labels.items()}
-        self.names = {v:0 for k, v in self.labels.items()}
+        self.names = None
         self.data = []
-                
+        if not os.path.exists(os.path.join(BASE_DIR, 'pickle')):
+            os.makedirs(os.path.join(BASE_DIR, 'pickle'))
+
+        if not os.path.exists(os.path.join(BASE_DIR, 'training')):
+            os.makedirs(os.path.join(BASE_DIR, 'training'))
+
+        self.pickle_dir = os.path.join(BASE_DIR, 'pickle', 'labels.pickle')
+        
+        self.training_dir = os.path.join(BASE_DIR, 'training', 'data.yml')
         self.recognizer = cv2.face.LBPHFaceRecognizer_create()
-        self.recognizer.read(self.training_dir)
+
+        try:
+            with open(self.pickle_dir, 'rb') as f:
+                self.labels = pickle.load(f)
+                self.labels = {v:k for k, v in self.labels.items()}
+            self.names = {v:0 for k, v in self.labels.items()}
+            self.recognizer.read(self.training_dir)
+        except IOError:
+            print('file not found')
 
         if name is None:
             return 
@@ -52,7 +61,9 @@ class VideoCamera(object):
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
         for x, y, w, h in faces:
             roi_gray = gray[y: y + h, x: x + w]
-            id_, conf = self.recognizer.predict(roi_gray)
+
+            if with_name:
+                id_, conf = self.recognizer.predict(roi_gray)
 
             color = (255, 0, 0)
             stroke = 2
@@ -67,13 +78,14 @@ class VideoCamera(object):
                 cv2.putText(frame, text, (x, y), font_face, .75, color, stroke, cv2.LINE_AA)
                 continue
 
-            if conf >= 40 and with_name:
-                self.frames += 1
-                self.names[self.labels[id_]] += 1
-                text = self.labels[id_] + ' - ' + str(conf)
-                color = (255, 255, 100)
-                stroke = 2
-                cv2.putText(frame, text, (x, y), font_face, 1, color, stroke, cv2.LINE_AA)
+            if with_name:
+                if conf >= 40:
+                    self.frames += 1
+                    self.names[self.labels[id_]] += 1
+                    text = self.labels[id_] + ' - ' + str(conf)
+                    color = (255, 255, 100)
+                    stroke = 2
+                    cv2.putText(frame, text, (x, y), font_face, 1, color, stroke, cv2.LINE_AA)
 
             if record: 
                 self.frames += 1
@@ -84,11 +96,12 @@ class VideoCamera(object):
                 cv2.imwrite(os.path.join(self.user_image_dir, 
                     str(self.frames + int(self.last_file)) + '.jpg'), roi_gray)
                 print(os.path.join(self.user_image_dir, str(self.frames + int(self.last_file)) + '.jpg'))
+
         ret, jpeg = cv2.imencode('.jpg', frame)
         return {
             'image': jpeg.tobytes(),
             'frames': self.frames, 
-            'patient': max(self.names.items(), key=operator.itemgetter(1))[0]
+            'patient': max(self.names.items(), key=operator.itemgetter(1))[0] if with_name else ''
         }
 
     def get_last_file(self, user_image_dir):
