@@ -8,7 +8,7 @@
     {% for record in patient.medical_records|sort(True, attribute='id') %}
     <div class="card-{{ record.id }}">
       <div class="card">
-        <div class="card-header card-header-success">
+        <div class="card-header card-header-rose">
           <h4 class="card-title">{{ record.diagnosis }}</h4>
           <p class="card-category">{{ record.created_at|datetime }}</p>
         </div>
@@ -186,7 +186,7 @@
         </div>
       </div>
       <hr>
-      <a href="#" class="btn btn-primary btn-round btn-create-record">Add Medical Record</a>
+      <a href="#" class="btn btn-rose btn-round btn-create-record">Add Medical Record</a>
         
       <a href="{{ url_for('patients.edit', patient=patient.id) }}" 
         class="btn btn-info btn-round">Edit Patient</a>

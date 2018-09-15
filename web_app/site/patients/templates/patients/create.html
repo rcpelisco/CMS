@@ -5,7 +5,7 @@
 {% block content %}
 <div class="col-md-8">
   <div class="card">
-    <div class="card-header card-header-success">
+    <div class="card-header card-header-rose">
       <h4 class="card-title">Add Patient</h4>
       <p class="card-category">Fill up the patient's basic information</p>
     </div>
@@ -13,7 +13,7 @@
       <form method="POST" id="addPatientForm">
         <div class="row">
           <div class="col-md-6">
-            <div class="form-group form-group-success">
+            <div class="form-group">
               <label class="bmd-label-floating">Fist Name</label>
               <input type="text" class="form-control" name="first_name" required>
             </div>
@@ -76,7 +76,7 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-success pull-right" 
+        <button type="submit" class="btn btn-rose pull-right" 
           id="addPatientButton">Add Patient</button>
         <div class="clearfix"></div>
       </form>
@@ -93,7 +93,7 @@
         The button will be enabled once the required fields are supplied.
       </p>
       <button id="streamModalButton" type="button" 
-        class="btn btn-info btn-round" disabled>Collect data-set</button>
+        class="btn btn-info btn-round" disabled>Collect Face Recognition Data</button>
     </div>
   </div>
 </div>
