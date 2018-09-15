@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
   <head>
     <title>CMS</title>
     <!-- Required meta tags -->
@@ -8,16 +7,12 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css" 
-      href="{{ url_for('static', filename='css/fonts.css') }}" />
-    <link rel="stylesheet" 
-      href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
     <!-- Material Kit CSS -->
     <link href="{{ url_for('static', filename='css/material-dashboard.min.css') }}" rel="stylesheet" />
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
-    
   </head>
-
   <body class="dark-edition">
     <div class="wrapper ">
       <!-- Sidebar -->
@@ -89,5 +84,4 @@
     {% block scripts %}
     {% endblock %}
   </body>
-
 </html>
