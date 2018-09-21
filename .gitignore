@@ -17,5 +17,6 @@ build/
 **/res/images/*
 **/res/pickle/*
 **/res/training/*
-web_app/static/.webassets-cache/*
-web_app/static/bundle/*
+
+web_app/static/.webassets-cache
+web_app/static/bundle
