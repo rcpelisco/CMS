@@ -120,45 +120,57 @@
       $('#streamIMG').attr('src', "{{ url_for('face_recognition.recognize') }}")
       recognize()
     })
-  
+    
     function recognize() {
-      setTimeout(function() {
-        api("{{ url_for('api.face_recognition.login') }}", 'GET', {}).done(function(response) {
-          if($.isEmptyObject(response.user)) {
-            swal({
-              'title': 'Unknown?',
-              'text': 'Face is unknown',
-              'buttons': ['Close']
-            }).then((result) => {
-              $('#streamModal').modal('hide')
-            })
-          } else {
-            swal({
-              'title': 'Confirm identity',
-              'text': 'Are you ' + response.user.name + '?',
-              'icon': 'info',
-              'buttons': {
-                'cancel': 'Cancel',
-                'retry': {
-                  'text': 'No. Recognize again.',
-                  'value': false
-                },
-                'yes': true
-              }
-            }).then((result) => {
-              if(result == null) {
-                $('#streamModal').modal('hide')
-                return
-              }
-              if(result) {
-                login(JSON.stringify(response.user))
+      let interval = setInterval(function() {
+        api("{{ url_for('api.face_recognition.recording') }}", 'GET', {}).done(function(response) {
+          if(response.result.fresh == 1) {
+            clearInterval(interval)
+            api("{{ url_for('api.face_recognition.index') }}", 'GET', {}).done(function(response) {
+              if($.isEmptyObject(response.patient)) {
+                console.log($.isEmptyObject(response.patient))
+                swal({
+                  'title': 'Unknown',
+                  'text': 'Face is unknown. Do you want to add new patient?',
+                  'buttons': ['Cancel', 'Add new patient']
+                }).then((result) => {
+                  api("{{ url_for('api.face_recognition.store') }}", 'POST', 
+                    JSON.stringify({'name': response.patient.slug, 'fresh': 0}))
+                  if(result) {
+                    window.location = "{{ url_for('patients.create') }}"
+                    return
+                  }
+                  $('#streamModal').modal('hide')
+                })
               } else {
-                recognize()
+                swal({
+                  'title': 'Is this the patient?',
+                  'text': response.patient.first_name + ' ' + response.patient.last_name,
+                  'icon': 'info',
+                  'buttons': {
+                    'cancel': 'Cancel',
+                    'retry': {
+                      'text': 'No. Recognize again.',
+                      'value': false
+                    },
+                    'yes': true
+                  }
+                }).then((result) => {
+                  if(result == null) {
+                    $('#streamModal').modal('hide')
+                    return
+                  }
+                  if(result) {
+                    window.location = "{{ url_for('patients.index') }}" + response.patient.id
+                  } else {
+                    recognize()
+                  }
+                })
               }
             })
           }
         })
-      }, 5000)
+      }, 500)
     }
   
     $('#streamModal').on('hide.bs.modal', function (e) {

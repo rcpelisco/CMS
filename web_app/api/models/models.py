@@ -66,3 +66,4 @@ class FaceRecognition(BasicMixin, db.Model):
     __tablename__ = 'face_recognition'
 
     name = db.Column(db.String(30), nullable=False)
+    fresh = db.Column(db.Integer)

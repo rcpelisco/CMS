@@ -161,13 +161,21 @@
         + ' ' + $('input[name="last_name"]').val()
       slug = slug.split(' ').join('-').toLowerCase()
       $('#streamIMG').attr('src', "/face_recognition/collect/" + slug)
-      setTimeout(function() {
-        notify('Please wait while the server is training the data', 'success', 'Done recording!')
-        $('#streamModal').modal('toggle')
-        api("{{ url_for('face_recognition.train') }}", 'GET', {}).done(function() {
-          notify('Done training data!', 'success')
+      let interval = setInterval(function() {
+        api("{{ url_for('api.face_recognition.recording') }}", 'GET', {}).done(function(response) {
+          console.log(response.result)
+          if(response.result.fresh == 1) {
+            clearInterval(interval)
+            api("{{ url_for('api.face_recognition.store') }}", 'POST', 
+              JSON.stringify({'name': 'new-face', 'fresh': 0}))
+            $('#streamModal').modal('toggle')
+            notify('Please wait while the server is training the data', 'success', 'Done recording!')
+            api("{{ url_for('face_recognition.train') }}", 'GET', {}).done(function() {
+              notify('Done training data!', 'success')
+            })
+          }
         })
-      }, 2500)
+      }, 500)
     })
     $('#addPatientForm').submit(function(e) {
       let data = JSON.stringify($(this).serializeJSON())

@@ -13,13 +13,15 @@ def detect(camera, with_name=True):
     while True:
         data = camera.detect(with_name)
         if(data['frames'] == 10 and with_name):
-            post('/api/face_recognition/', {'name': data['patient']})
+            post('/api/face_recognition/', {'name': data['patient'], 'fresh': 1})
         yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + data['image'] + b'\r\n\r\n')
 
 def record(camera):
     while True:
         data = camera.detect(with_name=False, record=True)
+        if data['frames'] == 20:
+            post('/api/face_recognition/', {'name': 'new-face', 'fresh': 1})
         yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + data['image'] + b'\r\n\r\n')
 

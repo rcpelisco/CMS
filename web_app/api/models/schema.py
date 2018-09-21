@@ -1,5 +1,5 @@
 from marshmallow import Schema, pre_dump
-from marshmallow.fields import String, Integer, DateTime, Date, Nested
+from marshmallow.fields import String, Integer, DateTime, Date, Nested, Boolean
 from marshmallow_enum import EnumField
 from custom_enum import Gender, CivilStatus
 
@@ -76,6 +76,7 @@ class PatientSchema(Schema):
 class FaceRecognitionSchema(Schema):
     id = Integer()
     name = String()
+    fresh = Integer()
     created_at = DateTime('%Y-%m-%d %H:%M:%S')
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
         

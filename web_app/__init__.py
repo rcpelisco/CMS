@@ -1,6 +1,5 @@
 from flask import Flask
-from extension import db, login_manager
-
+from extension import db, login_manager, assets, js, css
 from filters import format_date, format_datetime, format_age
 
 from api.routes import module
@@ -24,6 +23,7 @@ app.config["JSON_SORT_KEYS"] = False
 
 db.init_app(app)
 login_manager.init_app(app)
+assets.init_app(app)
 
 with app.app_context():
     db.create_all()
@@ -45,3 +45,6 @@ app.register_blueprint(site.patients.routes.module, url_prefix='/patients')
 app.register_blueprint(site.medical_records.routes.module, url_prefix='/medical_records')
 
 app.register_blueprint(face_recognition.routes.module, url_prefix='/face_recognition')
+
+assets.register('js', js)
+assets.register('css', css)
