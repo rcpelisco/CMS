@@ -16,3 +16,9 @@ or
 Install required packages from .extra\requirements.txt using:
 
     py -2 -m pip install -r .\.extra\requirements.txt
+
+Create a database named 'CMS'
+
+Run the app using:
+
+    python .\app.py
