@@ -116,10 +116,6 @@
   $(function() {
     $('.card.card-wizard').addClass('active')
 
-    $('input[name="name"]').keyup(function() {
-      
-    })
-
     $('form').validate({
       submitHandler: function(form, event) {
         event.preventDefault()
@@ -130,6 +126,8 @@
     $('.picture').click(function() {
       let length = $('input[name="name"]').val().length
       if(length > 1) {
+        api("{{ url_for('api.face_recognition.store') }}", 'POST', 
+          JSON.stringify({'name': 'new-face', 'fresh': 0}))
         $('#streamModal').modal()
       }
     })
@@ -159,6 +157,7 @@
             notify('Please wait while the server is training the data', 'success', 'Done recording!')
             api("{{ url_for('face_recognition.train') }}", 'GET', {}).done(function() {
               notify('Done training data!', 'success')
+              $('#registerButton').attr('disabled', false)
             })
           }
         })

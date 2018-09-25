@@ -67,10 +67,6 @@
       <div class="modal-body">
         <img id="streamIMG" style="width: 100%" src="" >
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
     </div>
   </div>
 </div>
@@ -107,6 +103,7 @@ $(function() {
       })
     })
   })
+
   $('#stream-button').click(function() {
     passwordSWAL().then((result) => {
       let data = {
@@ -125,12 +122,14 @@ $(function() {
   })
   
   $('#streamModal').on('show.bs.modal', function (e) {
-    $('#streamIMG').attr('src', "{{ url_for('face_recognition.recognize') }}")
+    api("{{ url_for('api.face_recognition.store') }}", 'POST', 
+          JSON.stringify({'name': 'new-face', 'fresh': 0}))
     recognize()
   })
 
   function recognize() {
     let interval = setInterval(function() {
+      $('#streamIMG').attr('src', "{{ url_for('face_recognition.recognize') }}")
       api("{{ url_for('api.face_recognition.recording') }}", 'GET', {}).done(function(response) {
         if(response.result.fresh == 1) {
           clearInterval(interval)
@@ -170,9 +169,12 @@ $(function() {
                 }
                 if(result) {
                   window.location = "{{ url_for('patients.index') }}" + response.patient.id
-                } else {
-                  recognize()
+                  return
                 }
+                $('#streamIMG').attr('src', "asd")
+                api("{{ url_for('api.face_recognition.store') }}", 'POST', 
+                  JSON.stringify({'name': 'new-face', 'fresh': 0}))
+                recognize()
               })
             }
           })

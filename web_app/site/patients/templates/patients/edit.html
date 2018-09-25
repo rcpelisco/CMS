@@ -82,7 +82,7 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-rose pull-right">Save</button>
+        <button type="submit" class="btn btn-rose pull-right" id="saveButton">Save</button>
         <div class="clearfix"></div>
       </form>
     </div>
@@ -156,14 +156,15 @@
     })
 
     $('#collectDatasetButton').click(function() {
+      $('.modal-footer').hide()
+      $('#saveButton').attr('disabled', true)
       $('#streamIMG').attr('src', '')
       let slug = $('input[name="first_name"]').val() 
-        + ' ' + $('input[name="last_name"]').val()
+      + ' ' + $('input[name="last_name"]').val()
       slug = slug.split(' ').join('-').toLowerCase()
       $('#streamIMG').attr('src', "/face_recognition/collect/" + slug)
       let interval = setInterval(function() {
         api("{{ url_for('api.face_recognition.recording') }}", 'GET', {}).done(function(response) {
-          console.log(response.result)
           if(response.result.fresh == 1) {
             clearInterval(interval)
             api("{{ url_for('api.face_recognition.store') }}", 'POST', 
@@ -172,10 +173,12 @@
             notify('Please wait while the server is training the data', 'success', 'Done recording!')
             api("{{ url_for('face_recognition.train') }}", 'GET', {}).done(function() {
               notify('Done training data!', 'success')
+              $('#saveButton').attr('disabled', false)
             })
           }
         })
       }, 500)
+      $('.modal-footer').show()
     })
     $('#addPatientForm').submit(function(e) {
       let data = JSON.stringify($(this).serializeJSON())

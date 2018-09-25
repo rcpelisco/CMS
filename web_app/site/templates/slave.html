@@ -8,10 +8,9 @@
     <title>
       Clinic Management
     </title>
-    <!--     Fonts and icons     -->
-    <link href="{{ url_for('static', filename='css/fonts.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/material-dashboard.min.css') }}" rel="stylesheet" />
+    {% assets 'css' %}
+      <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
     {% block styles %}
     {% endblock %}
   </head>
@@ -39,24 +38,10 @@
       {% block content %}
       {% endblock %}
     </div>
-    <script src="{{ url_for('static', filename='js/core/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/core/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/core/bootstrap-material-design.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/moment.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/sweetalert.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/jquery.validate.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/jquery.bootstrap-wizard.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/jquery.serializejson.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/bootstrap-selectpicker.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/bootstrap-tagsinput.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/jasny-bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/arrive.min.js') }}"></script>
+    {% assets 'js' %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
     <script async defer src="{{ url_for('static', filename='js/plugins/github.buttons.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/chartist.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/bootstrap-notify.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/jquery.getUrlParam.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     {% block scripts %}
     {% endblock %}
   </body>

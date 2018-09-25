@@ -88,17 +88,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="streamModalTitle">Modal title</h5>
+        <h5 class="modal-title" id="streamModalTitle">Face recognition</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <img id="streamIMG" style="width: 100%" src="" >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -108,46 +104,47 @@
 {% block scripts %}
 <script>
   $(function(){
+    let interval = undefined
     setTimeout(function(){
       $('.card').removeClass('card-hidden')
     }, 700)
 
     $('#streamModalButton').click(function() {
-      api("{{ url_for('api.face_recognition.store') }}", 'POST', 
-        JSON.stringify({'name': 'new-face', 'fresh': 0}))
       $('#streamModal').modal()
     })
 
     $('#streamModal').on('show.bs.modal', function (e) {
+      api("{{ url_for('api.face_recognition.store') }}", 'POST', 
+        JSON.stringify({'name': 'new-face', 'fresh': 0}))
       recognize()
     })
     
     function recognize() {
-      $('#streamIMG').attr('src', "{{ url_for('face_recognition.recognize') }}")
-      let interval = setInterval(function() {
+      interval = setInterval(function() {
+        $('#streamIMG').attr('src', "{{ url_for('face_recognition.recognize') }}")
         api("{{ url_for('api.face_recognition.recording') }}", 'GET', {}).done(function(response) {
           if(response.result.fresh == 1) {
             clearInterval(interval)
-            api("{{ url_for('api.face_recognition.index') }}", 'GET', {}).done(function(response) {
-              if($.isEmptyObject(response.patient)) {
-                console.log($.isEmptyObject(response.patient))
+            api("{{ url_for('api.face_recognition.login') }}", 'GET', {}).done(function(response) {
+              if($.isEmptyObject(response.user)) {
+                console.log($.isEmptyObject(response.user))
                 swal({
                   'title': 'Unknown',
-                  'text': 'Face is unknown. Do you want to add new patient?',
-                  'buttons': ['Cancel', 'Add new patient']
+                  'text': 'Face is not registered.',
+                  'buttons': ['Cancel', 'Add new user']
                 }).then((result) => {
                   api("{{ url_for('api.face_recognition.store') }}", 'POST', 
-                    JSON.stringify({'name': response.patient.slug, 'fresh': 0}))
+                    JSON.stringify({'name': 'new-face', 'fresh': 0}))
                   if(result) {
-                    window.location = "{{ url_for('patients.create') }}"
+                    window.location = "{{ url_for('site.register') }}"
                     return
                   }
                   $('#streamModal').modal('hide')
                 })
               } else {
                 swal({
-                  'title': 'Is this the patient?',
-                  'text': response.patient.first_name + ' ' + response.patient.last_name,
+                  'title': 'Is this you?',
+                  'text': response.user.name,
                   'icon': 'info',
                   'buttons': {
                     'cancel': 'Cancel',
@@ -163,12 +160,13 @@
                     return
                   }
                   if(result) {
-                    window.location = "{{ url_for('patients.index') }}" + response.patient.id
+                    login(JSON.stringify(response.user))
                     return
                   }
+                  $('#streamIMG').attr('src', "asd")
                   api("{{ url_for('api.face_recognition.store') }}", 'POST', 
                     JSON.stringify({'name': 'new-face', 'fresh': 0}))
-                  $('#streamModal').modal('hide')
+                  recognize()
                 })
               }
             })
@@ -179,6 +177,7 @@
   
     $('#streamModal').on('hide.bs.modal', function (e) {
       $('#streamIMG').attr('src', '')
+      clearInterval(interval)
     })
 
     $('form').submit(function(e) {
