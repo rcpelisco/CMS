@@ -113,15 +113,17 @@
     }, 700)
 
     $('#streamModalButton').click(function() {
+      api("{{ url_for('api.face_recognition.store') }}", 'POST', 
+        JSON.stringify({'name': 'new-face', 'fresh': 0}))
       $('#streamModal').modal()
     })
 
     $('#streamModal').on('show.bs.modal', function (e) {
-      $('#streamIMG').attr('src', "{{ url_for('face_recognition.recognize') }}")
       recognize()
     })
     
     function recognize() {
+      $('#streamIMG').attr('src', "{{ url_for('face_recognition.recognize') }}")
       let interval = setInterval(function() {
         api("{{ url_for('api.face_recognition.recording') }}", 'GET', {}).done(function(response) {
           if(response.result.fresh == 1) {
@@ -162,9 +164,11 @@
                   }
                   if(result) {
                     window.location = "{{ url_for('patients.index') }}" + response.patient.id
-                  } else {
-                    recognize()
+                    return
                   }
+                  api("{{ url_for('api.face_recognition.store') }}", 'POST', 
+                    JSON.stringify({'name': 'new-face', 'fresh': 0}))
+                  $('#streamModal').modal('hide')
                 })
               }
             })
