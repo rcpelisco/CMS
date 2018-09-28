@@ -203,7 +203,13 @@ $(function() {
   function passwordSWAL() {
     return swal({
       'title': 'Enter Password',
-      'content': 'password',
+      'content': {
+        'element': "input",
+        'attributes': {
+          'placeholder': "Type your password",
+          'type': "password",
+        },
+      },
       'buttons': true
     })
   }
