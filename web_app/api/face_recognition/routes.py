@@ -15,7 +15,7 @@ user_schema = UserSchema()
 
 @module.route('/', methods=['GET'])
 def index():
-    face_recognition = FaceRecognition.query.get(1)
+    face_recognition = FaceRecognition.query.first()
     if face_recognition is None:
         return jsonify({'message': 'Face recognition record not found!'}), 400
     face_recognition, errors = face_recognition_schema.dump(face_recognition)
@@ -26,7 +26,7 @@ def index():
 
 @module.route('/login', methods=['GET'])
 def login():
-    face_recognition = FaceRecognition.query.get(1)
+    face_recognition = FaceRecognition.query.first()
     if face_recognition is None:
         return jsonify({'message': 'Face recognition record not found!'}), 400
     face_recognition, errors = face_recognition_schema.dump(face_recognition)
@@ -44,7 +44,8 @@ def store():
         return jsonify({'message': 'No input data provided'}), 400
     
     message = 'Medical record updated'
-    face_recognition = FaceRecognition.query.get(1)
+
+    face_recognition = FaceRecognition.query.first()
 
     if face_recognition is None:
         message = 'Medical record created'
@@ -60,7 +61,7 @@ def store():
 
 @module.route('/recording', methods=['GET'])
 def recording():
-    face_recognition = FaceRecognition.query.get(1)
+    face_recognition = FaceRecognition.query.first()
     if face_recognition is None:
         return jsonify({'message': 'Face recognition record not found!'}), 400
     face_recognition, errors = face_recognition_schema.dump(face_recognition)
