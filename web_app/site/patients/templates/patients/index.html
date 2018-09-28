@@ -10,7 +10,7 @@
       <p style="display: inline;" class="card-category">These are all the patients currently registered</p>
     </div>
     <div class="pull-right" style="margin-top: -25px;">
-      <button class="btn btn-rose" id="stream-button">
+      <button class="btn btn-rose" id="stream-button" data-toggle="tooltip" title="Face Recognition">
         <i class="material-icons">visibility</i></button>
       <a class="btn btn-rose" href="{{ url_for('patients.create') }}">
         <i class="material-icons">add</i> Add Patient</a>
@@ -22,7 +22,7 @@
         <thead class=" text-rose">
           <tr>
             <th>Name</th>
-            <th>Address</th>
+            <th>Medical Status</th>
             <th>Gender</th>
             <th>Age</th>
             <th>Actions</th>
@@ -32,18 +32,20 @@
           {% for patient in data %}
           <tr class="row-{{ patient.id }}">
               <td>{{ patient.first_name }} {{ patient.last_name }}</td>
-              <td>{{ patient.address }}</td>
+              <td>{% set medical_record = patient.medical_records|last %}
+                {{ medical_record.medical_status }}</td>
               <td>{{ patient.gender|capitalize }}</td>
               <td>{{ patient.date_of_birth|age }}</td>
               <td style="width: 1%; white-space: nowrap;">
                 <a href="#" class="btn btn-sm btn-success btn-show-patient" 
-                  data-id="{{ patient.id }}">
+                  data-id="{{ patient.id }}" data-toggle="tooltip" title="View Patient">
                   <i class="material-icons">description</i>
                 </a>
-                <a href="{{ url_for('patients.edit', patient=patient.id) }}" class="btn btn-sm btn-info">
-                  <i class="material-icons">edit</i>
+                <a href="{{ url_for('patients.edit', patient=patient.id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="Edit">
+                    <i class="material-icons">edit</i>
                 </a>
-                <button class="btn btn-sm btn-danger delete-patient-button" data-id="{{ patient.id }}">
+                <button class="btn btn-sm btn-danger delete-patient-button" data-toggle="tooltip" title="Delete"
+                  data-id="{{ patient.id }}">
                   <i class="material-icons">delete</i>
                 </button>
               </td>
@@ -76,20 +78,19 @@
 <script>
 $(function() {
   function passwordSWAL() {
-    return swal('Enter password.', {
-      'content': {
-        'element': "input",
-        'attributes': {
-          'placeholder': "Password",
-          'type': "password",
-        }
-      }
+    return swal({
+      'title': 'Enter Password',
+      'content': 'password',
+      'buttons': true
     })
   }
 
   $('.btn-show-patient').click(function() {
     let patientID = $(this).attr('data-id')
     passwordSWAL().then((result) => {
+      if(result == null) {
+        return
+      }
       let data = {
         username: '{{ current_user.username }}',
         password: result
@@ -106,6 +107,9 @@ $(function() {
 
   $('#stream-button').click(function() {
     passwordSWAL().then((result) => {
+      if(result == null) {
+        return
+      }
       let data = {
         username: '{{ current_user.username }}',
         password: result
@@ -118,7 +122,6 @@ $(function() {
         notify('Incorrect password', 'danger')
       })
     })
-    
   })
   
   $('#streamModal').on('show.bs.modal', function (e) {
@@ -200,6 +203,9 @@ $(function() {
     }).then((willDelete) => {
       if (willDelete) {
         passwordSWAL().then((result) => {
+          if(result == null) {
+            return
+          }
           let data = {
             username: '{{ current_user.username }}',
             password: result

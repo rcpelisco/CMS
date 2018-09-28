@@ -16,3 +16,6 @@ function notify(message, type, title='') {
         allow_dismiss: false
     })
 }
+$(function() {
+    $('[data-toggle="tooltip"]').tooltip({'placement': 'top'})
+})
