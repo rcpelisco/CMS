@@ -32,8 +32,14 @@
           {% for patient in data %}
           <tr class="row-{{ patient.id }}">
               <td>{{ patient.first_name }} {{ patient.last_name }}</td>
-              <td>{% set medical_record = patient.medical_records|last %}
-                {{ medical_record.medical_status }}</td>
+              <td>
+                {% if patient.medical_records|count > 0 %}
+                  {% set medical_record = patient.medical_records|last %}
+                  {{ medical_record.medical_status|capitalize }}
+                {% else %}
+                  No medical records found
+                {% endif %}
+              </td>
               <td>{{ patient.gender|capitalize }}</td>
               <td>{{ patient.date_of_birth|age }}</td>
               <td style="width: 1%; white-space: nowrap;">
