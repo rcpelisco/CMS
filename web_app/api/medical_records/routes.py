@@ -46,18 +46,14 @@ def store():
     if 'patient_id' in json_data:
         medical_record.patient_id = json_data['patient_id']
 
-    medical_record.bmi = json_data['bmi']
-    medical_record.bp = json_data['bp']
     medical_record.complaint = json_data['complaint']
     medical_record.diagnosis = json_data['diagnosis']
-    medical_record.height = json_data['height']
     medical_record.note = json_data['note']
-    medical_record.pr = json_data['pr']
-    medical_record.temperature = json_data['temperature']
     medical_record.treatment = json_data['treatment']
     medical_record.medical_status = json_data['medical_status']
     medical_record.medical_case = json_data['medical_case']
-    medical_record.weight = json_data['weight']
+    medical_record.temperature = json_data['temperature']
+
     medical_record.save()
 
     medical_record, errors = medical_record_schema.dump(medical_record)

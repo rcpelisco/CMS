@@ -46,6 +46,11 @@ def store():
     patient.birth_place = json_data['birth_place']
     patient.address = json_data['address']
     patient.contact_no = json_data['contact_no']
+    patient.bmi = json_data['bmi']
+    patient.bp = json_data['bp']
+    patient.height = json_data['height']
+    patient.pr = json_data['pr']
+    patient.weight = json_data['weight']
     slug = patient.first_name + ' ' + patient.last_name
     patient.slug = slug.replace(' ', '-').lower()
     patient.save()

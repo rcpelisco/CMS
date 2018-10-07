@@ -13,54 +13,22 @@
       <form method="POST" id="addMedicalRecordForm">
         <input type="hidden" name="patient_id" value="{{ patient.id }}">
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-5">
             <div class="form-group">
-              <label class="bmd-label-floating">Height (cm)</label>
-              <input type="text" class="form-control" name="height" required>
+              <label class="bmd-label-floating">Complaint</label>
+              <input type="text" class="form-control" name="complaint" required>
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-5">
             <div class="form-group">
-              <label class="bmd-label-floating">Weight (kg)</label>
-              <input type="text" class="form-control" name="weight" required>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-                <label class="bmd-label-floating">BMI</label>
-                <input type="text" class="form-control" name="bmi" required>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-                <label class="bmd-label-floating">BP</label>
-                <input type="text" class="form-control" name="bp" required>
+              <label class="bmd-label-floating">Diagnosis</label>
+              <input type="text" class="form-control" name="diagnosis" required>
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
               <label class="bmd-label-floating">Temp (c)</label>
               <input type="text" class="form-control" name="temperature" required>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <label class="bmd-label-floating">PR</label>
-              <input type="text" class="form-control" name="pr" required>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="bmd-label-floating">Complaint</label>
-              <input type="text" class="form-control" name="complaint" required>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="bmd-label-floating">Diagnosis</label>
-              <input type="text" class="form-control" name="diagnosis" required>
             </div>
           </div>
         </div>
