@@ -42,6 +42,11 @@ class Patient(BasicMixin, db.Model):
     bp = db.Column(db.String(20), nullable=False)
     pr = db.Column(db.String(20), nullable=False)
     slug = db.Column(db.String(90), nullable=False)
+    blood_type = db.Column(db.String(10))
+    allergy = db.Column(db.String(40))
+    emergency_name = db.Column(db.String(90), nullable=False)
+    emergency_relation = db.Column(db.String(10), nullable=False)
+    emergency_contact = db.Column(db.String(20), nullable=False)
     medical_records = db.relationship("MedicalRecord", back_populates="patient",
          cascade="all, delete-orphan")
 

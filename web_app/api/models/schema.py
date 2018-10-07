@@ -18,11 +18,6 @@ class UserSchema(Schema):
         
 class MedicalRecordSchema(Schema):
     id = Integer()
-    height = Integer()
-    weight = Integer()
-    bmi = String()
-    bp = String()
-    pr = String()
     temperature = String()
     complaint = String()
     diagnosis = String()
@@ -35,8 +30,8 @@ class MedicalRecordSchema(Schema):
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
 
     class Meta:
-        fields = ('id', 'height', 'weight', 'bmi', 'bp', 'pr', 'temperature', 
-            'complaint', 'diagnosis', 'treatment', 'medical_case', 'medical_status', 'note', 
+        fields = ('id', 'temperature', 'complaint', 'diagnosis', 
+            'treatment', 'medical_case', 'medical_status', 'note', 
             'patient', 'created_at', 'updated_at')
         ordered=True
 
@@ -58,19 +53,31 @@ class PatientSchema(Schema):
     last_name = String()
     gender = EnumField(Gender)
     civil_status = EnumField(CivilStatus)
+    height = Integer()
+    weight = Integer()
+    bmi = String()
+    bp = String()
+    pr = String()
     date_of_birth = Date()
     birth_place = String()
     address = String()
     contact_no = String()
     slug = String()
+    blood_type = String()
+    allergy = String()
+    emergency_name = String()
+    emergency_relation = String()
+    emergency_contact = String()
     medical_records = Nested(MedicalRecordSchema, many=True, exclude=('patient', ))
     created_at = DateTime('%Y-%m-%d %H:%M:%S')
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
     
     class Meta:
         fields = ('id', 'first_name', 'last_name', 'gender', 'civil_status', 
-            'date_of_birth', 'birth_place', 'address', 
-            'contact_no', 'slug', 'medical_records', 'created_at', 'updated_at')
+            'height', 'weight', 'bmi', 'bp', 'pr', 'date_of_birth', 
+            'birth_place', 'address', 'contact_no', 'slug', 'blood_type', 'allergy',
+            'emergency_name', 'emergency_relation', 'emergency_contact', 
+            'medical_records', 'created_at', 'updated_at')
         ordered=True
 
 class FaceRecognitionSchema(Schema):
