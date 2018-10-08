@@ -42,6 +42,7 @@ class Patient(BasicMixin, db.Model):
     bmi = db.Column(db.DECIMAL(5, 2), nullable=False)
     bp = db.Column(db.String(20), nullable=False)
     pr = db.Column(db.String(20), nullable=False)
+    temperature = db.Column(db.DECIMAL(5, 2), nullable=False)
     alias = db.Column(db.String(90), nullable=False)
     slug = db.Column(db.String(90), nullable=False)
     blood_type = db.Column(db.String(10))
@@ -55,12 +56,10 @@ class Patient(BasicMixin, db.Model):
 class MedicalRecord(BasicMixin, db.Model):
     __tablename__ = 'medical_records'
 
-    temperature = db.Column(db.DECIMAL(5, 2), nullable=False)
     complaint = db.Column(db.String(45), nullable=False)
     diagnosis = db.Column(db.String(45), nullable=False)
     treatment = db.Column(db.String(45), nullable=False)
     medical_status = db.Column(db.String(191), nullable=False)
-    medical_case = db.Column(db.String(191), nullable=False)
     note = db.Column(db.String(191))
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
     patient = db.relationship('Patient', back_populates='medical_records')

@@ -19,11 +19,9 @@ class UserSchema(Schema):
         
 class MedicalRecordSchema(Schema):
     id = Integer()
-    temperature = String()
     complaint = String()
     diagnosis = String()
     treatment = String()
-    medical_case = String()
     medical_status = String()
     note = String()
     patient = Nested('PatientSchema', exclude=('medical_records', ))
@@ -31,8 +29,8 @@ class MedicalRecordSchema(Schema):
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
 
     class Meta:
-        fields = ('id', 'temperature', 'complaint', 'diagnosis', 
-            'treatment', 'medical_case', 'medical_status', 'note', 
+        fields = ('id', 'complaint', 'diagnosis', 
+            'treatment', 'medical_status', 'note', 
             'patient', 'created_at', 'updated_at')
         ordered=True
 
@@ -59,6 +57,7 @@ class PatientSchema(Schema):
     bmi = String()
     bp = String()
     pr = String()
+    temperature = String()
     date_of_birth = Date()
     birth_place = String()
     address = String()
@@ -76,7 +75,7 @@ class PatientSchema(Schema):
     
     class Meta:
         fields = ('id', 'first_name', 'last_name', 'gender', 'civil_status', 
-            'height', 'weight', 'bmi', 'bp', 'pr', 'date_of_birth', 
+            'height', 'weight', 'bmi', 'bp', 'pr', 'temperature', 'date_of_birth', 
             'birth_place', 'address', 'contact_no', 'alias', 'slug', 'blood_type', 'allergy',
             'emergency_name', 'emergency_relation', 'emergency_contact', 
             'medical_records', 'created_at', 'updated_at')

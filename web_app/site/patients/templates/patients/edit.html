@@ -11,6 +11,7 @@
     </div>
     <div class="card-body">
       <form method="POST" id="addPatientForm">
+        <h4>Personal Information</h4>        
         <input type="hidden" name="id" value="{{ patient.id }}">
         <div class="row">
           <div class="col-md-6">
@@ -48,12 +49,39 @@
           <div class="col-md-4">
             <div class="form-group">
               <label class="bmd-label-floating">Civil Status</label>
-              <select name="civil_status" class="form-control">
-                  <option value="single">Single</option>
-                  <option value="married">Married</option>
-                  <option value="widow">Widow</option>
-                  <option value="widower">Widower</option>
-              </select>
+              <div class="dropdown bootstrap-select show-tick dropup">
+                <select name="civil_status" class="selectpicker" data-style="select-with-transition">
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="widow">Widow</option>
+                    <option value="widower">Widower</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label class="bmd-label-floating">Blood Type</label>
+              <div class="dropdown bootstrap-select show-tick dropup">
+                <select name="blood_type" class="selectpicker" data-style="select-with-transition">
+                    <option value="o-">O-</option>
+                    <option value="o+">O+</option>
+                    <option value="a-">A-</option>
+                    <option value="a+">A+</option>
+                    <option value="b-">B-</option>
+                    <option value="b+">B+</option>
+                    <option value="ab-">AB-</option>
+                    <option value="ab+">AB+</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-7">
+            <div class="form-group">
+              <label class="bmd-label-floating">Allergy</label>
+              <input type="text" class="form-control" name="allergy" value="{{ patient.allergy }}">
             </div>
           </div>
         </div>
@@ -79,6 +107,68 @@
               <label class="bmd-label-floating">Birth Place</label>
               <input type="text" class="form-control" name="birth_place" 
                 value="{{ patient.birth_place }}" required>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <h4>Vital Signs</h4>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Height (cm)</label>
+              <input type="text" class="form-control" name="height" value="{{ patient.height }}" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Weight (kg)</label>
+              <input type="text" class="form-control" name="weight" value="{{ patient.weight }}" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+                <label class="bmd-label-floating">BMI</label>
+                <input type="text" class="form-control" name="bmi" value="{{ patient.bmi }}" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+                <label class="bmd-label-floating">BP</label>
+                <input type="text" class="form-control" name="bp" value="{{ patient.bp }}" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">PR</label>
+              <input type="text" class="form-control" name="pr" value="{{ patient.pr }}" required>
+            </div>
+          </div>
+           <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Temp (c)</label>
+              <input type="text" class="form-control" name="temperature" value="{{ patient.temperature }}" required>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <h4>Person to contact in case of emergency</h4>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Name</label>
+              <input type="text" class="form-control" name="emergency_name" value="{{ patient.emergency_name }}" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Relationship</label>
+              <input type="text" class="form-control" name="emergency_relation" value="{{ patient.emergency_relation }}" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Contact #</label>
+              <input type="text" class="form-control" name="emergency_contact" value="{{ patient.emergency_contact }}" required>
             </div>
           </div>
         </div>

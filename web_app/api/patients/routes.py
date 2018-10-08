@@ -37,8 +37,6 @@ def store():
 
     if patient is None:
         return jsonify({'message': 'Patient not found!'}), 400
-    
-    print(json_data)
 
     patient.first_name = json_data['first_name']
     patient.last_name = json_data['last_name']
@@ -50,8 +48,9 @@ def store():
     patient.contact_no = json_data['contact_no']
     patient.bmi = json_data['bmi']
     patient.bp = json_data['bp']
-    patient.height = json_data['height']
     patient.pr = json_data['pr']
+    patient.temperature = json_data['temperature']
+    patient.height = json_data['height']
     patient.weight = json_data['weight']
     patient.blood_type = json_data['blood_type']
     patient.allergy = json_data['allergy']
