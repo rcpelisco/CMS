@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(45), nullable=False)
     username = db.Column(db.String(45), nullable=False)
     password = db.Column(db.String(191), nullable=False)
+    profile_picture_path = db.Column(db.String(200))
     slug = db.Column(db.String(90), nullable=False)
     created_at = db.Column(db.DateTime, default=func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=func.current_timestamp(), 
@@ -41,6 +42,7 @@ class Patient(BasicMixin, db.Model):
     bmi = db.Column(db.DECIMAL(5, 2), nullable=False)
     bp = db.Column(db.String(20), nullable=False)
     pr = db.Column(db.String(20), nullable=False)
+    alias = db.Column(db.String(90), nullable=False)
     slug = db.Column(db.String(90), nullable=False)
     blood_type = db.Column(db.String(10))
     allergy = db.Column(db.String(40))

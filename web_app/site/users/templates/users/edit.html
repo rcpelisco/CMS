@@ -1,0 +1,49 @@
+{% extends 'master.html' %}
+
+{% block stylesheet %}
+<style>
+.card-profile .card-avatar {
+    margin-left: 20px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-8">
+  <div class="card card-profile">
+    <div class="card-avatar">
+      <a href="#">
+        <img class="img" src="{{ url_for('static', filename='img/logo-small.png') }}" />
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="card-description text-left">
+        <form method="POST" id="addPatientForm">
+        <input type="hidden" name="id" value="{{ user.id }}">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="bmd-label-floating">Name</label>
+              <input type="text" class="form-control" name="first_name" 
+                value="{{ user.name }}" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="bmd-label-floating">Username</label>
+              <input type="text" class="form-control" name="last_name" 
+                value="{{ user.username }}" required>
+            </div>
+          </div>
+        </div>
+        <a href="{{ request.referrer }}" class="btn btn-rose">Cancel</a>
+        <button type="submit" class="btn btn-rose pull-right" id="saveButton">Save</button>
+      </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+</script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'master.html' %}
+
+{% block stylesheet %}
+<style>
+.card-profile .card-avatar {
+    margin-left: 20px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-8">
+  <div class="card card-profile">
+    <div class="card-avatar">
+      <a href="#">
+        <img class="img" src="{{ url_for('static', filename='img/logo-small.png') }}" />
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="card-description text-left">
+        <div class="row">
+          <div class="col-4">Name: </div>
+          <div class="col-8 align-left">{{ user.name }}</div>
+        </div>
+        <div class="row">
+          <div class="col-4">Username: </div>
+          <div class="col-8 align-left">{{ user.username }}</div>
+        </div>
+      </div>
+      <hr>
+      <a href="{{ url_for('users.edit', user=user.id) }}" 
+        class="btn btn-info btn-round">Edit Profile</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+</script>
+{% endblock %}

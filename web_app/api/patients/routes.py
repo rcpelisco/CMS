@@ -55,6 +55,7 @@ def store():
     patient.weight = json_data['weight']
     patient.blood_type = json_data['blood_type']
     patient.allergy = json_data['allergy']
+    patient.alias = json_data['alias']
     patient.emergency_name = json_data['emergency_name']
     patient.emergency_contact = json_data['emergency_contact']
     patient.emergency_relation = json_data['emergency_relation']

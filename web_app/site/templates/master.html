@@ -9,6 +9,8 @@
     {% assets 'css' %}
       <link rel="stylesheet" href="{{ ASSET_URL }}">
     {% endassets %}
+    {% block stylesheet %}
+    {% endblock %}
   </head>
   <body class="dark-edition">
     <div class="wrapper ">
