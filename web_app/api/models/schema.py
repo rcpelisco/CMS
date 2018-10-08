@@ -8,6 +8,7 @@ class UserSchema(Schema):
     name = String()
     username = String()
     password = String()
+    profile_picture_path = String()
     slug = String()
     created_at = DateTime('%Y-%m-%d %H:%M:%S')
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
@@ -62,6 +63,7 @@ class PatientSchema(Schema):
     birth_place = String()
     address = String()
     contact_no = String()
+    alias = String()
     slug = String()
     blood_type = String()
     allergy = String()
@@ -75,7 +77,7 @@ class PatientSchema(Schema):
     class Meta:
         fields = ('id', 'first_name', 'last_name', 'gender', 'civil_status', 
             'height', 'weight', 'bmi', 'bp', 'pr', 'date_of_birth', 
-            'birth_place', 'address', 'contact_no', 'slug', 'blood_type', 'allergy',
+            'birth_place', 'address', 'contact_no', 'alias', 'slug', 'blood_type', 'allergy',
             'emergency_name', 'emergency_relation', 'emergency_contact', 
             'medical_records', 'created_at', 'updated_at')
         ordered=True

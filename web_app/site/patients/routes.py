@@ -16,7 +16,6 @@ def index():
 @module.route('/<patient>')
 @login_required
 def show(patient):
-    print(login_fresh())
     response = get(url_for('api.patients.show', patient=patient))
     return render_template('patients/show.html', 
         patient=json.loads(response.text)['patient'])
