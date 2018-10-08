@@ -75,4 +75,4 @@ def delete(patient):
     patient_session = sessionmaker().object_session(patient)
     patient_session.delete(patient)
     patient_session.commit()
-    return jsonify({'message': 'User deleted', 'patient': patient_result})
+    return jsonify({'message': 'Patient deleted', 'patient': patient_result})

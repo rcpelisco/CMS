@@ -13,6 +13,13 @@ def index():
     return render_template('patients/index.html', 
         data=json.loads(response.text)['patients'])
 
+@module.route('/<patient>/medical_records')
+@login_required
+def medical_records(patient):
+    response = get(url_for('api.patients.show', patient=patient))
+    return render_template('medical_records/show.html', 
+        patient=json.loads(response.text)['patient'])
+
 @module.route('/<patient>')
 @login_required
 def show(patient):
