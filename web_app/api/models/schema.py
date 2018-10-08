@@ -16,7 +16,7 @@ class UserSchema(Schema):
     class Meta:
         fields = ('id', 'name', 'username', 'password', 'created_at', 'updated_at')
         ordered=True
-        
+
 class MedicalRecordSchema(Schema):
     id = Integer()
     complaint = String()
@@ -29,18 +29,27 @@ class MedicalRecordSchema(Schema):
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
 
     class Meta:
-        fields = ('id', 'complaint', 'diagnosis', 
-            'treatment', 'medical_status', 'note', 
+        fields = ('id', 'complaint', 'diagnosis',
+            'treatment', 'medical_status', 'note',
             'patient', 'created_at', 'updated_at')
         ordered=True
 
 class ReportSchema(Schema):
-    medical_case = String()
+    complaint = String()
     count = Integer()
 
     class Meta:
-        fields = ('count', 'medical_case')
+        fields = ('count', 'complaint')
         ordered=True
+
+class ComplaintsSchema(Schema):
+    complaint = String()
+    alias = String()
+    created_at = String()
+
+    class Meta:
+        fields = ('complaint', 'alias', 'created_at')
+        orderd = True
 
 class CategorySchema(Schema):
     category = String()
