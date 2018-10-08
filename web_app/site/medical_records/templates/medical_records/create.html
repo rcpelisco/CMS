@@ -16,40 +16,8 @@
           <div class="col-md-5">
             <div class="form-group">
               <label class="bmd-label-floating">Complaint</label>
-              <input type="text" class="form-control" name="complaint" required>
-            </div>
-          </div>
-          <div class="col-md-5">
-            <div class="form-group">
-              <label class="bmd-label-floating">Diagnosis</label>
-              <input type="text" class="form-control" name="diagnosis" required>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <label class="bmd-label-floating">Temp (c)</label>
-              <input type="text" class="form-control" name="temperature" required>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <div class="form-group">
-              <label class="bmd-label-floating">Treatment</label>
-              <input type="text" class="form-control" name="treatment" required>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label class="bmd-label-floating">Medical Status</label>
-              <input type="text" class="form-control" name="medical_status" required>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="bmd-label-floating">Medical Case</label>
               <div class="dropdown bootstrap-select show-tick dropup">
-                <select class="selectpicker" name="medical_case" data-style="select-with-transition" required>
+                <select class="selectpicker" name="complaint" data-style="select-with-transition" required>
                   <option disabled=""> EENT</option>
                   <option value="nose bleeding">nose bleeding</option>
                   <option value="redness of eye">redness of eye</option>
@@ -89,13 +57,43 @@
               </div>
             </div>
           </div>
+          <div class="col-md-7">
+            <div class="form-group">
+              <label class="bmd-label-floating">Diagnosis</label>
+              <input type="text" class="form-control" name="diagnosis" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-7">
+            <div class="form-group">
+              <label class="bmd-label-floating">Treatment</label>
+              <input type="text" class="form-control" name="treatment" required>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label class="bmd-label-floating">Medical Status</label>
+              <div class="dropdown bootstrap-select show-tick dropup">
+                <select class="selectpicker" name="medical_status" data-style="select-with-transition" required>
+                  <option disabled=""> Medical Status</option>
+                  <option value="undetermined">Undetermined</option>
+                  <option value="good">Good</option>
+                  <option value="fair">Fair</option>
+                  <option value="serious">Serious</option>
+                  <option value="critical">Critical</option>
+                  <option value="dead">Dead</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="form-group">
                 <label>Note</label>
                 <div class="form-group">
-                  <textarea class="form-control" name="note" rows="5"></textarea>
+                  <textarea class="form-control" name="note" rows="3"></textarea>
                 </div>
             </div>
           </div>
