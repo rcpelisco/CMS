@@ -1,156 +1,190 @@
 {% extends 'master.html' %}
 {% set active_page = 'patients.index' %}
-{% set header_text = 'Patients / {}'.format(patient.id)  %}
+{% set header_text = 'Patients' %}
 
 {% block content %}
 <div class="col-md-8">
-  {% if patient.medical_records|length > 0 %}
-    {% for record in patient.medical_records|sort(True, attribute='id') %}
-    <div class="card-{{ record.id }}">
-      <div class="card">
-        <div class="card-header card-header-rose">
-          <h4 class="card-title">{{ record.diagnosis }}</h4>
-          <p class="card-category">{{ record.created_at|datetime }}</p>
-        </div>
-        <div class="card-body">
-          <form>
-            <div class="row">
-            <div class="col-md-5">
-                <div class="form-group">
-                <div class="form-group">
-                    <label class="bmd-label-floating">Complaint</label>
-                        <div class="dropdown bootstrap-select show-tick dropup">
-                            <select class="selectpicker" name="complaint" data-style="select-with-transition" disabled>
-                            <option disabled=""> EENT</option>
-                            <option {% if record.complaint == 'nose bleeding' %} selected="selected" {% endif %} value="nose bleeding">nose bleeding</option>
-                            <option {% if record.complaint == 'redness' %} selected="selected" {% endif %} value="redness of eye">redness of eye</option>
-                            <option {% if record.complaint == 'lip bleeding' %} selected="selected" {% endif %} value="lip bleeding">lip bleeding</option>
-                            <option disabled=""> CARDIO VASCULAR</option>
-                            <option {% if record.complaint == 'chest pain' %} selected="selected" {% endif %} value="chest pain">chest pain</option>
-                            <option disabled=""> RESPIRATORY</option>
-                            <option {% if record.complaint == 'colds' %} selected="selected" {% endif %} value="colds ">colds </option>
-                            <option {% if record.complaint == 'cough' %} selected="selected" {% endif %} value="cough ">cough </option>
-                            <option disabled=""> GASTROINTESTINAL</option>
-                            <option {% if record.complaint == 'hyperacidity' %} selected="selected" {% endif %} value="hyperacidity">hyperacidity</option>
-                            <option {% if record.complaint == 'LBM' %} selected="selected" {% endif %} value="LBM">LBM</option>
-                            <option {% if record.complaint == 'stomachache' %} selected="selected" {% endif %} value="stomachache">stomachache</option>
-                            <option {% if record.complaint == 'vomiting' %} selected="selected" {% endif %} value="vomiting">vomiting</option>
-                            <option disabled=""> MUSCULOSKELETAL</option>
-                            <option {% if record.complaint == 'body malaise' %} selected="selected" {% endif %} value="body malaise">body malaise</option>
-                            <option {% if record.complaint == 'muscle pain' %} selected="selected" {% endif %} value="muscle pain">muscle pain</option>
-                            <option disabled=""> DERMA</option>
-                            <option {% if record.complaint == 'hypersensitivity' %} selected="selected" {% endif %} value="hypersensitivity">hypersensitivity</option>
-                            <option {% if record.complaint == 'insect bite' %} selected="selected" {% endif %} value="insect bite">insect bite</option>
-                            <option {% if record.complaint == 'blisters' %} selected="selected" {% endif %} value="blisters">blisters</option>
-                            <option disabled=""> SURGICAL</option>
-                            <option {% if record.complaint == 'abrasion' %} selected="selected" {% endif %} value="abrasion">abrasion</option>
-                            <option disabled=""> DENTAL</option>
-                            <option {% if record.complaint == 'toothache' %} selected="selected" {% endif %} value="toothache">toothache</option>
-                            <option {% if record.complaint == 'consultations' %} selected="selected" {% endif %} value="consultations">consultations</option>
-                            <option disabled=""> NEUROLOGICAL</option>
-                            <option {% if record.complaint == 'dizziness' %} selected="selected" {% endif %} value="dizziness ">dizziness </option>
-                            <option {% if record.complaint == 'fever' %} selected="selected" {% endif %} value="fever ">fever </option>
-                            <option {% if record.complaint == 'headache' %} selected="selected" {% endif %} value="headache ">headache </option>
-                            <option disabled=""> REPRODUCTIVE</option>
-                            <option {% if record.complaint == 'dysmenorrhea' %} selected="selected" {% endif %} value="dysmenorrhea">dysmenorrhea</option>
-                            <option disabled=""> MISCELLANEOUS</option>
-                            <option {% if record.complaint == 'BP TAKING' %} selected="selected" {% endif %} value="BP TAKING">BP TAKING</option>
-                            <option {% if record.complaint == 'OTHER CONSULTATIONS' %} selected="selected" {% endif %} value="OTHER CONSULTATIONS">OTHER CONSULTATIONS</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-7">
-                <div class="form-group">
-                    <label class="bmd-label-floating">Diagnosis</label>
-                    <input type="text" class="form-control" name="diagnosis" value="{{ record.diagnosis }}" disabled>
-                </div>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-md-7">
-                <div class="form-group">
-                <label class="bmd-label-floating">Treatment</label>
-                <input type="text" class="form-control" name="treatment" 
-                    value="{{ record.treatment }}" disabled>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label class="bmd-label-floating">Medical Status</label>
-                    <input type="text" class="form-control" value="{{ record.medical_status }}" disabled>
-                </div>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>Note</label>
-                    <div class="form-group">
-                    <textarea class="form-control" name="note" rows="3" disabled>{{ record.note }}</textarea>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div class="pull-right">
-              <a class="btn btn-info btn-edit-record" href="#" data-id="{{ record.id }}"
-                data-toggle="tooltip" title="Edit medical record">
-                <i class="material-icons">edit</i>
-              </a>
-              <button type="button" class="btn btn-danger delete-record-button" data-id="{{ record.id }}"
-                data-toggle="tooltip" title="Delete medical record">
-                <i class="material-icons">delete</i>
-              </button>
-            </div>
-            <div class="clearfix"></div>
-          </form>
-        </div>
-      </div>
-      <hr>
+  <div class="card">
+    <div class="card-header card-header-rose">
+      <h4 class="card-title">Patient's Information</h4>
+      <p class="card-category">This is the patient's basic information.</p>
     </div>
-    {% endfor %}
-  {% else %}
-    <h2>No medical records found</h2>
-  {% endif %}
+    <div class="card-body">
+      <form method="POST" id="addPatientForm">
+        <h4>Personal Information</h4>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label class="bmd-label-floating">Fist Name</label>
+              <input type="text" class="form-control" name="first_name" value="{{ patient.first_name }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label class="bmd-label-floating">Last Name</label>
+              <input type="text" class="form-control" name="last_name" value="{{ patient.last_name }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Alias</label>
+              <input type="text" class="form-control" name="alias" value="{{ patient.alias }}" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Date of birth</label>
+              <input type="date" class="form-control" name="date_of_birth" value="2018-01-01" value="{{ patient.01 }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Gender</label>
+              <select name="gender" class="form-control" disabled>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Civil Status</label>
+              <div class="dropdown bootstrap-select show-tick dropup">
+                <select name="civil_status" class="selectpicker" data-style="select-with-transition" disabled>
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="widow">Widow</option>
+                    <option value="widower">Widower</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label class="bmd-label-floating">Blood Type</label>
+              <div class="dropdown bootstrap-select show-tick dropup">
+                <select name="blood_type" class="selectpicker" data-style="select-with-transition" disabled>
+                    <option value="o-">O-</option>
+                    <option value="o+">O+</option>
+                    <option value="a-">A-</option>
+                    <option value="a+">A+</option>
+                    <option value="b-">B-</option>
+                    <option value="b+">B+</option>
+                    <option value="ab-">AB-</option>
+                    <option value="ab+">AB+</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-7">
+            <div class="form-group">
+              <label class="bmd-label-floating">Allergy</label>
+              <input type="text" class="form-control" name="allergy" value="{{ patient.allergy }}" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group">
+                <label class="bmd-label-floating">Address</label>
+                <input type="text" class="form-control" name="address" value="{{ patient.address }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Contact no.</label>
+              <input type="text" class="form-control" name="contact_no" value="{{ patient.contact_no }}" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="bmd-label-floating">Birth Place</label>
+              <input type="text" class="form-control" name="birth_place" value="{{ patient.birth_place }}" disabled>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <h4>Vital Signs</h4>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Height (cm)</label>
+              <input type="text" class="form-control" name="height" value="{{ patient.height }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Weight (kg)</label>
+              <input type="text" class="form-control" name="weight" value="{{ patient.weight }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+                <label class="bmd-label-floating">BMI</label>
+                <input type="text" class="form-control" name="bmi" value="{{ patient.bmi }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+                <label class="bmd-label-floating">BP</label>
+                <input type="text" class="form-control" name="bp" value="{{ patient.bp }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">PR</label>
+              <input type="text" class="form-control" name="pr" value="{{ patient.pr }}" disabled>
+            </div>
+          </div>
+           <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Temp (c)</label>
+              <input type="text" class="form-control" name="temperature" value="{{ patient.temperature }}" disabled>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <h4>Person to contact in case of emergency</h4>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Name</label>
+              <input type="text" class="form-control" name="emergency_name" value="{{ patient.emergency_name }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Relationship</label>
+              <input type="text" class="form-control" name="emergency_relation" value="{{ patient.emergency_relation }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="bmd-label-floating">Contact #</label>
+              <input type="text" class="form-control" name="emergency_contact" value="{{ patient.emergency_contact }}" disabled>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 <div class="col-md-4">
   <div class="card card-profile">
-    <div class="card-avatar">
-      <a href="#pablo">
-        <img class="img" src="{{ url_for('static', filename='img/logo-small.png') }}" />
-      </a>
-    </div>
     <div class="card-body">
-      <h6 class="card-category">Patient</h6>
-      <h4 class="card-title">{{ patient.first_name }} {{ patient.last_name }}</h4>
-      <div class="card-description text-left">
-        <div class="row">
-          <div class="col-4">Gender: </div>
-          <div class="col-8 align-left">{{ patient.gender.capitalize() }}</div>
-        </div>
-        <div class="row">
-          <div class="col-4">Civil Status: </div>
-          <div class="col-8 align-left">{{ patient.civil_status.capitalize() }}</div>
-        </div>
-        <div class="row">
-          <div class="col-4">Birthday: </div>
-          <div class="col-8 align-left">{{ patient.date_of_birth|date }}</div>
-        </div>
-        <div class="row">
-          <div class="col-4">Address: </div>
-          <div class="col-8 align-left">{{ patient.address }}</div>
-        </div>
-        <div class="row">
-          <div class="col-4">Contact no: </div>
-          <div class="col-8 align-left">{{ patient.contact_no }}</div>
-        </div>
-      </div>
-      <hr>
-      <a href="#" class="btn btn-rose btn-round btn-create-record">Add Medical Record</a>
-        
-      <a href="{{ url_for('patients.edit', patient=patient.id) }}" 
-        class="btn btn-info btn-round">Edit Patient</a>
+      <h6 class="card-category">Face recognition</h6>
+      <a href="{{ url_for('patients.edit', patient=patient.id) }}" class="btn btn-info btn-round">Edit Profile</a>
+      <a href="#" class="btn btn-info btn-round btn-create-record">Add Medical Record</a>
+      <a href="#" class="btn btn-info btn-round btn-show-medical-records" 
+            data-id="{{ patient.id }}">
+            Show Medical Records
+      </a>
     </div>
   </div>
 </div>
@@ -172,8 +206,8 @@ $(function() {
       'buttons': true
     })
   }
-
-  $('.btn-create-record').click(function() {
+$('.btn-create-record').click(function() {
+    console.log('qwe')
     passwordSWAL().then((result) => {
       if(result == null) {
         return
@@ -191,9 +225,8 @@ $(function() {
       })
     })
   })
-
-  $('.btn-edit-record').click(function() {
-    let recordID = $(this).attr('data-id')
+$('.btn-show-medical-records').click(function() {
+    let patientID = $(this).attr('data-id')
     passwordSWAL().then((result) => {
       if(result == null) {
         return
@@ -204,48 +237,14 @@ $(function() {
       }
       api("{{ url_for('api.users.check_password') }}", 'POST', JSON.stringify(data)).done(function(result) {
         if(result.message == "Credentials are correct") {
-          window.location = "{{ url_for('medical_records.index') }}" + recordID + '/edit'
+          window.location = "{{ url_for('patients.index') }}" + patientID + '/medical_records'
           return
         }
         notify('Incorrect password', 'danger')
       })
     })
   })
-
-  $('.delete-record-button').click(function() {
-    let recordID = $(this).attr('data-id')
-    let endpoint = "{{ url_for('api.medical_records.index') }}" + recordID
-    swal({
-      title: "Delete record",
-      text: "This record be removed from the records. You can edit this record if you want to change something.",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then(function(willDelete) {
-      if(!willDelete) {
-        return
-      }
-      passwordSWAL().then((result) => {
-        if(result == null) {
-          return
-        }
-        let data = {
-          username: '{{ current_user.username }}',
-          password: result
-        }
-        api("{{ url_for('api.users.check_password') }}", 'POST', JSON.stringify(data)).done(function(result) {
-          if(result.message == "Credentials are correct") {
-            api(endpoint, 'DELETE', {}).done(function(data) {
-              $('.card-' + recordID).slideUp()
-              notify(data.message, 'info')
-            })
-            return
-          }
-          notify('Incorrect password', 'danger')
-        })
-      })
-    })
-  })
 })
+
 </script>
 {% endblock %}

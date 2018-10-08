@@ -43,8 +43,7 @@
               <td>{{ patient.gender|capitalize }}</td>
               <td>{{ patient.date_of_birth|age }}</td>
               <td style="width: 1%; white-space: nowrap;">
-                <a href="#" class="btn btn-sm btn-success btn-show-patient" 
-                  data-id="{{ patient.id }}" data-toggle="tooltip" title="View Patient">
+                <a href="{{ url_for('patients.show', patient=patient.id) }}" class="btn btn-sm btn-success btn-show-patient" data-toggle="tooltip" title="View Patient">
                   <i class="material-icons">description</i>
                 </a>
                 <a href="{{ url_for('patients.edit', patient=patient.id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="Edit">
@@ -96,26 +95,6 @@ $(function() {
       'buttons': true
     })
   }
-
-  $('.btn-show-patient').click(function() {
-    let patientID = $(this).attr('data-id')
-    passwordSWAL().then((result) => {
-      if(result == null) {
-        return
-      }
-      let data = {
-        username: '{{ current_user.username }}',
-        password: result
-      }
-      api("{{ url_for('api.users.check_password') }}", 'POST', JSON.stringify(data)).done(function(result) {
-        if(result.message == "Credentials are correct") {
-          window.location = "{{ url_for('patients.index') }}" + patientID
-          return
-        }
-        notify('Incorrect password', 'danger')
-      })
-    })
-  })
 
   $('#stream-button').click(function() {
     passwordSWAL().then((result) => {
