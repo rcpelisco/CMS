@@ -1,9 +1,11 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy.orm import sessionmaker, load_only
 from ..models.models import MedicalRecord
+from ..models.models import Patient
 from ..models.schema import MedicalRecordSchema
 from ..models.schema import ReportSchema
 from ..models.schema import CategorySchema
+from ..models.schema import ComplaintsSchema
 from collections import Counter
 
 module = Blueprint('api.medical_records', __name__)
@@ -12,6 +14,7 @@ medical_records_schema = MedicalRecordSchema(many=True)
 medical_record_schema = MedicalRecordSchema()
 report_schema = ReportSchema(many=True)
 category_schema = CategorySchema(many=True)
+complaints_schema = ComplaintsSchema(many=True)
 
 @module.route('/', methods=['GET'])
 def index():
@@ -69,62 +72,71 @@ def delete(medical_record):
     session.commit()
     return jsonify({'message': 'Medical record deleted', 'medical_record': dump})
 
+@module.route('/report/<complaint>', methods=['GET'])
+def complaint(complaint):
+    query = MedicalRecord().get_complaint(complaint)
+    if query is None:
+        return jsonify({'message': 'Complaint not found!'}), 400
+    dump, errors = complaints_schema.dump(query, many=True)
+    return jsonify({ 'medical_record': dump })
+
 @module.route('/report', methods=['GET'])
 def report():
     query = MedicalRecord().report()
     status = [
         {'category': 'EENT', 'medical_status': [
-            {'medical_case': 'nose bleeding', 'count': 0},
-            {'medical_case': 'redness of eye', 'count': 0},
-            {'medical_case': 'lip bleeding', 'count': 0}
+            {'complaint': 'nose bleeding', 'count': 0},
+            {'complaint': 'redness of eye', 'count': 0},
+            {'complaint': 'lip bleeding', 'count': 0}
         ]},
         {'category': 'CARDIO VASCULAR', 'medical_status': [
-            {'medical_case': 'chest pain', 'count': 0}
+            {'complaint': 'chest pain', 'count': 0}
         ]},
         {'category': 'RESPIRATORY', 'medical_status': [
-            {'medical_case': 'colds', 'count': 0},
-            {'medical_case': 'cough', 'count': 0}
+            {'complaint': 'colds', 'count': 0},
+            {'complaint': 'cough', 'count': 0}
         ]},
         {'category': 'GASTROINTESTINAL', 'medical_status': [
-            {'medical_case': 'hyperacidity', 'count': 0},
-            {'medical_case': 'LBM', 'count': 0},
-            {'medical_case': 'stomachache', 'count': 0},
-            {'medical_case': 'vomiting', 'count': 0}
+            {'complaint': 'hyperacidity', 'count': 0},
+            {'complaint': 'LBM', 'count': 0},
+            {'complaint': 'stomachache', 'count': 0},
+            {'complaint': 'vomiting', 'count': 0}
         ]},
         {'category': 'MUSCULOSKELETAL', 'medical_status': [
-            {'medical_case': 'body malaise', 'count': 0},
-            {'medical_case': 'muscle pain', 'count': 0}
+            {'complaint': 'body malaise', 'count': 0},
+            {'complaint': 'muscle pain', 'count': 0}
         ]},
         {'category': 'DERMA', 'medical_status': [
-            {'medical_case': 'hypersensitivity', 'count': 0},
-            {'medical_case': 'insect bite', 'count': 0},
-            {'medical_case': 'blisters', 'count': 0}
+            {'complaint': 'hypersensitivity', 'count': 0},
+            {'complaint': 'insect bite', 'count': 0},
+            {'complaint': 'blisters', 'count': 0}
         ]},
         {'category': 'SURGICAL', 'medical_status': [
-            {'medical_case': 'abrasion', 'count': 0}
+            {'complaint': 'abrasion', 'count': 0}
         ]},
         {'category': 'DENTAL', 'medical_status': [
-            {'medical_case': 'toothache', 'count': 0},
-            {'medical_case': 'consultations', 'count': 0}
+            {'complaint': 'toothache', 'count': 0},
+            {'complaint': 'consultations', 'count': 0}
         ]},
         {'category': 'NEUROLOGICAL', 'medical_status': [
-            {'medical_case': 'dizziness', 'count': 0},
-            {'medical_case': 'fever', 'count': 0},
-            {'medical_case': 'headache', 'count': 0}
+            {'complaint': 'dizziness', 'count': 0},
+            {'complaint': 'fever', 'count': 0},
+            {'complaint': 'headache', 'count': 0}
         ]},
         {'category': 'REPRODUCTIVE', 'medical_status': [
-            {'medical_case': 'dysmenorrhea', 'count': 0}
+            {'complaint': 'dysmenorrhea', 'count': 0}
         ]},
         {'category': 'MISCELLANEOUS', 'medical_status': [
-            {'medical_case': 'BP TAKING', 'count': 0},
-            {'medical_case': 'OTHER CONSULTATIONS', 'count': 0}
+            {'complaint': 'BP TAKING', 'count': 0},
+            {'complaint': 'OTHER CONSULTATIONS', 'count': 0}
         ]}
     ]
     
-    for count, medical_case in query:
+
+    for count, complaint in query:
         for category in status:
             for item in category['medical_status']:
-                if item['medical_case'] == medical_case:
+                if item['complaint'] == complaint:
                     item['count'] = count
                     break
 

@@ -65,7 +65,11 @@ class MedicalRecord(BasicMixin, db.Model):
     patient = db.relationship('Patient', back_populates='medical_records')
 
     def report(self):
-        query = db.engine.execute('SELECT COUNT(`medical_case`) as `count`, `medical_case` as `name` FROM `medical_records` GROUP BY `medical_case`')
+        query = db.engine.execute('SELECT COUNT(`complaint`) as `count`, `complaint` as `complaint` FROM `medical_records` GROUP BY `complaint`')
+        return query
+
+    def get_complaint(self, complaint):
+        query = db.engine.execute('SELECT medical_records.patient_id, patients.id, medical_records.complaint, patients.alias, medical_records.created_at FROM `medical_records`, `patients` WHERE medical_records.patient_id = patients.id and complaint = \'{}\''.format(complaint))
         return query
 
 class FaceRecognition(BasicMixin, db.Model):

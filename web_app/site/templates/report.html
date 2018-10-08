@@ -3,34 +3,109 @@
 {% set header_text = 'Report' %}
 
 {% block content %}
-{% for item in data %}
-<div class="col-md-4">
+<div class="col-md-6">
   <div class="card">
     <div class="card-header card-header-text card-header-rose">
       <div class="card-text">
-        <h4 class="card-title">{{ item.category }}</h4>
+        <h4 class="card-title">Report</h4>
       </div>
     </div>
     <div class="card-body table-responsive">
       <table class="table table-hover">
         <thead class="text-rose">
           <tr>
-            <th>Medical Case</th>
-            <th>Count</th>
+            <th>Category</th>
+            <th>Complaints</th>
+            <th>No of Patients</th>
           </tr>
         </thead>
         <tbody>
-          {% for status in item.medical_status %}
-          <tr>
-            <td>{{ status.medical_case }}</td>
-            <td>{{ status.count }}</td>
-          </tr>
-          {% endfor %}
+        {% for item in data %}
+            {% set last_item = { 'value': '' } %}
+            {% for status in item.medical_status %}
+                <tr>
+                    <td>{{ item.category if last_item.value != item.category else '' }}</td>
+                    <td><a href="#" class="text-rose">{{ status.complaint|capitalize }}</a></td>
+                    <td>{{ status.count }}</td>
+                </tr>
+                {% if last_item.update({ 'value': item.category }) %}{% endif %}
+            {% endfor %}
+        {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 </div>
-{% endfor %}
+<div class="col-md-6">
+  <div class="card">
+    <div class="card-header card-header-text card-header-rose">
+      <div class="card-text">
+        <h4 class="selected-card-title">Please select a complaint</h4>
+      </div>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover">
+        <thead class="text-rose">
+          <tr>
+            <th>Alias</th>
+            <th>Date & Time</th>
+          </tr>
+        </thead>
+        <tbody id="selected-body">
+          <tr>
+            <td></td>
+            <td>Please select a complaint</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
 
+{% block scripts %}
+<script>
+$(function() {
+    $('.text-rose').click(function() {
+        let complaint = $(this).html()
+        api("{{ url_for('api.medical_records.report') }}/" + complaint, 'GET', {}).done(function(result) {
+            $('.selected-card-title').text(complaint)
+            let table = ''
+            if(result.medical_record.length < 1) table = '<td></td><td>No Patients found with the complaint selected</td>'
+            result.medical_record.forEach(function(element) {
+                table += generateRow(element)
+            })
+            $('#selected-body').html(table)
+        })
+    })
+    
+    function generateRow(element) {
+        let date = new Date(element.created_at)
+        date = formatDate(date)
+        let template = `<tr><td>${element.alias}</td><td>${date}</td></tr>`
+        return template;
+    }
+
+    function formatDate(date) {
+        let monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        let day = date.getDate();
+        let monthIndex = date.getMonth();
+        let year = date.getFullYear();
+        let hour = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours()
+        let minute = date.getMinutes()
+        let med = date.getHours() >= 12 ? 'PM' : 'AM'
+
+        return monthNames[monthIndex] + ' ' 
+            + day + ', ' + year 
+            + ' @ ' + hour + ':' 
+            + minute + ' ' + med;
+    }
+})
+</script>
 {% endblock %}
