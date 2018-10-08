@@ -18,20 +18,20 @@
     </div>
     <div class="card-body">
       <div class="card-description text-left">
-        <form method="POST" id="addPatientForm">
+        <form method="POST" id="editUserForm">
         <input type="hidden" name="id" value="{{ user.id }}">
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label class="bmd-label-floating">Name</label>
-              <input type="text" class="form-control" name="first_name" 
+              <input type="text" class="form-control" name="name" 
                 value="{{ user.name }}" required>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label class="bmd-label-floating">Username</label>
-              <input type="text" class="form-control" name="last_name" 
+              <input type="text" class="form-control" name="username" 
                 value="{{ user.username }}" required>
             </div>
           </div>
@@ -45,5 +45,17 @@
 
 {% block scripts %}
 <script>
+$(function() {
+    $('#editUserForm').submit(function(e) {
+      let data = JSON.stringify($(this).serializeJSON())
+      console.log(data)
+      let endpoint = '{{ url_for("api.users.store") }}'
+      api(endpoint, 'PUT', data).done(function(data) {
+        notify(data.message, 'info')
+        window.location = '{{ url_for("users.show", user=user.id)}}'
+      })
+      e.preventDefault()
+    })
+})
 </script>
 {% endblock %}

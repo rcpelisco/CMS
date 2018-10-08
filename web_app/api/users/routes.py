@@ -42,7 +42,8 @@ def store():
     user.name = json_data['name']
     user.username = json_data['username']
     user.slug = user.name.replace(' ', '-').lower()
-    user.password = generate_password_hash(json_data['password'], method='sha256')
+    if 'password' in json_data:
+        user.password = generate_password_hash(json_data['password'], method='sha256')
     user.save()
 
     user_result, errors = user_schema.dump(user)
