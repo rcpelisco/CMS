@@ -18,7 +18,7 @@
     <div class="sidebar-wrapper">
       <div class="user">
         <div class="photo">
-          <img src="{{ url_for('static', filename='img/logo-small.png') }}" />
+          <img src="{{ url_for('static', filename=current_user.profile_picture_path) }}" />
         </div>
         <div class="user-info">
           <a data-toggle="collapse" href="#collapseExample" class="username">

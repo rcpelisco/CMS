@@ -2,17 +2,18 @@ import os
 import cv2
 import pickle
 import operator
+import datetime
 import numpy as np
 from PIL import Image
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 cascades_dir = os.path.join(BASE_DIR, 'cascades', 'data', 'haarcascade_frontalface_default.xml')
 image_dir = os.path.join(BASE_DIR, 'images')
+profile_image_dir = os.path.join(BASE_DIR, '..', '..', 'static', 'img', 'profile_pictures')
 
 face_cascade = cv2.CascadeClassifier(cascades_dir)
 
 font_face = cv2.FONT_HERSHEY_SIMPLEX
-
 
 class VideoCamera(object):
     def __init__(self, name=None):
@@ -21,6 +22,9 @@ class VideoCamera(object):
         self.labels = {}
         self.names = None
         self.data = []
+        self.slug = ''
+        self.name = name
+
         if not os.path.exists(os.path.join(BASE_DIR, 'pickle')):
             os.makedirs(os.path.join(BASE_DIR, 'pickle'))
 
@@ -49,19 +53,39 @@ class VideoCamera(object):
         if not os.path.exists(self.user_image_dir):
             os.makedirs(self.user_image_dir)
 
+        if not os.path.exists(profile_image_dir):
+            os.makedirs(profile_image_dir)
+
         self.last_file = self.get_last_file(self.user_image_dir)
 
     def __del__(self):
         self.video.release()
 
-    def detect(self, with_name=True, record=False):
+    def detect(self, with_name=True, record=False, capture=False):
         ret, frame = self.video.read()
         if not ret:
             return
         frame = cv2.flip(frame, 1)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+        if capture:
+            self.frames += 1
+            now = datetime.datetime.now()
+            w = 640
+            h = 480
+            y = 0
+            x = (640 - 480) / 2
+            cropped = frame[y: y + w,x: x + h]
+            self.slug = self.name + '-' + now.strftime("%Y-%m-%d-%H-%M") + '.jpg'
+            image_path = os.path.join(profile_image_dir, self.slug)
+            cv2.imwrite(image_path, cropped)
+            print(image_path)
+            print(self.slug)
+
         for x, y, w, h in faces:
+            if capture:
+                continue
             roi_gray = gray[y: y + h, x: x + w]
 
             if with_name:
@@ -100,10 +124,12 @@ class VideoCamera(object):
                 print(os.path.join(self.user_image_dir, str(self.frames + int(self.last_file)) + '.jpg'))
 
         ret, jpeg = cv2.imencode('.jpg', frame)
+
         return {
             'image': jpeg.tobytes(),
             'frames': self.frames, 
-            'patient': max(self.names.items(), key=operator.itemgetter(1))[0] if with_name else ''
+            'patient': max(self.names.items(), key=operator.itemgetter(1))[0] if with_name else '',
+            'image_path': self.slug
         }
 
     def get_last_file(self, user_image_dir):

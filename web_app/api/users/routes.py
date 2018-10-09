@@ -41,6 +41,9 @@ def store():
     
     user.name = json_data['name']
     user.username = json_data['username']
+    if 'profile_picture_path' in json_data:
+        ppp = json_data['profile_picture_path']
+        user.profile_picture_path = user.profile_picture_path if ppp == '' else ppp
     user.slug = user.name.replace(' ', '-').lower()
     if 'password' in json_data:
         user.password = generate_password_hash(json_data['password'], method='sha256')

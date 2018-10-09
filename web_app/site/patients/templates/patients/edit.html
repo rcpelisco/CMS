@@ -6,8 +6,13 @@
 <div class="col-md-8">
   <div class="card">
     <div class="card-header card-header-rose">
-      <h4 class="card-title">Edit Patient</h4>
-      <p class="card-category">Fill up the patient's basic information</p>
+      <div style="display: inline;">
+        <h4 style="display: inline;" class="card-title">Edit Patient</h4><br>
+        <p style="display: inline;" class="card-category">Fill up the patient's basic information</p>
+      </div>
+      <div class="pull-right" style="margin-top: -25px;">
+        <button id="changeProfileButton" class="btn btn-rose">Change Profile Picture</button>
+      </div>
     </div>
     <div class="card-body">
       <form method="POST" id="addPatientForm">
@@ -177,6 +182,7 @@
             </div>
           </div>
         </div>
+        <input type="hidden" name="profile_picture_path">
         <a href="{{ request.referrer }}" class="btn btn-rose">Cancel</a>
         <button type="submit" class="btn btn-rose pull-right" id="saveButton">Save</button>
         <div class="clearfix"></div>
@@ -186,6 +192,9 @@
 </div>
 <div class="col-md-4">
   <div class="card card-profile">
+    <div class="card-avatar">
+      <img class="img" src="{{ url_for('static', filename=patient.profile_picture_path) }}" />
+    </div>
     <div class="card-body">
       <h6 class="card-category">Face recognition</h6>
       <h4 class="card-title">Instructions</h4>
@@ -204,7 +213,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="streamModalTitle">Modal title</h5>
+        <h5 class="modal-title" id="streamModalTitle">Camera</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -215,6 +224,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button id="collectDatasetButton" type="button" class="btn btn-primary">Record</button>
+        <button id="captureButton" type="button" class="btn btn-primary">Capture</button>
       </div>
     </div>
   </div>
@@ -240,7 +250,14 @@
         $('#streamModalButton').attr('disabled', true)
       }
     })
+    $('#changeProfileButton').click(function() {
+      $('#collectDatasetButton').hide()
+      $('#captureButton').show()
+      $('#streamModal').modal()
+    })
     $('#streamModalButton').click(function() {
+      $('#collectDatasetButton').show()
+      $('#captureButton').hide()
       $('#streamModal').modal()
     })
     $('#streamModal').on('show.bs.modal', function (e) {
@@ -249,6 +266,25 @@
   
     $('#streamModal').on('hide.bs.modal', function (e) {
       $('#streamIMG').attr('src', '')
+    })
+
+    $('#captureButton').click(function() {
+      $('#streamIMG').attr('src', '')
+      let slug = $('input[name="first_name"]').val() + '-' + $('input[name="last_name"]').val()
+      slug = slug.toLowerCase()
+      $('#streamIMG').attr('src', "/face_recognition/profile_picture/" + slug)
+      let interval = setInterval(function() {
+        api("{{ url_for('api.face_recognition.recording') }}", 'GET', {}).done(function(response) {
+          if(response.result.fresh == 1) {
+            clearInterval(interval)
+            $('input[name="profile_picture_path"]').val(`img/profile_pictures/${response.result.name}`)
+            $('.img').attr('src', `/static/img/profile_pictures/${response.result.name}`)
+            api("{{ url_for('api.face_recognition.store') }}", 'POST', 
+              JSON.stringify({'name': 'new-face', 'fresh': 0}))
+            $('#streamModal').modal('toggle')
+          }
+        })
+      }, 500)
     })
 
     $('#collectDatasetButton').click(function() {

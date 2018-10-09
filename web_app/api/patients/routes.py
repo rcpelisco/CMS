@@ -55,6 +55,9 @@ def store():
     patient.blood_type = json_data['blood_type']
     patient.allergy = json_data['allergy']
     patient.alias = json_data['alias']
+    if 'profile_picture_path' in json_data:
+        ppp = json_data['profile_picture_path']
+        patient.profile_picture_path = patient.profile_picture_path if ppp == '' else ppp
     patient.emergency_name = json_data['emergency_name']
     patient.emergency_contact = json_data['emergency_contact']
     patient.emergency_relation = json_data['emergency_relation']

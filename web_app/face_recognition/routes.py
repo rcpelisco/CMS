@@ -25,6 +25,14 @@ def record(camera):
         yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + data['image'] + b'\r\n\r\n')
 
+def profile_picture_cap(camera):
+    while True:
+        data = camera.detect(with_name=False, capture=True)
+        if data['frames'] == 1:
+            post('/api/face_recognition/', {'name': data['image_path'], 'fresh': 1})
+        yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + data['image'] + b'\r\n\r\n')
+
 @module.route('/show')
 def show():
     return Response(detect(VideoCamera(), False),
@@ -43,6 +51,12 @@ def recognize_user():
 @module.route('/collect/<name>')
 def collect(name):
     return Response(record(VideoCamera(name)),
+        mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@module.route('/profile_picture/<name>')
+def profile_picture(name):
+    print(name)
+    return Response(profile_picture_cap(VideoCamera(name)),
         mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @module.route('/train')

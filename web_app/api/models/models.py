@@ -15,7 +15,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(45), nullable=False)
     username = db.Column(db.String(45), nullable=False)
     password = db.Column(db.String(191), nullable=False)
-    profile_picture_path = db.Column(db.String(200), default='asd')
+    profile_picture_path = db.Column(db.String(200), default='img/logo-small.png')
     slug = db.Column(db.String(90), nullable=False)
     created_at = db.Column(db.DateTime, default=func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=func.current_timestamp(), 
@@ -50,7 +50,7 @@ class Patient(BasicMixin, db.Model):
     emergency_name = db.Column(db.String(90), nullable=False)
     emergency_relation = db.Column(db.String(10), nullable=False)
     emergency_contact = db.Column(db.String(20), nullable=False)
-    profile_picture_path = db.Column(db.String(200), default='asd')
+    profile_picture_path = db.Column(db.String(200), default='img/logo-small.png')
     medical_records = db.relationship("MedicalRecord", back_populates="patient",
          cascade="all, delete-orphan")
 
@@ -76,5 +76,5 @@ class MedicalRecord(BasicMixin, db.Model):
 class FaceRecognition(BasicMixin, db.Model):
     __tablename__ = 'face_recognition'
 
-    name = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
     fresh = db.Column(db.Integer)

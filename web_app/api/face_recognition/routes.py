@@ -44,7 +44,6 @@ def store():
         return jsonify({'message': 'No input data provided'}), 400
     
     message = 'Medical record updated'
-
     face_recognition = FaceRecognition.query.first()
 
     if face_recognition is None:
@@ -66,3 +65,4 @@ def recording():
         return jsonify({'message': 'Face recognition record not found!'}), 400
     face_recognition, errors = face_recognition_schema.dump(face_recognition)
     return jsonify({'result': face_recognition})
+    

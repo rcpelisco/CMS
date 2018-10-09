@@ -20,3 +20,4 @@ build/
 
 web_app/static/.webassets-cache
 web_app/static/bundle
+web_app/static/img/profile_pictures

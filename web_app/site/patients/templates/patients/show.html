@@ -177,13 +177,15 @@
 </div>
 <div class="col-md-4">
   <div class="card card-profile">
+    <div class="card-avatar">
+      <img class="img" src="{{ url_for('static', filename=patient.profile_picture_path) }}" />
+    </div>
     <div class="card-body">
-      <h6 class="card-category">Face recognition</h6>
       <a href="{{ url_for('patients.edit', patient=patient.id) }}" class="btn btn-info btn-round">Edit Profile</a>
       <a href="#" class="btn btn-info btn-round btn-create-record">Add Medical Record</a>
       <a href="#" class="btn btn-info btn-round btn-show-medical-records" 
-            data-id="{{ patient.id }}">
-            Show Medical Records
+        data-id="{{ patient.id }}">
+        Show Medical Records
       </a>
     </div>
   </div>
