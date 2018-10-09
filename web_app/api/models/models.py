@@ -37,12 +37,6 @@ class Patient(BasicMixin, db.Model):
     birth_place = db.Column(db.String(20), nullable=False)
     address = db.Column(db.String(125), nullable=False)
     contact_no = db.Column(db.String(20), nullable=False)
-    height = db.Column(db.DECIMAL(5, 2), nullable=False)
-    weight = db.Column(db.DECIMAL(5, 2), nullable=False)
-    bmi = db.Column(db.DECIMAL(5, 2), nullable=False)
-    bp = db.Column(db.String(20), nullable=False)
-    pr = db.Column(db.String(20), nullable=False)
-    temperature = db.Column(db.DECIMAL(5, 2), nullable=False)
     alias = db.Column(db.String(90), nullable=False)
     slug = db.Column(db.String(90), nullable=False)
     blood_type = db.Column(db.String(10))
@@ -57,6 +51,12 @@ class Patient(BasicMixin, db.Model):
 class MedicalRecord(BasicMixin, db.Model):
     __tablename__ = 'medical_records'
 
+    height = db.Column(db.DECIMAL(5, 2), nullable=False)
+    weight = db.Column(db.DECIMAL(5, 2), nullable=False)
+    bmi = db.Column(db.DECIMAL(5, 2), nullable=False)
+    bp = db.Column(db.String(20), nullable=False)
+    pr = db.Column(db.String(20), nullable=False)
+    temperature = db.Column(db.DECIMAL(5, 2), nullable=False)
     complaint = db.Column(db.String(45), nullable=False)
     diagnosis = db.Column(db.String(45), nullable=False)
     treatment = db.Column(db.String(45), nullable=False)

@@ -50,10 +50,12 @@
           <div class="col-md-4">
             <div class="form-group">
               <label class="bmd-label-floating">Gender</label>
-              <select name="gender" class="form-control">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
+              <div class="dropdown bootstrap-select show-tick dropup">
+                <select name="gender" class="selectpicker" data-style="select-with-transition">
+                  <option {% if patient.gender=='male' %} selected="selected" {% endif %} value="male">Male</option>
+                  <option {% if patient.gender=='female' %} selected="selected" {% endif %} value="female">Female</option>
+                </select>
+              </div>
             </div>
           </div>
           <div class="col-md-4">
@@ -61,10 +63,10 @@
               <label class="bmd-label-floating">Civil Status</label>
               <div class="dropdown bootstrap-select show-tick dropup">
                 <select name="civil_status" class="selectpicker" data-style="select-with-transition">
-                    <option value="single">Single</option>
-                    <option value="married">Married</option>
-                    <option value="widow">Widow</option>
-                    <option value="widower">Widower</option>
+                    <option {% if patient.civil_status=='single' %} selected="selected" {% endif %} value="single">Single</option>
+                    <option {% if patient.civil_status=='married' %} selected="selected" {% endif %} value="married">Married</option>
+                    <option {% if patient.civil_status=='widow' %} selected="selected" {% endif %} value="widow">Widow</option>
+                    <option {% if patient.civil_status=='widower' %} selected="selected" {% endif %} value="widower">Widower</option>
                 </select>
               </div>
             </div>
@@ -76,14 +78,14 @@
               <label class="bmd-label-floating">Blood Type</label>
               <div class="dropdown bootstrap-select show-tick dropup">
                 <select name="blood_type" class="selectpicker" data-style="select-with-transition">
-                    <option value="o-">O-</option>
-                    <option value="o+">O+</option>
-                    <option value="a-">A-</option>
-                    <option value="a+">A+</option>
-                    <option value="b-">B-</option>
-                    <option value="b+">B+</option>
-                    <option value="ab-">AB-</option>
-                    <option value="ab+">AB+</option>
+                    <option {% if patient.blood_type=='o-' %} selected="selected" {% endif %} value="o-">O-</option>
+                    <option {% if patient.blood_type=='o+' %} selected="selected" {% endif %} value="o+">O+</option>
+                    <option {% if patient.blood_type=='a-' %} selected="selected" {% endif %} value="a-">A-</option>
+                    <option {% if patient.blood_type=='a+' %} selected="selected" {% endif %} value="a+">A+</option>
+                    <option {% if patient.blood_type=='b-' %} selected="selected" {% endif %} value="b-">B-</option>
+                    <option {% if patient.blood_type=='b+' %} selected="selected" {% endif %} value="b+">B+</option>
+                    <option {% if patient.blood_type=='ab-' %} selected="selected" {% endif %} value="ab-">AB-</option>
+                    <option {% if patient.blood_type=='ab+' %} selected="selected" {% endif %} value="ab+">AB+</option>
                 </select>
               </div>
             </div>
@@ -117,46 +119,6 @@
               <label class="bmd-label-floating">Birth Place</label>
               <input type="text" class="form-control" name="birth_place" 
                 value="{{ patient.birth_place }}" required>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <h4>Vital Signs</h4>
-        <div class="row">
-          <div class="col-md-2">
-            <div class="form-group">
-              <label class="bmd-label-floating">Height (cm)</label>
-              <input type="text" class="form-control" name="height" value="{{ patient.height }}" required>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <label class="bmd-label-floating">Weight (kg)</label>
-              <input type="text" class="form-control" name="weight" value="{{ patient.weight }}" required>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-                <label class="bmd-label-floating">BMI</label>
-                <input type="text" class="form-control" name="bmi" value="{{ patient.bmi }}" required>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-                <label class="bmd-label-floating">BP</label>
-                <input type="text" class="form-control" name="bp" value="{{ patient.bp }}" required>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <label class="bmd-label-floating">PR</label>
-              <input type="text" class="form-control" name="pr" value="{{ patient.pr }}" required>
-            </div>
-          </div>
-           <div class="col-md-2">
-            <div class="form-group">
-              <label class="bmd-label-floating">Temp (c)</label>
-              <input type="text" class="form-control" name="temperature" value="{{ patient.temperature }}" required>
             </div>
           </div>
         </div>

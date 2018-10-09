@@ -1,69 +1,131 @@
 {% extends 'master.html' %}
 {% set active_page = 'patients.index' %}
 {% set header_text = 'Patients / {} / Medical Record / {} / Edit'
-  .format(medical_record.patient.id, medical_record.id)  %}
+.format(medical_record.patient.id, medical_record.id) %}
 
 {% block content %}
-<div class="col-md-8">
-  <div class="card">
-    <div class="card-header card-header-info">
-      <h4 class="card-title">{{ medical_record.diagnosis }}</h4>
-      <p class="card-category">{{ medical_record.created_at|datetime }}</p>
+<div class="col-md-9">
+  <form method="POST" id="editMedicalRecordForm">
+    <input type="hidden" name="id" value="{{ medical_record.id }}">
+    <div class="card">
+      <div class="card-header card-header-info">
+        <h4 class="card-title">Vital Signs</h4>
+        <p class="card-category">Please enter appropriate information to the form provided below</p>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Height (cm)</label>
+              <input type="text" class="form-control" name="height" value="{{ medical_record.height }}" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Weight (kg)</label>
+              <input type="text" class="form-control" name="weight" value="{{ medical_record.weight }}" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">BMI</label>
+              <input type="text" class="form-control" name="bmi" value="{{ medical_record.bmi }}" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">BP</label>
+              <input type="text" class="form-control" name="bp" value="{{ medical_record.bp }}" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">PR</label>
+              <input type="text" class="form-control" name="pr" value="{{ medical_record.pr }}" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bmd-label-floating">Temp (c)</label>
+              <input type="text" class="form-control" name="temperature" value="{{ medical_record.temperature }}"
+                required>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card-body">
-      <form method="POST" id="editMedicalRecordForm">
-        <input type="hidden" name="id" value="{{ medical_record.id }}">
+    <div class="card">
+      <div class="card-header card-header-info">
+        <h4 class="card-title">{{ medical_record.diagnosis }}</h4>
+        <p class="card-category">{{ medical_record.created_at|datetime }}</p>
+      </div>
+      <div class="card-body">
+
         <div class="row">
           <div class="col-md-5">
             <div class="form-group">
               <div class="form-group">
                 <label class="bmd-label-floating">Complaint</label>
-                    <div class="dropdown bootstrap-select show-tick dropup">
-                        <select class="selectpicker" name="complaint" data-style="select-with-transition">
-                        <option disabled=""> EENT</option>
-                        <option {% if medical_record.complaint == 'nose bleeding' %} selected="selected" {% endif %} value="nose bleeding">nose bleeding</option>
-                        <option {% if medical_record.complaint == 'redness' %} selected="selected" {% endif %} value="redness of eye">redness of eye</option>
-                        <option {% if medical_record.complaint == 'lip bleeding' %} selected="selected" {% endif %} value="lip bleeding">lip bleeding</option>
-                        <option disabled=""> CARDIO VASCULAR</option>
-                        <option {% if medical_record.complaint == 'chest pain' %} selected="selected" {% endif %} value="chest pain">chest pain</option>
-                        <option disabled=""> RESPIRATORY</option>
-                        <option {% if medical_record.complaint == 'colds' %} selected="selected" {% endif %} value="colds ">colds </option>
-                        <option {% if medical_record.complaint == 'cough' %} selected="selected" {% endif %} value="cough ">cough </option>
-                        <option disabled=""> GASTROINTESTINAL</option>
-                        <option {% if medical_record.complaint == 'hyperacidity' %} selected="selected" {% endif %} value="hyperacidity">hyperacidity</option>
-                        <option {% if medical_record.complaint == 'LBM' %} selected="selected" {% endif %} value="LBM">LBM</option>
-                        <option {% if medical_record.complaint == 'stomachache' %} selected="selected" {% endif %} value="stomachache">stomachache</option>
-                        <option {% if medical_record.complaint == 'vomiting' %} selected="selected" {% endif %} value="vomiting">vomiting</option>
-                        <option disabled=""> MUSCULOSKELETAL</option>
-                        <option {% if medical_record.complaint == 'body malaise' %} selected="selected" {% endif %} value="body malaise">body malaise</option>
-                        <option {% if medical_record.complaint == 'muscle pain' %} selected="selected" {% endif %} value="muscle pain">muscle pain</option>
-                        <option disabled=""> DERMA</option>
-                        <option {% if medical_record.complaint == 'hypersensitivity' %} selected="selected" {% endif %} value="hypersensitivity">hypersensitivity</option>
-                        <option {% if medical_record.complaint == 'insect bite' %} selected="selected" {% endif %} value="insect bite">insect bite</option>
-                        <option {% if medical_record.complaint == 'blisters' %} selected="selected" {% endif %} value="blisters">blisters</option>
-                        <option disabled=""> SURGICAL</option>
-                        <option {% if medical_record.complaint == 'abrasion' %} selected="selected" {% endif %} value="abrasion">abrasion</option>
-                        <option disabled=""> DENTAL</option>
-                        <option {% if medical_record.complaint == 'toothache' %} selected="selected" {% endif %} value="toothache">toothache</option>
-                        <option {% if medical_record.complaint == 'consultations' %} selected="selected" {% endif %} value="consultations">consultations</option>
-                        <option disabled=""> NEUROLOGICAL</option>
-                        <option {% if medical_record.complaint == 'dizziness' %} selected="selected" {% endif %} value="dizziness ">dizziness </option>
-                        <option {% if medical_record.complaint == 'fever' %} selected="selected" {% endif %} value="fever ">fever </option>
-                        <option {% if medical_record.complaint == 'headache' %} selected="selected" {% endif %} value="headache ">headache </option>
-                        <option disabled=""> REPRODUCTIVE</option>
-                        <option {% if medical_record.complaint == 'dysmenorrhea' %} selected="selected" {% endif %} value="dysmenorrhea">dysmenorrhea</option>
-                        <option disabled=""> MISCELLANEOUS</option>
-                        <option {% if medical_record.complaint == 'BP TAKING' %} selected="selected" {% endif %} value="BP TAKING">BP TAKING</option>
-                        <option {% if medical_record.complaint == 'OTHER CONSULTATIONS' %} selected="selected" {% endif %} value="OTHER CONSULTATIONS">OTHER CONSULTATIONS</option>
-                        </select>
-                    </div>
+                <div class="dropdown bootstrap-select show-tick dropup">
+                  <select class="selectpicker" name="complaint" data-style="select-with-transition">
+                    <option disabled=""> EENT</option>
+                    <option {% if medical_record.complaint=='nose bleeding' %} selected="selected" {% endif %} value="nose bleeding">nose
+                      bleeding</option>
+                    <option {% if medical_record.complaint=='redness of eye' %} selected="selected" {% endif %} value="redness of eye">redness
+                      of eye</option>
+                    <option {% if medical_record.complaint=='lip bleeding' %} selected="selected" {% endif %} value="lip bleeding">lip
+                      bleeding</option>
+                    <option disabled=""> CARDIO VASCULAR</option>
+                    <option {% if medical_record.complaint=='chest pain' %} selected="selected" {% endif %} value="chest pain">chest
+                      pain</option>
+                    <option disabled=""> RESPIRATORY</option>
+                    <option {% if medical_record.complaint=='colds' %} selected="selected" {% endif %} value="colds">colds
+                    </option>
+                    <option {% if medical_record.complaint=='cough' %} selected="selected" {% endif %} value="cough">cough
+                    </option>
+                    <option disabled=""> GASTROINTESTINAL</option>
+                    <option {% if medical_record.complaint=='hyperacidity' %} selected="selected" {% endif %} value="hyperacidity">hyperacidity</option>
+                    <option {% if medical_record.complaint=='LBM' %} selected="selected" {% endif %} value="LBM">LBM</option>
+                    <option {% if medical_record.complaint=='stomachache' %} selected="selected" {% endif %} value="stomachache">stomachache</option>
+                    <option {% if medical_record.complaint=='vomiting' %} selected="selected" {% endif %} value="vomiting">vomiting</option>
+                    <option disabled=""> MUSCULOSKELETAL</option>
+                    <option {% if medical_record.complaint=='body malaise' %} selected="selected" {% endif %} value="body malaise">body
+                      malaise</option>
+                    <option {% if medical_record.complaint=='muscle pain' %} selected="selected" {% endif %} value="muscle pain">muscle
+                      pain</option>
+                    <option disabled=""> DERMA</option>
+                    <option {% if medical_record.complaint=='hypersensitivity' %} selected="selected" {% endif %} value="hypersensitivity">hypersensitivity</option>
+                    <option {% if medical_record.complaint=='insect bite' %} selected="selected" {% endif %} value="insect bite">insect
+                      bite</option>
+                    <option {% if medical_record.complaint=='blisters' %} selected="selected" {% endif %} value="blisters">blisters</option>
+                    <option disabled=""> SURGICAL</option>
+                    <option {% if medical_record.complaint=='abrasion' %} selected="selected" {% endif %} value="abrasion">abrasion</option>
+                    <option disabled=""> DENTAL</option>
+                    <option {% if medical_record.complaint=='toothache' %} selected="selected" {% endif %} value="toothache">toothache</option>
+                    <option {% if medical_record.complaint=='consultations' %} selected="selected" {% endif %} value="consultations">consultations</option>
+                    <option disabled=""> NEUROLOGICAL</option>
+                    <option {% if medical_record.complaint=='dizziness' %} selected="selected" {% endif %} value="dizziness">dizziness
+                    </option>
+                    <option {% if medical_record.complaint=='fever' %} selected="selected" {% endif %} value="fever">fever
+                    </option>
+                    <option {% if medical_record.complaint=='headache' %} selected="selected" {% endif %} value="headache">headache
+                    </option>
+                    <option disabled=""> REPRODUCTIVE</option>
+                    <option {% if medical_record.complaint=='dysmenorrhea' %} selected="selected" {% endif %} value="dysmenorrhea">dysmenorrhea</option>
+                    <option disabled=""> MISCELLANEOUS</option>
+                    <option {% if medical_record.complaint=='BP TAKING' %} selected="selected" {% endif %} value="BP TAKING">BP
+                      TAKING</option>
+                    <option {% if medical_record.complaint=='OTHER CONSULTATIONS' %} selected="selected" {% endif %}
+                      value="OTHER CONSULTATIONS">OTHER CONSULTATIONS</option>
+                  </select>
                 </div>
+              </div>
             </div>
           </div>
           <div class="col-md-7">
             <div class="form-group">
-                <label class="bmd-label-floating">Diagnosis</label>
-                <input type="text" class="form-control" name="diagnosis" value="{{ medical_record.diagnosis }}" required>
+              <label class="bmd-label-floating">Diagnosis</label>
+              <input type="text" class="form-control" name="diagnosis" value="{{ medical_record.diagnosis }}" required>
             </div>
           </div>
         </div>
@@ -71,24 +133,33 @@
           <div class="col-md-7">
             <div class="form-group">
               <label class="bmd-label-floating">Treatment</label>
-              <input type="text" class="form-control" name="treatment" 
-                value="{{ medical_record.treatment }}" required>
+              <input type="text" class="form-control" name="treatment" value="{{ medical_record.treatment }}" required>
             </div>
           </div>
           <div class="col-md-5">
             <div class="form-group">
-                <label class="bmd-label-floating">Medical Status</label>
-                <input type="text" class="form-control" value="{{ medical_record.medical_status }}">
+              <label class="bmd-label-floating">Medical Status</label>
+              <div class="dropdown bootstrap-select show-tick dropup">
+                <select class="selectpicker" name="medical_status" data-style="select-with-transition" required>
+                  <option disabled=""> Medical Status</option>
+                  <option {% if medical_record.medical_status=='undetermined' %} selected="selected" {% endif %} value="undetermined">Undetermined</option>
+                  <option {% if medical_record.medical_status=='good' %} selected="selected" {% endif %} value="good">Good</option>
+                  <option {% if medical_record.medical_status=='fair' %} selected="selected" {% endif %} value="fair">Fair</option>
+                  <option {% if medical_record.medical_status=='serious' %} selected="selected" {% endif %} value="serious">Serious</option>
+                  <option {% if medical_record.medical_status=='critical' %} selected="selected" {% endif %} value="critical">Critical</option>
+                  <option {% if medical_record.medical_status=='dead' %} selected="selected" {% endif %} value="dead">Dead</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="form-group">
-                <label>Note</label>
-                <div class="form-group">
-                  <textarea class="form-control" name="note" rows="">{{ medical_record.note }}</textarea>
-                </div>
+              <label>Note</label>
+              <div class="form-group">
+                <textarea class="form-control" name="note" rows="">{{ medical_record.note }}</textarea>
+              </div>
             </div>
           </div>
         </div>
@@ -99,12 +170,12 @@
           Save Record
         </button>
         <div class="clearfix"></div>
-      </form>
+
+      </div>
     </div>
-  </div>
-  <hr>
+  </form>
 </div>
-<div class="col-md-4">
+<div class="col-md-3">
   <div class="card card-profile">
     <div class="card-avatar">
       <a href="{{ url_for('patients.show', patient=medical_record.patient.id) }}">
@@ -116,29 +187,21 @@
       <h4 class="card-title">{{ medical_record.patient.first_name }} {{ medical_record.patient.last_name }}</h4>
       <div class="card-description text-left">
         <div class="row">
-          <div class="col-4">Gender: </div>
-          <div class="col-8 align-left">{{ medical_record.patient.gender.capitalize() }}</div>
+          <div class="col-5">Gender: </div>
+          <div class="col-7 align-left">{{ medical_record.patient.gender.capitalize() }}</div>
         </div>
         <div class="row">
-          <div class="col-4">Civil Status: </div>
-          <div class="col-8 align-left">{{ medical_record.patient.civil_status.capitalize() }}</div>
+          <div class="col-5">Birthday: </div>
+          <div class="col-7 align-left">{{ medical_record.patient.date_of_birth|date }}</div>
         </div>
         <div class="row">
-          <div class="col-4">Birthday: </div>
-          <div class="col-8 align-left">{{ medical_record.patient.date_of_birth|date }}</div>
-        </div>
-        <div class="row">
-          <div class="col-4">Address: </div>
-          <div class="col-8 align-left">{{ medical_record.patient.address }}</div>
-        </div>
-        <div class="row">
-          <div class="col-4">Contact no: </div>
-          <div class="col-8 align-left">{{ medical_record.patient.contact_no }}</div>
+          <div class="col-5">Contact #:</div>
+          <div class="col-7 align-left">{{ medical_record.patient.contact_no }}</div>
         </div>
       </div>
       <hr>
-      <a href="{{ url_for('patients.add_record', patient=medical_record.patient.id) }}" 
-        class="btn btn-primary btn-round">Add Medical Record</a>
+      <a href="{{ url_for('patients.add_record', patient=medical_record.patient.id) }}" class="btn btn-primary btn-round">Add
+        Medical Record</a>
     </div>
   </div>
 </div>
@@ -146,19 +209,19 @@
 
 {% block scripts %}
 <script>
-$(function() {
-  $('#editMedicalRecordForm').submit(function(e) {
-    e.preventDefault()
-    let data = JSON.stringify($(this).serializeJSON())
-    let endpoint = '{{ url_for("api.medical_records.store") }}'
-    api(endpoint, 'PUT', data).done(function(data) {
-      console.log(data)
-      notify('Edited Medical recrord for {{ medical_record.patient.first_name }} ' 
-        + ' {{ medical_record. patient.last_name }}', 
-        'info')
-      window.location = '{{ url_for("patients.show", patient=medical_record.patient.id) }}'
+  $(function () {
+    $('#editMedicalRecordForm').submit(function (e) {
+      e.preventDefault()
+      let data = JSON.stringify($(this).serializeJSON())
+      let endpoint = '{{ url_for("api.medical_records.store") }}'
+      api(endpoint, 'PUT', data).done(function (data) {
+        console.log(data)
+        notify('Edited Medical recrord for {{ medical_record.patient.first_name }} '
+          + ' {{ medical_record. patient.last_name }}',
+          'info')
+        window.location = '{{ url_for("patients.show", patient=medical_record.patient.id) }}'
+      })
     })
   })
-})
 </script>
 {% endblock %}

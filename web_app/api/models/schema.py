@@ -24,14 +24,20 @@ class MedicalRecordSchema(Schema):
     treatment = String()
     medical_status = String()
     note = String()
+    height = Integer()
+    weight = Integer()
+    bmi = String()
+    bp = String()
+    pr = String()
+    temperature = String()
     patient = Nested('PatientSchema', exclude=('medical_records', ))
     created_at = DateTime('%Y-%m-%d %H:%M:%S')
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
 
     class Meta:
-        fields = ('id', 'complaint', 'diagnosis',
-            'treatment', 'medical_status', 'note',
-            'patient', 'created_at', 'updated_at')
+        fields = ('id', 'complaint', 'diagnosis', 'height', 'weight', 
+            'bmi', 'bp', 'pr', 'temperature', 'treatment', 'medical_status', 
+            'note', 'patient', 'created_at', 'updated_at')
         ordered=True
 
 class ReportSchema(Schema):
@@ -57,12 +63,6 @@ class PatientSchema(Schema):
     last_name = String()
     gender = EnumField(Gender)
     civil_status = EnumField(CivilStatus)
-    height = Integer()
-    weight = Integer()
-    bmi = String()
-    bp = String()
-    pr = String()
-    temperature = String()
     date_of_birth = Date()
     birth_place = String()
     address = String()
@@ -80,8 +80,7 @@ class PatientSchema(Schema):
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
     
     class Meta:
-        fields = ('id', 'first_name', 'last_name', 'gender', 'civil_status', 
-            'height', 'weight', 'bmi', 'bp', 'pr', 'temperature', 'date_of_birth', 
+        fields = ('id', 'first_name', 'last_name', 'gender', 'civil_status', 'date_of_birth', 
             'birth_place', 'address', 'contact_no', 'alias', 'slug', 'blood_type', 'allergy',
             'emergency_name', 'emergency_relation', 'emergency_contact', 'profile_picture_path',
             'medical_records', 'created_at', 'updated_at')
