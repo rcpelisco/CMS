@@ -1,6 +1,97 @@
-{% extends 'master.html' %}
 
-{% block content %}
-<div class="col-md-8">
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .text-center {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <tbody>
+      <tr>
+        <td colspan="4"><h1 class="text-center">Medical Record Report</h1><hr></td>
+      </tr>
+      <tr>
+        <td>Date: </td>
+        <td colspan="3">{{ medical_record.created_at|datetime }}</td>
+      </tr>
+      <tr>
+        <td colspan="4" height="50px"><hr><h3 class="text-center">Personal Information</h3><hr></td>
+      </tr>
+      <tr>
+        <td>Name: </td>
+        <td>{{ medical_record.patient.first_name }} {{ medical_record.patient.last_name }}</td>
+        <td>BP: </td>
+        <td>{{ medical_record.patient.bp }}</td>
+      </tr>
+      <tr>
+        <td>Gender: </td>
+        <td>{{ medical_record.patient.gender|capitalize }}</td>
+        <td>PR: </td>
+        <td>{{ medical_record.patient.pr }}</td>
+      </tr>
+      <tr>
+        <td>Age </td>
+        <td>{{ medical_record.patient.date_of_birth|age }}</td>
+        <td>Temp: </td>
+        <td>{{ medical_record.patient.temperature }}</td>
+      </tr>
+      <tr>
+        <td>Address: </td>
+        <td>{{ medical_record.patient.address }}</td>
+        <td>Weight (kg): </td>
+        <td>{{ medical_record.patient.weight }}</td>
+      </tr>
+      <tr>
+        <td>Contact no: </td>
+        <td>{{ medical_record.patient.contact_no }}</td>
+        <td>Height (cm): </td>
+        <td>{{ medical_record.patient.height }}</td>
+      </tr>
+      <tr>
+      <td></td>
+        <td></td>
+        <td>Blood type: </td>
+        <td>{{ medical_record.patient.blood_type|capitalize }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <table>
+    <tbody>
+        <tr>
+            <td colspan="4" height="50px"><hr><h3 class="text-center">Medical Record</h3><hr></td>
+          </tr>
+          <tr>
+            <td>Complaint: </td>
+            <td>{{ medical_record.complaint|capitalize }}</td>
+            <td>Treatment: </td>
+            <td>{{ medical_record.treatment|capitalize }}</td>
+          </tr>
+          <tr>
+            <td>Diagnosis: </td>
+            <td>{{ medical_record.diagnosis }}</td>
+            <td width="15%">Medical Status: </td>
+            <td>{{ medical_record.medical_status|capitalize }}</td>
+          </tr>
+          <tr>
+            <td colspan="4" height="25px"></td>
+          </tr>
+          <tr>
+            <td width="15%">Doctor's Note: </td>
+            <td colspan="3">{{ medical_record.note }}</td>
+          </tr>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -14,7 +14,7 @@ class UserSchema(Schema):
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
     
     class Meta:
-        fields = ('id', 'name', 'username', 'password', 'created_at', 'updated_at')
+        fields = ('id', 'name', 'username', 'password', 'created_at', 'updated_at', 'profile_picture_path')
         ordered=True
 
 class MedicalRecordSchema(Schema):
@@ -74,6 +74,7 @@ class PatientSchema(Schema):
     emergency_name = String()
     emergency_relation = String()
     emergency_contact = String()
+    profile_picture_path = String()
     medical_records = Nested(MedicalRecordSchema, many=True, exclude=('patient', ))
     created_at = DateTime('%Y-%m-%d %H:%M:%S')
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
@@ -82,7 +83,7 @@ class PatientSchema(Schema):
         fields = ('id', 'first_name', 'last_name', 'gender', 'civil_status', 
             'height', 'weight', 'bmi', 'bp', 'pr', 'temperature', 'date_of_birth', 
             'birth_place', 'address', 'contact_no', 'alias', 'slug', 'blood_type', 'allergy',
-            'emergency_name', 'emergency_relation', 'emergency_contact', 
+            'emergency_name', 'emergency_relation', 'emergency_contact', 'profile_picture_path',
             'medical_records', 'created_at', 'updated_at')
         ordered=True
 
