@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, url_for
-from flask_weasyprint import HTML, render_pdf
 from ..extra import get
 
 import json
