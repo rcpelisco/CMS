@@ -69,7 +69,7 @@ class MedicalRecord(BasicMixin, db.Model):
         return query
 
     def get_complaint(self, complaint):
-        query = db.engine.execute('SELECT medical_records.patient_id, patients.id, medical_records.complaint, patients.alias, medical_records.created_at FROM `medical_records`, `patients` WHERE medical_records.patient_id = patients.id and complaint = \'{}\''.format(complaint))
+        query = db.engine.execute('SELECT medical_records.id as medical_record_id, medical_records.patient_id, patients.id, patients.alias, patients.first_name,patients.last_name,TIMESTAMPDIFF(year, NOW(), patients.date_of_birth) as age, patients.address, patients.contact_no,medical_records.complaint, medical_records.diagnosis,medical_records.treatment,medical_records.note, medical_records.created_at FROM `medical_records`, `patients` WHERE medical_records.patient_id = patients.id and complaint = \'{}\''.format(complaint))
         return query
 
 class FaceRecognition(BasicMixin, db.Model):
