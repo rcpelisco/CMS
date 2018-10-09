@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, url_for
+from flask_weasyprint import HTML, render_pdf
 from ..extra import get
 
 import json
@@ -30,3 +31,10 @@ def add_record(patient):
     response = get('/patients/' + str(patient))
     return render_template('patients/add_record.html', 
         patient=json.loads(response.text)['patient'])
+
+
+@module.route('/<medical_record>/print', methods=['GET'])
+def purintu(medical_record):
+    response = get(url_for('api.medical_records.show', medical_record=medical_record))
+    print(json.loads(response.text)['medical_record'])
+    return render_template('medical_records/print.html')

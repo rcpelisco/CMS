@@ -43,12 +43,8 @@ class ReportSchema(Schema):
         ordered=True
 
 class ComplaintsSchema(Schema):
-    complaint = String()
-    alias = String()
-    created_at = String()
-
     class Meta:
-        fields = ('complaint', 'alias', 'created_at')
+        fields = ('medical_record_id', 'complaint', 'alias', 'created_at')
         orderd = True
 
 class CategorySchema(Schema):

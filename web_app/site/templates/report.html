@@ -78,11 +78,19 @@ $(function() {
             $('#selected-body').html(table)
         })
     })
+
+    $('#selected-body').on('click', '.btn-print', function() {
+        let id = $(this).attr('data-id')
+        console.log(id)
+    })
     
     function generateRow(element) {
         let date = new Date(element.created_at)
         date = formatDate(date)
-        let template = `<tr><td>${element.alias}</td><td>${date}</td></tr>`
+        let template = `<tr>
+            <td>${element.alias}</td>
+            <td>${date}</td>
+        </tr>`
         return template;
     }
 

@@ -94,6 +94,10 @@
             </div>
             </div>
             <div class="pull-right">
+              <a class="btn btn-info" href="{{ url_for('medical_records.purintu', medical_record=record.id) }}" 
+                data-toggle="tooltip" title="Print medical record">
+                <i class="material-icons">print</i>
+              </a>
               <a class="btn btn-info btn-edit-record" href="#" data-id="{{ record.id }}"
                 data-toggle="tooltip" title="Edit medical record">
                 <i class="material-icons">edit</i>
