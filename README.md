@@ -17,7 +17,7 @@ Install required packages from .extra\requirements.txt using:
 
     $ python -m ensurepip install -r .\.extra\requirements.txt
     
-Install the required software:
+Install the required software and add it to your enviroment variables
 
     .\.extra\wkhtmltox-0.12.5-1.msvc2015-win64
 
