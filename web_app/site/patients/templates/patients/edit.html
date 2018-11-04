@@ -253,8 +253,7 @@
       $('.modal-footer').hide()
       $('#saveButton').attr('disabled', true)
       $('#streamIMG').attr('src', '')
-      let slug = $('input[name="first_name"]').val() 
-      + ' ' + $('input[name="last_name"]').val()
+      let slug = $('input[name="alias"]').val()
       slug = slug.split(' ').join('-').toLowerCase()
       $('#streamIMG').attr('src', "/face_recognition/collect/" + slug)
       let interval = setInterval(function() {

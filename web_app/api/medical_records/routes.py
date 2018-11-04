@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_login import current_user
 from sqlalchemy.orm import sessionmaker, load_only
 from ..models.models import MedicalRecord
 from ..models.models import Patient
@@ -60,7 +61,7 @@ def store():
     medical_record.note = json_data['note']
     medical_record.treatment = json_data['treatment']
     medical_record.medical_status = json_data['medical_status']
-
+    medical_record.user_id = current_user.id
     medical_record.save()
 
     medical_record, errors = medical_record_schema.dump(medical_record)

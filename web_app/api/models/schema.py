@@ -3,19 +3,6 @@ from marshmallow.fields import String, Integer, DateTime, Date, Nested, Boolean
 from marshmallow_enum import EnumField
 from custom_enum import Gender, CivilStatus
 
-class UserSchema(Schema):
-    id = Integer(dump_only=True)
-    name = String()
-    username = String()
-    password = String()
-    profile_picture_path = String()
-    slug = String()
-    created_at = DateTime('%Y-%m-%d %H:%M:%S')
-    updated_at = DateTime('%Y-%m-%d %H:%M:%S')
-    
-    class Meta:
-        fields = ('id', 'name', 'username', 'password', 'created_at', 'updated_at', 'profile_picture_path')
-        ordered=True
 
 class MedicalRecordSchema(Schema):
     id = Integer()
@@ -31,13 +18,28 @@ class MedicalRecordSchema(Schema):
     pr = String()
     temperature = String()
     patient = Nested('PatientSchema', exclude=('medical_records', ))
+    user = Nested('UserSchema')
     created_at = DateTime('%Y-%m-%d %H:%M:%S')
     updated_at = DateTime('%Y-%m-%d %H:%M:%S')
 
     class Meta:
         fields = ('id', 'complaint', 'diagnosis', 'height', 'weight', 
             'bmi', 'bp', 'pr', 'temperature', 'treatment', 'medical_status', 
-            'note', 'patient', 'created_at', 'updated_at')
+            'note', 'patient', 'user', 'created_at', 'updated_at')
+        ordered=True
+
+class UserSchema(Schema):
+    id = Integer(dump_only=True)
+    name = String()
+    username = String()
+    password = String()
+    profile_picture_path = String()
+    slug = String()
+    created_at = DateTime('%Y-%m-%d %H:%M:%S')
+    updated_at = DateTime('%Y-%m-%d %H:%M:%S')
+    
+    class Meta:
+        fields = ('id', 'name', 'username', 'password', 'created_at', 'updated_at', 'profile_picture_path')
         ordered=True
 
 class ReportSchema(Schema):

@@ -19,7 +19,7 @@ def index():
     if face_recognition is None:
         return jsonify({'message': 'Face recognition record not found!'}), 400
     face_recognition, errors = face_recognition_schema.dump(face_recognition)
-    patient = Patient.query.filter(Patient.slug == face_recognition['name']).one_or_none()
+    patient = Patient.query.filter(Patient.alias == face_recognition['name']).one_or_none()
     patient, errors = patient_schema.dump(patient)
     print(patient)
     return jsonify({'patient': patient})

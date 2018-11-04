@@ -63,7 +63,9 @@ class MedicalRecord(BasicMixin, db.Model):
     medical_status = db.Column(db.String(191), nullable=False)
     note = db.Column(db.String(191))
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     patient = db.relationship('Patient', back_populates='medical_records')
+    user = db.relationship('User')
 
     def report(self):
         query = db.engine.execute('SELECT COUNT(`complaint`) as `count`, `complaint` as `complaint` FROM `medical_records` GROUP BY `complaint`')
